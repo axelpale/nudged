@@ -1,0 +1,37 @@
+{
+  "name": "nudged",
+  "version": "0.1.0",
+  "description": "Similarity transformation estimator",
+  "keywords": [
+    "transformation",
+    "scale",
+    "rotate",
+    "translate"
+  ],
+  "homepage": "https://github.com/axelpale/nudged",
+  "main": "index.js",
+  "author": {
+    "name": "Akseli Palen",
+    "email": "akseli.palen@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/axelpale/nudged.git"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/axelpale/nudged/blob/master/LICENSE"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "jshint": "^2.8.0",
+    "mocha": "^2.3.3",
+    "should": "^7.1.0"
+  },
+  "scripts": {
+    "test": "npm run test:lint && npm run test:unit",
+    "test:unit": "mocha test/index.test.js",
+    "test:lint": "jshint index.js lib/*.js test/*.js"
+  }
+}
