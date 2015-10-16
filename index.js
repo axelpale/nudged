@@ -3,87 +3,66 @@
 */
 var Transform = require('./lib/Transform');
 
-/*exports.estimate = function (pre, post) {
+
+exports.estimate = function (domain, range) {
   // Parameters
-  //   pre
+  //   domain
   //     array of [x, y] 2D arrays
-  //   post
+  //   range
   //     array of [x, y] 2D arrays
 
   // Alias
-  var A = pre;
-  var B = post;
-
-  // Indices
-  var x = 0;
-  var y = 1;
+  var X = domain;
+  var Y = range;
 
   // Is valid input
-  if (A.length !== B.length) {
+  if (X.length !== Y.length) {
     throw 'array length error'; // TODO
   }
-  var N = A.length;
+  var N = X.length;
 
-  // Translation estimation
-  var i, tx, ty;
-  tx = 0;
-  ty = 0;
+  var i, a, b, c, d;
+  var a1 = 0;
+  var b1 = 0;
+  var c1 = 0;
+  var d1 = 0;
+  var a2 = 0;
+  var b2 = 0;
+  var ad = 0;
+  var bc = 0;
+  var ac = 0;
+  var bd = 0;
   for (i = 0; i < N; i += 1) {
-    tx += B[i][x] - A[i][x];
-    ty += B[i][y] - A[i][y];
-  }
-  tx /= N;
-  ty /= N;
-
-  // Scale and rotation estimation
-  var ax, ay, bx, by;
-  var axax = 0;
-  var ayay = 0;
-  var axbx = 0;
-  var ayby = 0;
-  var aybx = 0;
-  var axby = 0;
-
-  for (i = 0; i < N; i += 1) {
-    ax = A[i][x];
-    ay = A[i][y];
-    bx = B[i][x] - tx; // Apply translation
-    by = B[i][y] - ty;
-    axax += ax * ax;
-    ayay += ay * ay;
-    axbx += ax * bx;
-    ayby += ay * by;
-    aybx += ay * bx;
-    axby += ax * by;
+    a = X[i][0];
+    b = X[i][1];
+    c = Y[i][0];
+    d = Y[i][1];
+    a1 += a;
+    b1 += b;
+    c1 += c;
+    d1 += d;
+    a2 += a * a;
+    b2 += b * b;
+    ad += a * d;
+    bc += b * c;
+    ac += a * c;
+    bd += b * d;
   }
 
-  var axaxayay = axax + ayay;
-  var s = (axbx + ayby) / axaxayay;
-  var r = (axby - aybx) / axaxayay;
+  // Denominator
+  var den = N * a2 + N * b2 - a1 * a1 - b1 * b1;
 
-  return new Transform(s, r, tx, ty);
-};*/
-
-exports.estimate = function (pre, post) {
-  // Parameters
-  //   pre
-  //     array of [x, y] 2D arrays
-  //   post
-  //     array of [x, y] 2D arrays
-
-  // Alias
-  var A = pre;
-  var B = post;
-
-  // Indices
-  var x = 0;
-  var y = 1;
-
-  // Is valid input
-  if (A.length !== B.length) {
-    throw 'array length error'; // TODO
+  var eps = 0.00000001;
+  if (-eps < den && den < eps) {
+    throw 'divided by zero, singular transformation matrix';
   }
-  var N = A.length;
+
+  // Estimators
+  var s, r, tx, ty;
+  s = (N * (ac + bd) - a1 * c1 - b1 * d1) / den;
+  r = (N * (ad - bc) + b1 * c1 - a1 * d1) / den;
+  tx = (-a1 * (ac + bd) + b1 * (ad - bc) + a2 * c1 + b2 * c1) / den;
+  ty = (-b1 * (ac + bd) - a1 * (ad - bc) + a2 * d1 + b2 * d1) / den;
 
   return new Transform(s, r, tx, ty);
 };
