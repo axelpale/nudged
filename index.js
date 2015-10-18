@@ -10,16 +10,30 @@ exports.estimate = function (domain, range) {
   //     array of [x, y] 2D arrays
   //   range
   //     array of [x, y] 2D arrays
+  var X, Y, N, s, r, tx, ty;
 
   // Alias
-  var X = domain;
-  var Y = range;
+  X = domain;
+  Y = range;
 
-  // Is valid input
-  if (X.length !== Y.length) {
-    throw 'array length error'; // TODO
-  }
-  var N = X.length;
+  // Allow arrays of different length but
+  // ignore the extra points.
+  N = Math.min(X.length, Y.length);
+
+  // If length is zero, no estimation can be done. We choose the indentity
+  // transformation be the best quess.
+  if (N === 0) {
+    return new Transform(1, 0, 0, 0);
+  } // else
+
+  // If length is one, the denominator becomes zero and estimates can not be
+  // computed. However, for this special case we can choose the translation
+  // be the best quess.
+  if (N === 1) {
+    tx = Y[0][0] - X[0][0];
+    ty = Y[0][1] - X[0][1];
+    return new Transform(1, 0, tx, ty);
+  } // else
 
   var i, a, b, c, d;
   var a1 = 0;
@@ -49,16 +63,19 @@ exports.estimate = function (domain, range) {
     bd += b * d;
   }
 
-  // Denominator
+  // Denominator.
+  // It is zero iff X[i] = X[j] for every i and j in [0, n).
+  // In other words, iff all the domain points are the same.
   var den = N * a2 + N * b2 - a1 * a1 - b1 * b1;
 
   var eps = 0.00000001;
   if (-eps < den && den < eps) {
-    throw 'divided by zero, singular transformation matrix';
+    // The domain points are the same.
+    // We guess the translation to the mean of the range to be the best guess.
+    return new Transform(1, 0, (c1 / N) - a, (d1 / N) - b);
   }
 
   // Estimators
-  var s, r, tx, ty;
   s = (N * (ac + bd) - a1 * c1 - b1 * d1) / den;
   r = (N * (ad - bc) + b1 * c1 - a1 * d1) / den;
   tx = (-a1 * (ac + bd) + b1 * (ad - bc) + a2 * c1 + b2 * c1) / den;

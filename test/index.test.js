@@ -54,7 +54,11 @@ describe('nudged', function () {
     nudged.should.have.keys('version', 'estimate');
   });
 
-  describe('#estimate', function () {
+  it('should have version that match package', function () {
+    nudged.version.should.equal(pjson.version);
+  });
+
+  describe('.estimate', function () {
 
     it('should estimate correctly', function () {
       samples.forEach(function (sple) {
@@ -71,9 +75,68 @@ describe('nudged', function () {
       });
     });
 
+    it('should allow arrays of different length', function () {
+      // but ignore the points without a pair
+      var domain = [[1,-1], [ 3, -2], [1, 2]];
+      var range =  [[3, 4], [10,  8]];
+      // s: 2, r: 3, tx: -2, ty: 3
+      var t = nudged.estimate(domain, range);
+      t.transform([1,1]).should.deepEqual([-3,8]);
+    });
+
+    it('should allow arrays of length one', function () {
+      var t = nudged.estimate([[1,1]], [[5,5]]);
+      t.transform([4,4]).should.deepEqual([8,8]);
+    });
+
+    it('should allow arrays of length zero', function () {
+      var t = nudged.estimate([], []);
+      // Identity transform
+      t.transform([0,0]).should.deepEqual([0,0]);
+      t.transform([7,7]).should.deepEqual([7,7]);
+    });
+
+    it('should allow arrays of identical points', function () {
+      var t = nudged.estimate([[1,1], [1,1]], [[5,5], [7,7]]);
+      t.transform([1,1]).should.deepEqual([6,6]);
+    });
+
   });
 
-  it('should have version that match package', function () {
-    nudged.version.should.equal(pjson.version);
+  describe('.Transform', function () {
+    var t;
+
+    beforeEach(function () {
+      var domain = [[1, -1], [ 3, -2]];
+      var range = [[3,  4], [10,  8]];
+      // s: 2, r: 3, tx: -2, ty: 3
+      t = nudged.estimate(domain, range);
+    });
+
+    it('should allow single points', function () {
+      t.transform([1, 1]).should.deepEqual([-3, 8]);
+      t.transform([[1, 1]]).should.deepEqual([[-3, 8]]);
+    });
+
+    it('should be able to return matrix in array form', function () {
+      t.getMatrix().should.deepEqual([[2, -3, -2], [3, 2, 3], [0, 0, 1]]);
+    });
+
+    it('should give rotation in radians', function () {
+      t = nudged.estimate([[ 1, 1], [-1,-1]], [[-2,-2], [ 2, 2]]);
+      // s: -2, r: 0, tx: 0, ty: 0
+      t.getRotation().should.equal(Math.PI);
+    });
+
+    it('should give scale', function () {
+      t = nudged.estimate([[ 1, 1], [-1,-1]], [[-2,-2], [ 2, 2]]);
+      // s: -2, r: 0, tx: 0, ty: 0
+      t.getScale().should.equal(2);
+    });
+
+    it('should give translation', function () {
+      t.getTranslation().should.deepEqual([-2, 3]);
+    });
   });
+
 });
