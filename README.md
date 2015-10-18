@@ -1,4 +1,4 @@
-# nudged
+# nudged<sup>0.2.0</sup>
 
 Estimate scale, rotation, and translation between two sets of 2D points. Applicable for example to multi-touch gestures and eye tracker calibration.
 
