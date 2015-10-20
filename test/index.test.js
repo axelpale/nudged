@@ -50,9 +50,6 @@ var samples = [
 ];
 
 describe('nudged', function () {
-  it('should have estimate method', function () {
-    nudged.should.have.keys('version', 'estimate');
-  });
 
   it('should have version that match package', function () {
     nudged.version.should.equal(pjson.version);
