@@ -20,7 +20,7 @@ Mathematically speaking, nudged is an optimal least squares estimator for [affin
     var domain = [[0,0], [2,0], [ 1,2]];
     var range  = [[1,1], [1,3], [-1,2]];
 
-    // Compute optimal tranformation based the points
+    // Compute an optimal tranformation based on the points
     var trans = nudged.estimate(domain, range);
     trans.getMatrix()
     // [[0,-1, 1],
