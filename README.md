@@ -4,7 +4,7 @@ A JavaScript lib to estimate scale, rotation, and translation between two sets o
 
 <img src="http://github.com/axelpale/nudged.py/master/doc/nudged-logo.png?raw=true" alt="Example transformation" width="300"/>
 
-Mathematically speaking, nudged is an optimal least squares estimator for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with uniform scaling, rotation, and translation and without reflection and shearing. The estimation has time complexity of O(*n*) that consists of 6n+22 multiplications and 11n+19 additions, where *n* is the cardinality (size) of the point sets. In other words, nudged solves an affine 2D to 2D point set registration problem in linear time.
+Mathematically speaking, nudged is an optimal least squares estimator for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with uniform scaling, rotation, and translation and without reflection or shearing. The estimation has time complexity of O(*n*) that consists of *6n+22* multiplications and *11n+19* additions, where *n* is the cardinality (size) of the point sets. In other words, nudged solves an affine 2D to 2D point set registration problem in linear time.
 
 
 
