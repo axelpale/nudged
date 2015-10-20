@@ -76,7 +76,7 @@ In addition to the methods below, it has properties *s*, *r*, *tx*, *ty* that de
 
 #### #transform(points)
 
-**Return** an array of transformed points or single point if a point was given. For example:
+**Return** an array of transformed points or single point if only a point was given. For example:
 
     trans.transform([1,1])          // [2,2]
     trans.transform([[1,1]])        // [[2, 2]]
@@ -96,11 +96,19 @@ In addition to the methods below, it has properties *s*, *r*, *tx*, *ty* that de
 
 #### #getScale()
 
-**Return** scaling multiplier, e.g. `0.33` for a threefold shrink.
+**Return** scaling multiplier, e.g. `0.333` for a threefold shrink.
 
 #### #getTranslation()
 
 **Return** `[tx, ty]` where `tx` and `ty` denotes movement along x-axis and y-axis accordingly.
+
+
+
+## For developers
+
+Run lint & unit tests:
+
+    $ npm run test
 
 
 
