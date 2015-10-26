@@ -1,16 +1,24 @@
-# nudged<sup>0.3.0</sup>
+# nudged<sup>0.3.1</sup>
 
-A JavaScript lib to estimate scale, rotation, and translation between two sets of 2D points. Applicable for example in cases where one wants to move objects by multiple fingers or where a large number of points from an eye tracker device are wanted to be corrected based on a few calibration points. In general, you can apply nudged in any situation where you want to move a number of points based on a few sample points.
+A JavaScript lib to estimate scale, rotation, and translation between two sets of 2D points. Applicable for example in cases where one wants to move objects by multiple fingers or where a large number of points from an eye tracker device are wanted to be corrected based on a few calibration points. In general, you can apply *nudged* in any situation where you want to move a number of points based on a few sample points.
 
 <img src="https://rawgit.com/axelpale/nudged/master/doc/nudged-logo.png" alt="Example transformation" width="300"/>
 
-Mathematically speaking, nudged is an optimal least squares estimator for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with uniform scaling, rotation, and translation and without reflection or shearing. The estimation has time complexity of O(*n*) that consists of *6n+22* multiplications and *11n+19* additions, where *n* is the cardinality (size) of the point sets. In other words, nudged solves an affine 2D to 2D point set registration problem in linear time.
+Mathematically speaking, *nudged* is an optimal least squares estimator for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with uniform scaling, rotation, and translation and without reflection or shearing. The estimation has time complexity of O(*n*) that consists of *6n+22* multiplications and *11n+19* additions, where *n* is the cardinality (size) of the point sets. In other words, *nudged* solves an affine 2D to 2D point set registration problem in linear time.
+
+
+
+## Example app
+
+To get a grip on how the transformation looks and how the points affect it, play with the [interactive example app](https://rawgit.com/axelpale/nudged/master/example/index.html).
+
+<img src="https://rawgit.com/axelpale/nudged/master/example/screenshot.png" alt="Example application" width="600"/>
 
 
 
 ## Install
 
-    npm install nudged
+    $ npm install nudged
 
 
 
@@ -44,14 +52,6 @@ Mathematically speaking, nudged is an optimal least squares estimator for [affin
     // Get horizontal and vertical movement
     trans.getTranslation()
     // [1, 1]
-
-
-
-## Example app
-
-To get a grip on how the transformations looks and how the points affect it, play with the [interactive example app](https://rawgit.com/axelpale/nudged/master/example/index.html).
-
-<img src="https://rawgit.com/axelpale/nudged/master/example/screenshot.png" alt="Example application" width="600"/>
 
 
 
@@ -119,6 +119,7 @@ In addition to the methods below, it has properties *s*, *r*, *tx*, *ty* that de
 **Throw** an `Error` instance if the transformation is singular and cannot be inversed. This occurs if the range points are all the same which forces the scale to drop to zero.
 
 
+
 ## For developers
 
 Run lint & unit tests:
@@ -128,6 +129,8 @@ Run lint & unit tests:
 Build example app:
 
     $ npm run build:example
+
+
 
 ## Versioning
 
