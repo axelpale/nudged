@@ -46,6 +46,12 @@ var samples = [
     a: [[0, 0], [2, 0], [0, 2], [2, 2]],
     b: [[0, 0], [2, 0], [0, 4], [2, 4]],
     s: 1.5, r: 0, tx: -0.5, ty: 0.5
+  },
+  {
+    id: 'Constant transformation',
+    a: [[0, 0], [2, 0], [0, 2]],
+    b: [[1, 1], [1, 1], [1, 1]],
+    s: 0.0, r: 0.0, tx: 1.0, ty: 1.0
   }
 ];
 
@@ -133,6 +139,15 @@ describe('nudged', function () {
 
     it('should give translation', function () {
       t.getTranslation().should.deepEqual([-2, 3]);
+    });
+
+    it('should inverse', function () {
+      t.getInverse().transform([3, 4]).should.deepEqual([1,-1]);
+    });
+
+    it('should throw if impossible to inverse', function () {
+      t = nudged.estimate([[1,1], [3,3]], [[2,2], [2,2]]);
+      (function () { t.getInverse(); }).should.throw(/Singular/);
     });
   });
 
