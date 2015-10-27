@@ -106,6 +106,15 @@ describe('nudged', function () {
 
   });
 
+  describe('.estimateFixed', function () {
+
+    it('should allow domain under pivot', function () {
+      var t = nudged.estimateFixed([[1,1], [1,1]], [[2,2], [2,2]], [1,1]);
+      // Identity transform
+      t.transform([5,6]).should.deepEqual([5,6]);
+    });
+  });
+
   describe('.Transform', function () {
     var t;
 

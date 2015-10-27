@@ -8,13 +8,23 @@ var Model = function () {
   this.domain = [];
   this.range = [];
 
+  // If fixed point is set, pivot !== null
+  // If so, we use fixed point transformation.
+  this.pivot = null;
+
   // Init with identity transform
   this.transform = nudged.estimate([], []);
 
   this._updateTransform = function () {
     var dom = this.domain.map(function (p) { return [p.x, p.y]; });
     var ran =  this.range.map(function (p) { return [p.x, p.y]; });
-    this.transform = nudged.estimate(dom, ran);
+    var piv;
+    if (this.pivot === null) {
+      this.transform = nudged.estimate(dom, ran);
+    } else {
+      piv = [this.pivot.x, this.pivot.y];
+      this.transform = nudged.estimateFixed(dom, ran, piv);
+    }
   };
 
   this.addToDomain = function (x, y) {
@@ -35,6 +45,18 @@ var Model = function () {
     };
     dp.on('update', updateModel);
     rp.on('update', updateModel);
+
+    this._updateTransform();
+    this.emit('update');
+  };
+
+  this.addFixedPoint = function (x, y) {
+    this.pivot = new Point(x, y, 'X');
+    var model = this;
+    this.pivot.on('update', function () {
+      model._updateTransform();
+      model.emit('update');
+    });
 
     this._updateTransform();
     this.emit('update');
@@ -66,12 +88,26 @@ var Model = function () {
     return this._findNearestPoint(this.range, x, y);
   };
 
+  this.findNearestDomainOrFixedPoint = function (x, y) {
+    var points;
+    if (this.pivot === null) {
+      points = this.domain;
+    } else {
+      points = this.domain.concat([this.pivot]);
+    }
+    return this._findNearestPoint(points, x, y);
+  };
+
   this.getDomain = function () {
     return this.domain;
   };
 
   this.getRange = function () {
     return this.range;
+  };
+
+  this.getFixedPoint = function () {
+    return this.pivot;
   };
 
   this.getTransform = function () {

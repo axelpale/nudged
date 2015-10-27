@@ -1,3 +1,8 @@
+/*
+
+A demonstration app for nudged
+
+*/
 var Hammer = require('hammerjs');
 var loadimages = require('loadimages');
 var Model = require('./Model');
@@ -10,7 +15,7 @@ var ctxDomain = canvasDomain.getContext('2d');
 var ctxRange = canvasRange.getContext('2d');
 
 var drawPoint = function (ctx, px, py, label, color, ghost) {
-  var radius = 10;
+  var radius = 14;
   ctx.font = '14px bold serif';
   ctx.fillStyle = color;
   ctx.strokeStyle = color;
@@ -41,19 +46,39 @@ loadimages('blackletter.jpg', function (err, img) {
   var hammerRange = new Hammer(canvasRange);
 
   // Improve usability by tweaking the recognizers
-  hammerRange.get('pan').set({ threshold: 5 });
-
-  // Input; point creation
-  hammerDomain.on('tap', function (ev) {
-    // Transform to canvas coordinates
-    var cr = canvasDomain.getBoundingClientRect();
-    var x = ev.center.x - cr.left;
-    var y = ev.center.y - cr.top;
-
-    model.addToDomain(x, y);
+  hammerDomain.get('swipe').set({ enable: false });
+  hammerDomain.get('pan').set({
+    threshold: 5,
+    direction: Hammer.DIRECTION_ALL
+  });
+  hammerRange.get('swipe').set({ enable: false });
+  hammerRange.get('pan').set({
+    threshold: 5,
+    direction: Hammer.DIRECTION_ALL
   });
 
-  (function defineHowToPanDomainPoints() {
+  (function defineHowToCreateDomainPoints() {
+    // Input; point creation
+    hammerDomain.on('tap', function (ev) {
+      // Transform to canvas coordinates
+      var cr = canvasDomain.getBoundingClientRect();
+      var x = ev.center.x - cr.left;
+      var y = ev.center.y - cr.top;
+
+      model.addToDomain(x, y);
+    });
+
+    hammerDomain.on('press', function (ev) {
+      // Transform to canvas coordinates
+      var cr = canvasDomain.getBoundingClientRect();
+      var x = ev.center.x - cr.left;
+      var y = ev.center.y - cr.top;
+
+      model.addFixedPoint(x, y);
+    });
+  }());
+
+  (function defineHowToPanDomainAndFixedPoints() {
     var movingPoint = null;
     var x0 = 0;
     var y0 = 0;
@@ -64,7 +89,7 @@ loadimages('blackletter.jpg', function (err, img) {
         var x = ev.center.x - cr.left;
         var y = ev.center.y - cr.top;
 
-        var np = model.findNearestDomainPoint(x, y);
+        var np = model.findNearestDomainOrFixedPoint(x, y);
         if (np !== null) {
           // Found
           movingPoint = np;
@@ -122,6 +147,7 @@ loadimages('blackletter.jpg', function (err, img) {
   model.on('update', function () {
     var dom = model.getDomain();
     var ran = model.getRange();
+    var piv = model.getFixedPoint();
     var tra = model.getTransform();
     var invtra = tra.getInverse();
 
@@ -129,14 +155,20 @@ loadimages('blackletter.jpg', function (err, img) {
     ctxDomain.clearRect(0, 0, canvasDomain.width, canvasDomain.height);
     ctxRange.clearRect(0, 0, canvasRange.width, canvasRange.height);
 
+    // Domain image: always still
     ctxDomain.drawImage(img, dx, dy, iw, ih);
 
-    // Apply transform
+    // Range image: apply transform to it
     ctxRange.setTransform(tra.s, tra.r, -tra.r, tra.s, tra.tx, tra.ty);
     ctxRange.drawImage(img, dx, dy, iw, ih);
     ctxRange.resetTransform();
 
-    // Draw points to canvases
+    // Draw points to the canvases
+
+    if (piv !== null) {
+      drawPoint(ctxDomain, piv.x, piv.y, piv.label, 'black', false);
+      drawPoint(ctxRange, piv.x, piv.y, piv.label, 'black', true);
+    }
     dom.forEach(function (dp) {
       // Transform the domain points to the range
       var dpHat = tra.transform([dp.x, dp.y]);
@@ -158,9 +190,14 @@ loadimages('blackletter.jpg', function (err, img) {
     var ranparam = ran.map(pointToArray);
     var m = toFixed(tra.getMatrix(), 2);
     var html = 'var domain = ' + JSON.stringify(domparam) + ';<br>' +
-      'var range = ' + JSON.stringify(ranparam) + ';<br>' +
-      'var trans = nudged.estimate(domain, range);<br>' +
-      'trans.getMatrix();<br>' +
+      'var range = ' + JSON.stringify(ranparam) + ';<br>';
+    if (piv !== null) {
+      html += 'var pivot = ' + JSON.stringify(pointToArray(piv)) + ';<br>';
+      html += 'var trans = nudged.estimateFixed(domain, range, pivot);<br>';
+    } else {
+      html += 'var trans = nudged.estimate(domain, range);<br>';
+    }
+    html += 'trans.getMatrix();<br>' +
       '-> [[' + m[0][0] + ', ' + m[0][1] + ', ' + m[0][2] + '],<br>' +
       '    [' + m[1][0] + ', ' + m[1][1] + ', ' + m[1][2] + '],<br>' +
       '    [' + m[2][0] + ', ' + m[2][1] + ', ' + m[2][2] + ']]';
