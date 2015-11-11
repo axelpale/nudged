@@ -165,6 +165,26 @@ Build example app:
 
 
 
+## Roadmap
+
+Table: Development state of the estimators. T = translation, S = scaling, R = rotation, f = fixed point.
+|      | math | code |
+|------|------|------|
+| T    | OK   | OK   |
+| fT   | n/a  | n/a  |
+| S    | OK   | OK   |
+| fS   | OK   | OK   |
+| R    | OK   | TODO |
+| fR   | TODO | TODO |
+| TS   | OK   | TODO |
+| fTS  | n/a  | n/a  |
+| TR   | OK   | TODO |
+| fTR  | n/a  | n/a  |
+| SR   | OK   | TODO |
+| fSR  | TODO | TODO |
+| TSR  | OK   | OK   |
+| fTSR | OK   | OK   |
+
 ## Versioning
 
 [Semantic Versioning 2.0.0](http://semver.org/)
