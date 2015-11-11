@@ -167,7 +167,8 @@ Build example app:
 
 ## Roadmap
 
-Table: Development state of the estimators. T = translation, S = scaling, R = rotation, f = fixed point.
+Table: Development state of the estimators. T = translation, S = scaling, R = rotation, f = fixed point. Eleven estimators in total.
+
 |      | math | code |
 |------|------|------|
 | T    | OK   | OK   |
