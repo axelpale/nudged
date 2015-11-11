@@ -1,6 +1,6 @@
 {
   "name": "nudged",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "description": "Affine transformation estimator e.g. for multi-touch gestures and calibration",
   "keywords": [
     "transformation",
@@ -35,7 +35,8 @@
     "loadimages": "^0.2.2",
     "browserify": "^11.2.0",
     "hammerjs": "^2.0.4",
-    "component-emitter": "^1.2.0"
+    "component-emitter": "^1.2.0",
+    "lodash": "^3.10.1"
   },
   "scripts": {
     "test": "npm run test:lint && npm run test:unit",

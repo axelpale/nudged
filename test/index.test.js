@@ -1,59 +1,88 @@
 var should = require('should');
+var _ = require('lodash');
 var pjson = require('../package.json');
 
 // The unit
 var nudged = require('../index');
 
-var samples = [
-  {
+var samples = {
+  'z-00': {
+    id: 'should allow arrays of length zero',
+    a: [],
+    b: [],
+    s: 1, r: 0, tx: 0, ty: 0
+  },
+  't-00': {
     id: 'Simple translation',
     a: [[0, 0], [0, 1]],
     b: [[1, 1], [1, 2]],
     s: 1, r: 0, tx: 1, ty: 1
   },
-  {
-    id: 'Simple rotation',
-    a: [[ 1,  1], [-1, -1]],
-    b: [[-1, -1], [ 1,  1]],
-    s: -1, r: 0, tx: 0, ty: 0
+  't-01': {
+    id: 'should allow arrays with singleton domain and range',
+    a: [[1,1]], b: [[5,5]],
+    s: 1, r: 0, tx: 4, ty: 4
   },
-  {
+  't-02': {
+    id: 'should allow arrays of identical points',
+    a: [[1,1], [1,1]], b: [[5,5], [7,7]],
+    s: 1, r: 0, tx: 5, ty: 5
+  },
+  's-00': {
     id: 'Simple scaling',
     a: [[1, 1], [-1, -1]],
     b: [[2, 2], [-2, -2]],
     s: 2, r: 0, tx: 0, ty: 0
   },
-  {
-    id: 'Simple rotation & scaling',
+  'r-00': {
+    id: 'Simple rotation',
+    a: [[ 1,  1], [-1, -1]],
+    b: [[-1, -1], [ 1,  1]],
+    s: -1, r: 0, tx: 0, ty: 0
+  },
+  'sr-00': {
+    id: 'Simple scaling & rotation',
     a: [[ 1,  1], [-1, -1]],
     b: [[-2, -2], [ 2,  2]],
     s: -2, r: 0, tx: 0, ty: 0
   },
-  {
+  'ts-00': {
+    id: 'Simple translation & scaling',
+    a: [[ 2, 1], [3, 1], [3, 2], [ 2, 2]],
+    b: [[-2, 0], [0, 0], [0, 2], [-2, 2]],
+    s: 2, r: 0, tx: -6, ty: -2
+  },
+  'tr-00': {
     id: 'Simple translation & rotation',
     a: [[0, 0], [2, 0], [ 1, 2]],
     b: [[1, 1], [1, 3], [-1, 2]],
     s: 0, r: 1, tx: 1, ty: 1
   },
-  {
-    id: 'Simple translation, rotation, & scaling',
+  'tsr-00': {
+    id: 'Simple translation, scaling, & rotation',
     a: [[1, -1], [ 3, -2]],
     b: [[3,  4], [10,  8]],
     s: 2, r: 3, tx: -2, ty: 3
   },
-  {
+  'tsr-01': {
+    id: 'Should allow different domain and range lengths',
+    a: [[1,-1], [ 3, -2], [1, 2]],
+    b: [[3, 4], [10,  8]],
+    s: 2, r: 3, tx: -2, ty: 3
+  },
+  'ts-01': {
     id: 'Approximating non-uniform scaling',
     a: [[0, 0], [2, 0], [0, 2], [2, 2]],
     b: [[0, 0], [2, 0], [0, 4], [2, 4]],
     s: 1.5, r: 0, tx: -0.5, ty: 0.5
   },
-  {
+  'c-00': {
     id: 'Constant transformation',
     a: [[0, 0], [2, 0], [0, 2]],
     b: [[1, 1], [1, 1], [1, 1]],
     s: 0.0, r: 0.0, tx: 1.0, ty: 1.0
   }
-];
+};
 
 describe('nudged', function () {
 
@@ -64,7 +93,7 @@ describe('nudged', function () {
   describe('.estimate', function () {
 
     it('should estimate correctly', function () {
-      samples.forEach(function (sple) {
+      _.forOwn(samples, function (sple, key) {
         var transform = nudged.estimate(sple.a, sple.b);
         // console.log(sple.id + ':');
         // console.log('s:  ' + transform.s);
@@ -77,33 +106,6 @@ describe('nudged', function () {
         transform.ty.should.equal(sple.ty, sple.id + ': ty');
       });
     });
-
-    it('should allow arrays of different length', function () {
-      // but ignore the points without a pair
-      var domain = [[1,-1], [ 3, -2], [1, 2]];
-      var range =  [[3, 4], [10,  8]];
-      // s: 2, r: 3, tx: -2, ty: 3
-      var t = nudged.estimate(domain, range);
-      t.transform([1,1]).should.deepEqual([-3,8]);
-    });
-
-    it('should allow arrays of length one', function () {
-      var t = nudged.estimate([[1,1]], [[5,5]]);
-      t.transform([4,4]).should.deepEqual([8,8]);
-    });
-
-    it('should allow arrays of length zero', function () {
-      var t = nudged.estimate([], []);
-      // Identity transform
-      t.transform([0,0]).should.deepEqual([0,0]);
-      t.transform([7,7]).should.deepEqual([7,7]);
-    });
-
-    it('should allow arrays of identical points', function () {
-      var t = nudged.estimate([[1,1], [1,1]], [[5,5], [7,7]]);
-      t.transform([1,1]).should.deepEqual([6,6]);
-    });
-
   });
 
   describe('.estimateFixed', function () {
@@ -112,6 +114,22 @@ describe('nudged', function () {
       var t = nudged.estimateFixed([[1,1], [1,1]], [[2,2], [2,2]], [1,1]);
       // Identity transform
       t.transform([5,6]).should.deepEqual([5,6]);
+    });
+  });
+
+  describe('.estimateTranslation', function () {
+    it('should work with empty arrays', function () {
+      var t = nudged.estimateTranslation([], []);
+      should.ok(t.equals(nudged.Transform.IDENTITY));
+    });
+
+    it('should estimate only translation', function () {
+      var sam = samples['ts-00'];
+      var t = nudged.estimateTranslation(sam.a, sam.b);
+      t.s.should.equal(1);
+      t.r.should.equal(0);
+      t.tx.should.equal(-3.5);
+      t.ty.should.equal(-0.5);
     });
   });
 
@@ -151,12 +169,12 @@ describe('nudged', function () {
     });
 
     it('should inverse', function () {
-      t.getInverse().transform([3, 4]).should.deepEqual([1,-1]);
+      t.inverse().transform([3, 4]).should.deepEqual([1,-1]);
     });
 
     it('should throw if impossible to inverse', function () {
       t = nudged.estimate([[1,1], [3,3]], [[2,2], [2,2]]);
-      (function () { t.getInverse(); }).should.throw(/Singular/);
+      (function () { t.inverse(); }).should.throw(/Singular/);
     });
   });
 
