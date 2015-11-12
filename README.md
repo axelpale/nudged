@@ -177,7 +177,7 @@ Table: Development state of the estimators. T = translation, S = scaling, R = ro
 | fS   | OK   | OK   |
 | R    | OK   | OK   |
 | fR   | OK   | OK   |
-| TS   | OK   | TODO |
+| TS   | OK   | OK   |
 | fTS  | n/a  | n/a  |
 | TR   | OK   | TODO |
 | fTR  | n/a  | n/a  |
