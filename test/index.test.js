@@ -1,16 +1,24 @@
 var should = require('should');
 var _ = require('lodash');
 var pjson = require('../package.json');
+var sqrt2 = Math.sqrt(2);
+var pi = Math.PI;
+var cos = Math.cos;
+var sin = Math.sin;
 
 // The unit
 var nudged = require('../index');
+var IDENTITY = nudged.Transform.IDENTITY;
 
 var samples = {
   'z-00': {
     id: 'should allow arrays of length zero',
     a: [],
     b: [],
-    tsr: { s: 1, r: 0, tx: 0, ty: 0 }
+    t: IDENTITY,
+    s: IDENTITY,
+    r: IDENTITY,
+    tsr: IDENTITY
   },
   't-00': {
     id: 'Simple translation',
@@ -39,13 +47,34 @@ var samples = {
     id: 'Simple rotation',
     a: [[ 1,  1], [-1, -1]],
     b: [[-1, -1], [ 1,  1]],
+    r: { s: -1, r: 0, tx: 0, ty: 0 },
     tsr: { s: -1, r: 0, tx: 0, ty: 0 }
   },
   'sr-00': {
     id: 'Simple scaling & rotation',
     a: [[ 1,  1], [-1, -1]],
     b: [[-2, -2], [ 2,  2]],
+    fixed: [1, 1],
+    s: { s: 0, r: 0, tx: 0, ty: 0 },
+    r: { s: -1, r: 0, tx: 0, ty: 0 },
+    fr: { s: -1, r: 0, tx: 2, ty: 2 },
+    sr: { s: -2, r: 0, tx: 0, ty: 0 },
     tsr: { s: -2, r: 0, tx: 0, ty: 0 }
+  },
+  'sr-01': {
+    id: 'Scaling and rotating a square',
+    a: [[1, 1], [2, 1], [2, 2], [1, 2]],
+    b: [[1, 1], [2, 2], [1, 3], [0, 2]],
+    fixed: [1, 1],
+    tsr: { s: 1, r: 1, tx: 1, ty: -1 },
+    fsr: { s: 1, r: 1, tx: 1, ty: -1 }
+  },
+  'sr-02': {
+    id: 'should allow domain under pivot',
+    a: [[1,1], [1,1]],
+    b: [[2,2], [2,2]],
+    fixed: [1,1],
+    fsr: IDENTITY
   },
   'ts-00': {
     id: 'Simple translation & scaling',
@@ -55,7 +84,7 @@ var samples = {
     t: { s: 1, r: 0, tx: -2.5, ty: -2.5 },
     s: { s: 0, r: 0, tx: 0, ty: 0 },
     fixed: [2, 2],
-    sf: { s: 4, r: 0, tx: -6, ty: -6}
+    fs: { s: 4, r: 0, tx: -6, ty: -6}
   },
   'tr-00': {
     id: 'Simple translation & rotation',
@@ -89,6 +118,19 @@ var samples = {
   }
 };
 
+var pickSamples = function (type) {
+  return _.pick(samples, function (s) {
+    return s.hasOwnProperty(type);
+  });
+};
+
+var forSamples = function (type, iteratee) {
+  // Usage:
+  //   forSamples('sr', function (sample, samkey) { ... })
+  var S = pickSamples(type);
+  _.forOwn(S, iteratee);
+};
+
 
 
 var assertTransform = function (t1, t2, msg) {
@@ -110,7 +152,7 @@ var assertTransform = function (t1, t2, msg) {
 };
 
 var assertIdentity = function (transform) {
-  should.ok(transform.equals(nudged.Transform.IDENTITY));
+  should.ok(transform.equals(IDENTITY));
 };
 
 
@@ -124,7 +166,7 @@ describe('nudged', function () {
   describe('.estimate', function () {
 
     it('should estimate correctly', function () {
-      _.forOwn(samples, function (sam, samkey) {
+      forSamples('tsr', function (sam, samkey) {
         var transform = nudged.estimate(sam.a, sam.b);
         assertTransform(transform, sam.tsr, samkey);
       });
@@ -133,53 +175,63 @@ describe('nudged', function () {
 
 
 
-  describe('.estimateFixed', function () {
-    it('should allow domain under pivot', function () {
-      var t = nudged.estimateFixed([[1,1], [1,1]], [[2,2], [2,2]], [1,1]);
-      assertIdentity(t);
-    });
-  });
-
-
-
   describe('.estimateTranslation', function () {
-    it('should work with empty arrays', function () {
-      var t = nudged.estimateTranslation([], []);
-      assertIdentity(t);
-    });
-
-    it('should estimate only translation', function () {
-      var sam = samples['ts-00'];
-      var t = nudged.estimateTranslation(sam.a, sam.b);
-      assertTransform(t, sam.t, 'ts-00');
+    it('should estimate correctly', function () {
+      forSamples('t', function (sam, samkey) {
+        var t = nudged.estimateTranslation(sam.a, sam.b);
+        assertTransform(t, sam.t, samkey);
+      });
     });
   });
 
 
 
   describe('.estimateScaling', function () {
-    it('should work with empty arrays', function () {
-      var t = nudged.estimateScaling([], []);
-      assertIdentity(t);
+    it('should estimate correctly', function () {
+      forSamples('s', function (sam, samkey) {
+        var t = nudged.estimateScaling(sam.a, sam.b);
+        assertTransform(t, sam.s, samkey);
+      });
     });
-
-    it('should work', function () {
-      var sam = samples['s-00'];
-      var t = nudged.estimateScaling(sam.a, sam.b);
-      assertTransform(t, sam.s, 's-00');
+    it('should estimate fixed situation correctly', function () {
+      forSamples('fs', function (sam, samkey) {
+        var t = nudged.estimateScaling(sam.a, sam.b, sam.fixed);
+        assertTransform(t, sam.fs, samkey);
+      });
     });
+  });
 
-    it('should estimate only scaling', function () {
-      // Scales to zero
-      var sam = samples['ts-00'];
-      var t = nudged.estimateScaling(sam.a, sam.b);
-      assertTransform(t, sam.s, 'ts-00');
+
+
+  describe('.estimateRotation', function () {
+    it('should estimate correctly', function () {
+      forSamples('r', function (sam, samkey) {
+        var transform = nudged.estimateRotation(sam.a, sam.b);
+        assertTransform(transform, sam.r, samkey);
+      });
     });
+    it('should estimate fixed situation correctly', function () {
+      forSamples('fr', function (sam, samkey) {
+        var t = nudged.estimateRotation(sam.a, sam.b, sam.fixed);
+        assertTransform(t, sam.fr, samkey);
+      });
+    });
+  });
 
-    it('should allow pivot point', function () {
-      var sam = samples['ts-00'];
-      var t = nudged.estimateScaling(sam.a, sam.b, sam.fixed);
-      assertTransform(t, sam.sf, 'ts-00');
+
+
+  describe('.estimateScalingRotation', function () {
+    it('should estimate correctly', function () {
+      forSamples('sr', function (sam, samkey) {
+        var t = nudged.estimateScalingRotation(sam.a, sam.b);
+        assertTransform(t, sam.sr, samkey);
+      });
+    });
+    it('should estimate fixed situation correctly', function () {
+      forSamples('fsr', function (sam, samkey) {
+        var t = nudged.estimateScalingRotation(sam.a, sam.b, sam.fixed);
+        assertTransform(t, sam.fsr, samkey);
+      });
     });
   });
 
