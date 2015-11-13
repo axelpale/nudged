@@ -21,6 +21,7 @@ var samples = {
     r: IDENTITY,
     fr: IDENTITY,
     ts: IDENTITY,
+    tr: IDENTITY,
     sr: IDENTITY,
     fsr: IDENTITY,
     tsr: IDENTITY
@@ -31,12 +32,15 @@ var samples = {
     b: [[1, 1], [1, 2]],
     t: { s: 1, r: 0, tx: 1, ty: 1 },
     ts: { s: 1, r: 0, tx: 1, ty: 1 },
+    tr: { s: 1, r: 0, tx: 1, ty: 1 },
     tsr: { s: 1, r: 0, tx: 1, ty: 1 }
   },
   't-01': {
     id: 'should allow arrays with singleton domain and range',
     a: [[1,1]], b: [[5,5]],
     t: { s: 1, r: 0, tx: 4, ty: 4 },
+    ts: { s: 1, r: 0, tx: 4, ty: 4 },
+    tr: { s: 1, r: 0, tx: 4, ty: 4 },
     tsr: { s: 1, r: 0, tx: 4, ty: 4 }
   },
   't-02': {
@@ -44,6 +48,8 @@ var samples = {
     a: [[1,1], [1,1]], b: [[5,5], [7,7]],
     t: { s: 1, r: 0, tx: 5, ty: 5 },
     s: { s: 6, r: 0, tx: 0, ty: 0 },
+    ts: { s: 1, r: 0, tx: 5, ty: 5 },
+    tr: { s: 1, r: 0, tx: 5, ty: 5 },
     tsr: { s: 1, r: 0, tx: 5, ty: 5 }
   },
   's-00': {
@@ -101,6 +107,7 @@ var samples = {
     id: 'Simple translation & rotation',
     a: [[0, 0], [2, 0], [ 1, 2]],
     b: [[1, 1], [1, 3], [-1, 2]],
+    tr: { s: 0, r: 1, tx: 1, ty: 1 },
     tsr: { s: 0, r: 1, tx: 1, ty: 1 }
   },
   'tsr-00': {
@@ -236,6 +243,17 @@ describe('nudged', function () {
       forSamples('ts', function (sam, samkey) {
         var t = nudged.estimateTranslationScaling(sam.a, sam.b);
         assertTransform(t, sam.ts, samkey);
+      });
+    });
+  });
+
+
+
+  describe('.estimateTranslationRotation', function () {
+    it('should estimate correctly', function () {
+      forSamples('tr', function (sam, samkey) {
+        var t = nudged.estimateTranslationRotation(sam.a, sam.b);
+        assertTransform(t, sam.tr, samkey);
       });
     });
   });

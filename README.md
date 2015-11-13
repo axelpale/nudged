@@ -1,10 +1,11 @@
 # nudged<sup>1.0.0</sup>
 
-A JavaScript lib to estimate translation, scale, and rotation between two sets of 2D points. Applicable for example in cases where one wants to move objects by multiple fingers or where a large number of points from an eye tracker device are wanted to be corrected based on a few calibration points. In general, you can apply *nudged* in any situation where you want to move a number of points based on a few sample points and optionally a fixed pivot point.
+A JavaScript lib to estimate translation, scale, and/or rotation between two sets of 2D points. Applicable for example in cases where one wants to move objects by multiple fingers or where data from an eye tracker device are wanted to be corrected based on a few calibration points. In general, you can apply *nudged* in any situation where you want to transform a number of points based on a few sample points and optionally one fixed pivot point. See the image below for visual explanation.
 
-<img src="https://rawgit.com/axelpale/nudged/master/doc/nudged-logo.png" alt="Example transformation" width="300"/>
+<img src="https://rawgit.com/axelpale/nudged/master/doc/figure-pointset.png" alt="Example transformation" width="400"/>
+Image: You have a set of points (left) and you known where three of them should be moved (center). With *nudged*, based on the initial position of the three points, the *domain*, and their target positions, the *range*, you can estimate a transformation that nicely transforms all the rest of the points (right).
 
-Mathematically speaking, *nudged* is an optimal least squares estimator for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and uniform scaling, and without reflection or shearing. The estimation has time complexity of O(*n*) that consists of *6n+22* multiplications and *11n+19* additions, where *n* is the cardinality (size) of the point sets. Under the constraint of a fixed pivot point, the number of operations is even smaller. In other words, *nudged* solves an affine 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in linear time.
+Mathematically speaking, *nudged* is an optimal least squares estimator for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has time complexity of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, *nudged* solves an affine 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in linear time.
 
 The development of *nudged* has been supported by [Infant Cognition Laboratory](http://www.uta.fi/med/icl/index.html) at [University of Tampere](http://www.uta.fi/en/) where it is used to correct eye tracking data.
 
@@ -30,17 +31,14 @@ To get a grip on how the transformation looks and how the points affect it, play
 
 Let `domain` and `range` be point sets before and after transformation i.e. the training data:
 
-    var domain = [[0,0], [2,0], [ 1,2]];
-    var range  = [[1,1], [1,3], [-1,2]];
+    var domain = [[0,0], [2,0], [ 1,2]]
+    var range  = [[1,1], [1,3], [-1,2]]
+
+<img src="https://rawgit.com/axelpale/nudged/master/doc/simple-example-pointset.png" alt="The transformation" width="400"/>
 
 Compute an optimal transformation based on the points:
 
-    var trans = nudged.estimate(domain, range);
-
-Alternatively, set a fixed pivot point that should not be altered in the transformation. You can think it as a pin or anchor:
-
-    var pivot = [3,3];
-    var pivotedTrans = nudged.estimateFixed(domain, range, pivot);
+    var trans = nudged.estimate('TSR', domain, range)
 
 Examine the transformation matrix:
 
@@ -62,40 +60,43 @@ Apply the transformation to other points:
 
 Inverse the transformation:
 
-    var inv = trans.getInverse();
+    var inv = trans.inverse()
     inv.transform([-1,3])
     -> [2,2]
 
 
+Alternatively, set a fixed pivot point that should not be altered in the transformation. You can think it as a pin or anchor:
+
+    var pivot = [-1,0];
+    var pivotTrans = nudged.estimate('SR', domain, range, pivot);
+
+<img src="https://rawgit.com/axelpale/nudged/master/doc/simple-example-fixed.png" alt="A fixed point transformation" width="400"/>
+
+Not the domain transforms to:
+
+    pivotTrans.transform(domain)
+    -> TODO
+
 
 ## API
 
+Nudged provides 7 estimators, one for each combination of translation, scaling, and rotation. The ones without translation allow an optional fixed point where for the rest a fixed point does not make sense.
 
-### nudged.estimate(domain, range)
 
-Compute an optimal affine transformation from the domain to range points.
+### nudged.estimate(type, domain, range, pivot?)
+
+Compute an optimal affine transformation from the *domain* to *range* points. The type of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, given as *type* string. The transformations without translation allow an optional fixed *pivot* point.
 
 **Parameters**
+- *type*: freedom of the transformation. Types available: 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
 - *domain*: array of [x,y] points
 - *range*: array of [x,y] points
+- *pivot*: optional [x,y] point. Defaults to the origin [0,0].
 
 The *domain* and *range* should have equal length. Different lengths are allowed but additional points in the longer array are ignored in the estimation.
 
 **Return** new *nudged.Transform(...)* instance.
 
-
-### nudged.estimateFixed(domain, range, pivot)
-
-Often one point, e.g. a corner of a picture, needs to stay put regardless of the domain and range.
-
-**Parameters**
-- *domain*: array of [x,y] points
-- *range*: array of [x,y] points
-- *pivot*: [x,y] point
-
-The *domain* and *range* should have equal length. Different lengths are allowed but additional points in the longer array are ignored in the estimation.
-
-**Return** new *nudged.Transform(...)* instance.
 
 
 ### nudged.version
@@ -145,7 +146,7 @@ Get clockwise rotation from the positive x-axis.
 
 **Return** `[tx, ty]` where `tx` and `ty` denotes movement along x-axis and y-axis accordingly.
 
-#### #getInverse()
+#### #inverse()
 
 **Return** a new `nudged.Transform` instance that is the inverse of the transformation.
 
@@ -167,24 +168,10 @@ Build example app:
 
 ## Roadmap
 
-Table: Development state of the estimators. T = translation, S = scaling, R = rotation, f = fixed point. Ten estimators in total.
-
-|      | math | code |
-|------|------|------|
-| T    | OK   | OK   |
-| fT   | n/a  | n/a  |
-| S    | OK   | OK   |
-| fS   | OK   | OK   |
-| R    | OK   | OK   |
-| fR   | OK   | OK   |
-| TS   | OK   | OK   |
-| fTS  | n/a  | n/a  |
-| TR   | OK   | TODO |
-| fTR  | n/a  | n/a  |
-| SR   | OK   | OK   |
-| fSR  | OK   | OK   |
-| TSR  | OK   | OK   |
-| fTSR | n/a  | n/a  |
+- Transform methods: scale, rotate, multiply, translate
+- Pivoted transformation example
+- Improved demo application
+- Touch demo
 
 ## Versioning
 
