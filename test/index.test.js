@@ -182,10 +182,25 @@ describe('nudged', function () {
   });
 
   describe('.estimate', function () {
+    it('should estimate correct transformation type', function () {
+      forSamples('sr', function (sam, samkey) {
+        var t = nudged.estimate('sr', sam.a, sam.b);
+        assertTransform(t, sam.tsr, samkey);
+      });
+    });
 
+    it('should throw if unknown type', function () {
+      (function () {
+        nudged.estimate('RST', [1, 1], [2, 2]);
+      }).should.throw(/estimator type/);
+    });
+  });
+
+
+  describe('.estimateTSR', function () {
     it('should estimate correctly', function () {
       forSamples('tsr', function (sam, samkey) {
-        var transform = nudged.estimate(sam.a, sam.b);
+        var transform = nudged.estimateTSR(sam.a, sam.b);
         assertTransform(transform, sam.tsr, samkey);
       });
     });
@@ -193,10 +208,10 @@ describe('nudged', function () {
 
 
 
-  describe('.estimateTranslation', function () {
+  describe('.estimateT', function () {
     it('should estimate correctly', function () {
       forSamples('t', function (sam, samkey) {
-        var t = nudged.estimateTranslation(sam.a, sam.b);
+        var t = nudged.estimateT(sam.a, sam.b);
         assertTransform(t, sam.t, samkey);
       });
     });
@@ -204,16 +219,16 @@ describe('nudged', function () {
 
 
 
-  describe('.estimateScaling', function () {
+  describe('.estimateS', function () {
     it('should estimate correctly', function () {
       forSamples('s', function (sam, samkey) {
-        var t = nudged.estimateScaling(sam.a, sam.b);
+        var t = nudged.estimateS(sam.a, sam.b);
         assertTransform(t, sam.s, samkey);
       });
     });
     it('should estimate fixed situation correctly', function () {
       forSamples('fs', function (sam, samkey) {
-        var t = nudged.estimateScaling(sam.a, sam.b, sam.fixed);
+        var t = nudged.estimateS(sam.a, sam.b, sam.fixed);
         assertTransform(t, sam.fs, samkey);
       });
     });
@@ -221,16 +236,16 @@ describe('nudged', function () {
 
 
 
-  describe('.estimateRotation', function () {
+  describe('.estimateR', function () {
     it('should estimate correctly', function () {
       forSamples('r', function (sam, samkey) {
-        var transform = nudged.estimateRotation(sam.a, sam.b);
+        var transform = nudged.estimateR(sam.a, sam.b);
         assertTransform(transform, sam.r, samkey);
       });
     });
     it('should estimate fixed situation correctly', function () {
       forSamples('fr', function (sam, samkey) {
-        var t = nudged.estimateRotation(sam.a, sam.b, sam.fixed);
+        var t = nudged.estimateR(sam.a, sam.b, sam.fixed);
         assertTransform(t, sam.fr, samkey);
       });
     });
@@ -238,10 +253,10 @@ describe('nudged', function () {
 
 
 
-  describe('.estimateTranslationScaling', function () {
+  describe('.estimateTS', function () {
     it('should estimate correctly', function () {
       forSamples('ts', function (sam, samkey) {
-        var t = nudged.estimateTranslationScaling(sam.a, sam.b);
+        var t = nudged.estimateTS(sam.a, sam.b);
         assertTransform(t, sam.ts, samkey);
       });
     });
@@ -249,10 +264,10 @@ describe('nudged', function () {
 
 
 
-  describe('.estimateTranslationRotation', function () {
+  describe('.estimateTR', function () {
     it('should estimate correctly', function () {
       forSamples('tr', function (sam, samkey) {
-        var t = nudged.estimateTranslationRotation(sam.a, sam.b);
+        var t = nudged.estimateTR(sam.a, sam.b);
         assertTransform(t, sam.tr, samkey);
       });
     });
@@ -260,16 +275,16 @@ describe('nudged', function () {
 
 
 
-  describe('.estimateScalingRotation', function () {
+  describe('.estimateSR', function () {
     it('should estimate correctly', function () {
       forSamples('sr', function (sam, samkey) {
-        var t = nudged.estimateScalingRotation(sam.a, sam.b);
+        var t = nudged.estimateSR(sam.a, sam.b);
         assertTransform(t, sam.sr, samkey);
       });
     });
     it('should estimate fixed situation correctly', function () {
       forSamples('fsr', function (sam, samkey) {
-        var t = nudged.estimateScalingRotation(sam.a, sam.b, sam.fixed);
+        var t = nudged.estimateSR(sam.a, sam.b, sam.fixed);
         assertTransform(t, sam.fsr, samkey);
       });
     });
@@ -284,7 +299,7 @@ describe('nudged', function () {
       var domain = [[1, -1], [ 3, -2]];
       var range = [[3,  4], [10,  8]];
       // s: 2, r: 3, tx: -2, ty: 3
-      t = nudged.estimate(domain, range);
+      t = nudged.estimateTSR(domain, range);
     });
 
     it('should allow single points', function () {
@@ -297,13 +312,13 @@ describe('nudged', function () {
     });
 
     it('should give rotation in radians', function () {
-      t = nudged.estimate([[ 1, 1], [-1,-1]], [[-2,-2], [ 2, 2]]);
+      t = nudged.estimateTSR([[ 1, 1], [-1,-1]], [[-2,-2], [ 2, 2]]);
       // s: -2, r: 0, tx: 0, ty: 0
       t.getRotation().should.equal(Math.PI);
     });
 
     it('should give scale', function () {
-      t = nudged.estimate([[ 1, 1], [-1,-1]], [[-2,-2], [ 2, 2]]);
+      t = nudged.estimateTSR([[ 1, 1], [-1,-1]], [[-2,-2], [ 2, 2]]);
       // s: -2, r: 0, tx: 0, ty: 0
       t.getScale().should.equal(2);
     });
@@ -317,7 +332,7 @@ describe('nudged', function () {
     });
 
     it('should throw if impossible to inverse', function () {
-      t = nudged.estimate([[1,1], [3,3]], [[2,2], [2,2]]);
+      t = nudged.estimateTSR([[1,1], [3,3]], [[2,2], [2,2]]);
       (function () { t.inverse(); }).should.throw(/Singular/);
     });
   });

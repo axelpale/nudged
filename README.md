@@ -80,7 +80,7 @@ Not the domain transforms to:
 
 ## API
 
-Nudged provides 7 estimators, one for each combination of translation, scaling, and rotation. The ones without translation allow an optional fixed point where for the rest a fixed point does not make sense.
+Nudged provides 7 types of estimators, one for each combination of translation, scaling, and rotation. The ones without translation allow an optional fixed point where for the rest a fixed point does not make sense.
 
 
 ### nudged.estimate(type, domain, range, pivot?)
@@ -95,8 +95,17 @@ Compute an optimal affine transformation from the *domain* to *range* points. Th
 
 The *domain* and *range* should have equal length. Different lengths are allowed but additional points in the longer array are ignored in the estimation.
 
-**Return** new *nudged.Transform(...)* instance.
+**Return** new `nudged.Transform(...)` instance.
 
+You can also call any type of estimator directly:
+
+- `nudged.estimateT(domain, range)`
+- `nudged.estimateS(domain, range, pivot)`
+- `nudged.estimateR(domain, range, pivot)`
+- `nudged.estimateTS(domain, range)`
+- `nudged.estimateTR(domain, range)`
+- `nudged.estimateSR(domain, range, pivot)`
+- `nudged.estimateTSR(domain, range)`
 
 
 ### nudged.version
@@ -106,7 +115,7 @@ Contains the module version string equal to the version in *package.json*.
 
 ### nudged.Transform(s, r, tx, ty)
 
-An instance returned by the *nudged.estimate(...)*.
+An instance returned by the `nudged.estimate(...)`.
 
 In addition to the methods below, it has properties *s*, *r*, *tx*, *ty* that define the [augmented transformation matrix](https://en.wikipedia.org/wiki/Affine_transformation#Augmented_matrix):
 
@@ -170,7 +179,7 @@ Build example app:
 
 - type API implementation & testing
 - Transform methods: scale, rotate, multiply, translate
-- Pivoted transformation example
+- OK Pivoted transformation example
 - Improved demo application
 - Touch demo
 
