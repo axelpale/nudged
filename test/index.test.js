@@ -211,7 +211,7 @@ describe('nudged', function () {
   describe('.estimateT', function () {
     it('should estimate correctly', function () {
       forSamples('t', function (sam, samkey) {
-        var t = nudged.estimateT(sam.a, sam.b);
+        var t = nudged.estimate('T', sam.a, sam.b);
         assertTransform(t, sam.t, samkey);
       });
     });
@@ -245,7 +245,7 @@ describe('nudged', function () {
     });
     it('should estimate fixed situation correctly', function () {
       forSamples('fr', function (sam, samkey) {
-        var t = nudged.estimateR(sam.a, sam.b, sam.fixed);
+        var t = nudged.estimate('R', sam.a, sam.b, sam.fixed);
         assertTransform(t, sam.fr, samkey);
       });
     });
@@ -284,7 +284,7 @@ describe('nudged', function () {
     });
     it('should estimate fixed situation correctly', function () {
       forSamples('fsr', function (sam, samkey) {
-        var t = nudged.estimateSR(sam.a, sam.b, sam.fixed);
+        var t = nudged.estimate('SR', sam.a, sam.b, sam.fixed);
         assertTransform(t, sam.fsr, samkey);
       });
     });

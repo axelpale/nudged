@@ -42,7 +42,10 @@
     "test": "npm run test:lint && npm run test:unit",
     "test:unit": "mocha test/index.test.js",
     "test:lint": "jshint index.js lib/*.js test/*.js",
-    "test:example": "jshint example/src/*.js",
-    "build:example": "npm run test:example && browserify example/src/index.js -o example/app.js"
+    "test:editor-example": "jshint editor-example/src/*.js",
+    "test:touch-example": "jshint touch-example/src/*.js",
+    "build:editor-example": "npm run test:editor-example && browserify editor-example/src/index.js -o editor-example/app.js",
+    "build:touch-example": "npm run test:touch-example && browserify touch-example/src/index.js -o touch-example/app.js",
+    "build:examples": "npm run build:touch-example && npm run build:editor-example"
   }
 }

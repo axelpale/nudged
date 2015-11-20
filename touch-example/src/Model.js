@@ -13,44 +13,26 @@ var Model = function () {
   this.pivot = null;
 
   // Init with identity transform
-  this.transform = nudged.estimate([], []);
+  this.transform = nudged.estimate('TSR', [], []);
 
-  this._updateTransform = function () {
-    var dom = this.domain.map(function (p) { return [p.x, p.y]; });
-    var ran =  this.range.map(function (p) { return [p.x, p.y]; });
-    var piv;
+  this.set = function (dom, ran) {
+    // Replace model's domain and range.
+
+    var piv, newtrans;
+    this.domain = dom;
+    this.range = ran;
     if (this.pivot === null) {
-      this.transform = nudged.estimate(dom, ran);
+      newtrans = nudged.estimate('TSR', dom, ran);
+      this.transform = this.transform.multiply(newtrans);
     } else {
       piv = [this.pivot.x, this.pivot.y];
-      this.transform = nudged.estimateFixed(dom, ran, piv);
+      newtrans  = nudged.estimate('SR', dom, ran, piv);
+      this.transform = this.transform.multiply(newtrans);
     }
-  };
-
-  this.addToDomain = function (x, y) {
-
-    var name = this.domain.length.toString();
-    var dp = new Point(x, y, name);
-    // Guess the initial location by the current transform
-    var initxy = this.transform.transform([x, y]);
-    var rp = new Point(initxy[0], initxy[1], name);
-
-    this.domain.push(dp);
-    this.range.push(rp);
-
-    var model = this;
-    var updateModel = function () {
-      model._updateTransform();
-      model.emit('update');
-    };
-    dp.on('update', updateModel);
-    rp.on('update', updateModel);
-
-    this._updateTransform();
     this.emit('update');
   };
 
-  this.addFixedPoint = function (x, y) {
+  /*this.addFixedPoint = function (x, y) {
     this.pivot = new Point(x, y, 'X');
     var model = this;
     this.pivot.on('update', function () {
@@ -96,7 +78,7 @@ var Model = function () {
       points = this.domain.concat([this.pivot]);
     }
     return this._findNearestPoint(points, x, y);
-  };
+  };*/
 
   this.getDomain = function () {
     return this.domain;

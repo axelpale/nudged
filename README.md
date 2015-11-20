@@ -177,8 +177,8 @@ Build example app:
 
 ## Roadmap
 
-- type API implementation & testing
-- Transform methods: scale, rotate, multiply, translate
+- OK type API implementation & testing
+- OK Transform methods: scale, rotate, multiply, translate
 - OK Pivoted transformation example
 - Improved demo application
 - Touch demo

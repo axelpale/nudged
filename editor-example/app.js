@@ -14,17 +14,17 @@ var Model = function () {
   this.pivot = null;
 
   // Init with identity transform
-  this.transform = nudged.estimate([], []);
+  this.transform = nudged.estimate('TSR', [], []);
 
   this._updateTransform = function () {
     var dom = this.domain.map(function (p) { return [p.x, p.y]; });
     var ran =  this.range.map(function (p) { return [p.x, p.y]; });
     var piv;
     if (this.pivot === null) {
-      this.transform = nudged.estimate(dom, ran);
+      this.transform = nudged.estimate('TSR', dom, ran);
     } else {
       piv = [this.pivot.x, this.pivot.y];
-      this.transform = nudged.estimateFixed(dom, ran, piv);
+      this.transform = nudged.estimate('SR', dom, ran, piv);
     }
   };
 
@@ -119,7 +119,7 @@ var Model = function () {
 
 module.exports = Model;
 
-},{"../../index":5,"./Point":2,"component-emitter":10}],2:[function(require,module,exports){
+},{"../../index":5,"./Point":2,"component-emitter":15}],2:[function(require,module,exports){
 var Emitter = require('component-emitter');
 
 var Point = function (x, y, label) {
@@ -139,7 +139,7 @@ var Point = function (x, y, label) {
 
 module.exports = Point;
 
-},{"component-emitter":10}],3:[function(require,module,exports){
+},{"component-emitter":15}],3:[function(require,module,exports){
 /*
 
 A demonstration app for nudged
@@ -291,7 +291,7 @@ loadimages('blackletter.jpg', function (err, img) {
     var ran = model.getRange();
     var piv = model.getFixedPoint();
     var tra = model.getTransform();
-    var invtra = tra.getInverse();
+    var invtra = tra.inverse();
 
     // Clear
     ctxDomain.clearRect(0, 0, canvasDomain.width, canvasDomain.height);
@@ -347,7 +347,7 @@ loadimages('blackletter.jpg', function (err, img) {
   });
 });
 
-},{"./Model":1,"./toFixed":4,"hammerjs":11,"loadimages":12}],4:[function(require,module,exports){
+},{"./Model":1,"./toFixed":4,"hammerjs":16,"loadimages":17}],4:[function(require,module,exports){
 /*
 Recursive implementation of Number.prototype.toFixed
 */
@@ -371,11 +371,33 @@ module.exports = function toFixed(arr, digits) {
 
 */
 exports.Transform = require('./lib/Transform');
-exports.estimate = require('./lib/estimate');
-exports.estimateFixed = require('./lib/estimateFixed');
+exports.estimateT = require('./lib/estimateT');
+exports.estimateS = require('./lib/estimateS');
+exports.estimateR = require('./lib/estimateR');
+exports.estimateTS = require('./lib/estimateTS');
+exports.estimateTR = require('./lib/estimateTR');
+exports.estimateSR = require('./lib/estimateSR');
+exports.estimateTSR = require('./lib/estimateTSR');
 exports.version = require('./lib/version');
 
-},{"./lib/Transform":6,"./lib/estimate":7,"./lib/estimateFixed":8,"./lib/version":9}],6:[function(require,module,exports){
+exports.estimate = function (type, domain, range, pivot) {
+  // Parameter
+  //   type
+  //     string. One of the following: 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
+  //   domain
+  //     array of 2d arrays
+  //   range
+  //     array of 2d arrays
+  //   pivot
+  //     optional 2d array, does nothing for translation estimators
+  var name = 'estimate' + type.toUpperCase();
+  if (exports.hasOwnProperty(name)) {
+    return exports[name](domain, range, pivot);
+  } // else
+  throw new Error('Unknown estimator type: ' + type);
+};
+
+},{"./lib/Transform":6,"./lib/estimateR":7,"./lib/estimateS":8,"./lib/estimateSR":9,"./lib/estimateT":10,"./lib/estimateTR":11,"./lib/estimateTS":12,"./lib/estimateTSR":13,"./lib/version":14}],6:[function(require,module,exports){
 
 var Transform = function (s, r, tx, ty) {
 
@@ -384,6 +406,10 @@ var Transform = function (s, r, tx, ty) {
   this.r = r;
   this.tx = tx;
   this.ty = ty;
+
+  this.equals = function (t) {
+    return (s === t.s && r === t.r && tx === t.tx && ty === t.ty);
+  };
 
   this.transform = function (p) {
     // p
@@ -419,7 +445,7 @@ var Transform = function (s, r, tx, ty) {
     return [tx, ty];
   };
 
-  this.getInverse = function () {
+  this.inverse = function () {
     // Return inversed transform instance
     // See note 2015-10-26-16-30
     var det = s * s + r * r;
@@ -435,14 +461,402 @@ var Transform = function (s, r, tx, ty) {
     var tyhat = ( r * tx - s * ty) / det;
     return new Transform(shat, rhat, txhat, tyhat);
   };
+
+  this.translate = function (dx, dy) {
+    return new Transform(s, r, tx + dx, ty + dy);
+  };
+
+  this.scale = function (multiplier, pivot) {
+    // Parameter
+    //   multiplier
+    //   pivot
+    //     optional
+    var m, x, y;
+    m = multiplier; // alias
+    if (typeof pivot === 'undefined') {
+      x = y = 0;
+    } else {
+      x = pivot[0];
+      y = pivot[1];
+    }
+    return new Transform(m * s, m * r, m * tx + (m-1) * x, m * ty + (m-1) * y);
+  };
+
+  this.rotate = function (radians, pivot) {
+    // Parameter
+    //   radians
+    //     from positive x to positive y axis
+    //   pivot
+    //     optional
+    var co, si, x, y, shat, rhat, txhat, tyhat;
+    co = Math.cos(radians);
+    si = Math.sin(radians);
+    if (typeof pivot === 'undefined') {
+      x = y = 0;
+    } else {
+      x = pivot[0];
+      y = pivot[1];
+    }
+    shat = s * co - r * si;
+    rhat = s * si + r * co;
+    txhat = (tx + x) * co - (ty + y) * si - x;
+    tyhat = (tx + x) * si + (ty + y) * co - y;
+    return new Transform(shat, rhat, txhat, tyhat);
+  };
+
+
+  this.multiply = function (transform) {
+    // Multiply this transformation matrix A
+    // from the right with the given transformation matrix B
+    // and return the result AB
+
+    // For reading aid:
+    // s -r tx  t.s -r tx
+    // r  s ty *  r  s ty
+    // 0  0  1    0  0  1
+    var t = transform; // alias
+    var shat = s * t.s - r * t.r;
+    var rhat = s * t.r + r * t.s;
+    var txhat = s * t.tx - r * t.ty + tx;
+    var tyhat = r * t.tx + s * t.ty + ty;
+    return new Transform(shat, rhat, txhat, tyhat);
+  };
 };
+
+Transform.IDENTITY = new Transform(1, 0, 0, 0);
 
 module.exports = Transform;
 
 },{}],7:[function(require,module,exports){
 var Transform = require('./Transform');
 
-module.exports = function estimate(domain, range) {
+module.exports = function (domain, range, pivot) {
+  var i, N, D, a0, b0, a, b, c, d, ac, ad, bc, bd, shat, rhat, tx, ty;
+
+  N = Math.min(domain.length, range.length);
+  ac = ad = bc = bd = 0;
+
+  if (typeof pivot === 'undefined') {
+    a0 = b0 = 0;
+  } else {
+    a0 = pivot[0];
+    b0 = pivot[1];
+  }
+
+  for (i = 0; i < N; i += 1) {
+    a = domain[i][0] - a0;
+    b = domain[i][1] - b0;
+    c = range[i][0] - a0;
+    d = range[i][1] - b0;
+    ac += a * c;
+    ad += a * d;
+    bc += b * c;
+    bd += b * d;
+  }
+
+  p = ac + bd;
+  q = ad - bc;
+
+  D = Math.sqrt(p * p + q * q);
+
+  if (D === 0) {
+    // D === 0
+    // <=> q === 0 and p === 0.
+    // <=> ad === bc and ac === -bd
+    // <=> domain in pivot OR range in pivot OR yet unknown cases
+    //     where the angle cannot be determined.
+    // D === 0 also if N === 0.
+    // Assume identity transform to be the best guess
+    return Transform.IDENTITY;
+  }
+
+  shat = p / D;
+  rhat = q / D;
+  tx = a0 - a0 * shat + b0 * rhat;
+  ty = b0 - a0 * rhat - b0 * shat;
+
+  return new Transform(shat, rhat, tx, ty);
+};
+
+},{"./Transform":6}],8:[function(require,module,exports){
+var Transform = require('./Transform');
+
+module.exports = function (domain, range, pivot) {
+  var i, N, D, a0, b0, a, b, c, d, ac, bd, aa, bb, shat, tx, ty;
+
+  N = Math.min(domain.length, range.length);
+  ac = bd = aa = bb = 0;
+
+  if (typeof pivot === 'undefined') {
+    a0 = b0 = 0;
+  } else {
+    a0 = pivot[0];
+    b0 = pivot[1];
+  }
+
+  for (i = 0; i < N; i += 1) {
+    a = domain[i][0] - a0;
+    b = domain[i][1] - b0;
+    c = range[i][0] - a0;
+    d = range[i][1] - b0;
+    ac += a * c;
+    bd += b * d;
+    aa += a * a;
+    bb += b * b;
+  }
+
+  D = aa + bb;
+
+  if (D === 0) {
+    // All domain points equal the pivot.
+    // Identity transform is then only solution.
+    // D === 0 also if N === 0.
+    // Assume identity transform to be the best guess
+    return Transform.IDENTITY;
+  }
+
+  // Prevent negative scaling because it would be same as positive scaling
+  // and rotation => limit to zero
+  shat = Math.max(0, (ac + bd) / D);
+  tx = (1 - shat) * a0;
+  ty = (1 - shat) * b0;
+
+  return new Transform(shat, 0, tx, ty);
+};
+
+},{"./Transform":6}],9:[function(require,module,exports){
+var Transform = require('./Transform');
+
+module.exports = function (domain, range, pivot) {
+  // Estimate optimal transformation given the domain and the range
+  // so that the pivot point remains the same.
+  //
+  // Use cases
+  //   - transform an image that has one corner fixed with a pin.
+  //   - allow only scale and rotation by fixing the middle of the object
+  //     to transform.
+  //
+  // Parameters
+  //   domain, an array of [x, y] points
+  //   range, an array of [x, y] points
+  //   pivot, optional
+  //     the point [x, y] that must remain constant in the tranformation.
+  //     Defaults to origo [0, 0]
+  //
+  //
+  var X, Y, N, s, r, tx, ty;
+
+  // Optional pivot
+  if (typeof pivot === 'undefined') {
+    pivot = [0, 0];
+  }
+
+  // Alias
+  X = domain;
+  Y = range;
+
+  // Allow arrays of different length but
+  // ignore the extra points.
+  N = Math.min(X.length, Y.length);
+
+  var v = pivot[0];
+  var w = pivot[1];
+
+  var i, a, b, c, d;
+  var a2, b2;
+  a2 = b2 = 0;
+  var ac, bd, bc, ad;
+  ac = bd = bc = ad = 0;
+
+  for (i = 0; i < N; i += 1) {
+    a = X[i][0] - v;
+    b = X[i][1] - w;
+    c = Y[i][0] - v;
+    d = Y[i][1] - w;
+    a2 += a * a;
+    b2 += b * b;
+    ac += a * c;
+    bd += b * d;
+    bc += b * c;
+    ad += a * d;
+  }
+
+  // Denominator = determinant.
+  // It becomes zero iff N = 0 or X[i] = [v, w] for every i in [0, n).
+  // In other words, iff all the domain points are under the fixed point or
+  // there is no domain points.
+  var den = a2 + b2;
+
+  var eps = 0.00000001;
+  if (Math.abs(den) < eps) {
+    // The domain points are under the pivot or there is no domain points.
+    // We assume identity transform be the simplest guess. It keeps
+    // the domain points under the pivot if there is some.
+    return new Transform(1, 0, 0, 0);
+  }
+
+  // Estimators
+  s = (ac + bd) / den;
+  r = (-bc + ad) / den;
+  tx =  w * r - v * s + v;
+  ty = -v * r - w * s + w;
+
+  return new Transform(s, r, tx, ty);
+};
+
+},{"./Transform":6}],10:[function(require,module,exports){
+var Transform = require('./Transform');
+
+module.exports = function (domain, range) {
+  var i, N, a1, b1, c1, d1, txhat, tyhat;
+
+  N = Math.min(domain.length, range.length);
+  a1 = b1 = c1 = d1 = 0;
+
+  if (N < 1) {
+    // Assume identity transform be the best guess
+    return Transform.IDENTITY;
+  }
+
+  for (i = 0; i < N; i += 1) {
+    a1 += domain[i][0];
+    b1 += domain[i][1];
+    c1 += range[i][0];
+    d1 += range[i][1];
+  }
+
+  txhat = (c1 - a1) / N;
+  tyhat = (d1 - b1) / N;
+
+  return new Transform(1, 0, txhat, tyhat);
+};
+
+},{"./Transform":6}],11:[function(require,module,exports){
+var Transform = require('./Transform');
+
+module.exports = function (domain, range) {
+  // Parameters
+  //   domain
+  //     array of [x, y] 2D arrays
+  //   range
+  //     array of [x, y] 2D arrays
+
+  // Alias
+  var X = domain;
+  var Y = range;
+
+  // Allow arrays of different length but
+  // ignore the extra points.
+  var N = Math.min(X.length, Y.length);
+
+  var i, a, b, c, d, a1, b1, c1, d1, ac, ad, bc, bd;
+  a1 = b1 = c1 = d1 = ac = ad = bc = bd = 0;
+  for (i = 0; i < N; i += 1) {
+    a = X[i][0];
+    b = X[i][1];
+    c = Y[i][0];
+    d = Y[i][1];
+    a1 += a;
+    b1 += b;
+    c1 += c;
+    d1 += d;
+    ac += a * c;
+    ad += a * d;
+    bc += b * c;
+    bd += b * d;
+  }
+
+  // Denominator.
+  var v = N * (ad - bc) - a1 * d1 + b1 * c1;
+  var w = N * (ac + bd) - a1 * c1 - b1 * d1;
+  var D = Math.sqrt(v * v + w * w);
+
+  if (D === 0) {
+    // N === 0 => D === 0
+    if (N === 0) {
+      return new Transform(1, 0, 0, 0);
+    } // else
+    // D === 0 <=> undecidable
+    // We guess the translation to the mean of the range to be the best guess.
+    // Here a, b represents the mean of domain points.
+    return new Transform(1, 0, (c1 - a1) / N, (d1 - b1) / N);
+  }
+
+  // Estimators
+  var shat = w / D;
+  var rhat = v / D;
+  var txhat = (-a1 * shat + b1 * rhat + c1) / N;
+  var tyhat = (-a1 * rhat - b1 * shat + d1) / N;
+
+  return new Transform(shat, rhat, txhat, tyhat);
+};
+
+},{"./Transform":6}],12:[function(require,module,exports){
+var Transform = require('./Transform');
+
+module.exports = function (domain, range) {
+  // Parameters
+  //   domain
+  //     array of [x, y] 2D arrays
+  //   range
+  //     array of [x, y] 2D arrays
+
+  // Alias
+  var X = domain;
+  var Y = range;
+
+  // Allow arrays of different length but
+  // ignore the extra points.
+  var N = Math.min(X.length, Y.length);
+
+  var i, a, b, c, d, a1, b1, c1, d1, a2, b2, ac, bd;
+  a1 = b1 = c1 = d1 = a2 = b2 = ac = bd = 0;
+  for (i = 0; i < N; i += 1) {
+    a = X[i][0];
+    b = X[i][1];
+    c = Y[i][0];
+    d = Y[i][1];
+    a1 += a;
+    b1 += b;
+    c1 += c;
+    d1 += d;
+    a2 += a * a;
+    b2 += b * b;
+    ac += a * c;
+    bd += b * d;
+  }
+
+  // Denominator.
+  var N2 = N * N;
+  var a12 = a1 * a1;
+  var b12 = b1 * b1;
+  var p = a2 + b2;
+  var q = ac + bd;
+  var D = N2 * p - N * (a12 + b12);
+
+  if (D === 0) {
+    // N === 0 => D === 0
+    if (N === 0) {
+      return new Transform(1, 0, 0, 0);
+    } // else
+    // D === 0 <=> all the domain points are the same
+    // We guess the translation to the mean of the range to be the best guess.
+    // Here a, b represents the mean of domain points.
+    return new Transform(1, 0, (c1 / N) - a, (d1 / N) - b);
+  }
+
+  // Estimators
+  var shat = (N2 * q - N * (a1 * c1 + b1 * d1)) / D;
+  var txhat = (-N * a1 * q + N * c1 * p - b12 * c1 + a1 * b1 * d1) / D;
+  var tyhat = (-N * b1 * q + N * d1 * p - a12 * d1 + a1 * b1 * c1) / D;
+
+  return new Transform(shat, 0, txhat, tyhat);
+};
+
+},{"./Transform":6}],13:[function(require,module,exports){
+var Transform = require('./Transform');
+
+module.exports = function (domain, range) {
   // Parameters
   //   domain
   //     array of [x, y] 2D arrays
@@ -501,6 +915,7 @@ module.exports = function estimate(domain, range) {
   if (-eps < den && den < eps) {
     // The domain points are the same.
     // We guess the translation to the mean of the range to be the best guess.
+    // Here a, b represents the mean of domain points.
     return new Transform(1, 0, (c1 / N) - a, (d1 / N) - b);
   }
 
@@ -513,82 +928,10 @@ module.exports = function estimate(domain, range) {
   return new Transform(s, r, tx, ty);
 };
 
-},{"./Transform":6}],8:[function(require,module,exports){
-var Transform = require('./Transform');
+},{"./Transform":6}],14:[function(require,module,exports){
+module.exports = '1.0.0';
 
-module.exports = function estimateFixed(domain, range, pivot) {
-  // Estimate optimal transformation given the domain and the range
-  // so that the pivot point remains the same.
-  //
-  // Use cases
-  //   - transform an image that has one corner fixed with a pin.
-  //   - allow only scale and rotation by fixing the middle of the object
-  //     to transform.
-  //
-  // Parameters
-  //   domain, an array of [x, y] points
-  //   range, an array of [x, y] points
-  //   pivot, the point [x, y] that must remain constant in the tranformation.
-  //
-  var X, Y, N, s, r, tx, ty;
-
-  // Alias
-  X = domain;
-  Y = range;
-
-  // Allow arrays of different length but
-  // ignore the extra points.
-  N = Math.min(X.length, Y.length);
-
-  var v = pivot[0];
-  var w = pivot[1];
-
-  var i, a, b, c, d;
-  var a2, b2;
-  a2 = b2 = 0;
-  var ac, bd, bc, ad;
-  ac = bd = bc = ad = 0;
-
-  for (i = 0; i < N; i += 1) {
-    a = X[i][0] - v;
-    b = X[i][1] - w;
-    c = Y[i][0] - v;
-    d = Y[i][1] - w;
-    a2 += a * a;
-    b2 += b * b;
-    ac += a * c;
-    bd += b * d;
-    bc += b * c;
-    ad += a * d;
-  }
-
-  // Denominator = determinant.
-  // It becomes zero iff N = 0 or X[i] = [v, w] for every i in [0, n).
-  // In other words, iff all the domain points are under the fixed point or
-  // there is no domain points.
-  var den = a2 + b2;
-
-  var eps = 0.00000001;
-  if (Math.abs(den) < eps) {
-    // The domain points are under the pivot or there is no domain points.
-    // We assume identity transform be the simplest guess. It keeps
-    // the domain points under the pivot if there is some.
-    return new Transform(1, 0, 0, 0);
-  }
-
-  // Estimators
-  s = (ac + bd) / den;
-  r = (-bc + ad) / den;
-  tx =  w * r - v * s + v;
-  ty = -v * r - w * s + w;
-
-  return new Transform(s, r, tx, ty);
-};
-
-},{"./Transform":6}],9:[function(require,module,exports){
-module.exports = '0.3.1';
-
-},{}],10:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -751,7 +1094,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],11:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*! Hammer.JS - v2.0.4 - 2014-09-28
  * http://hammerjs.github.io/
  *
@@ -3216,7 +3559,7 @@ if (typeof define == TYPE_FUNCTION && define.amd) {
 
 })(window, document, 'Hammer');
 
-},{}],12:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = function loadimages(imgSrcs, then) {
   // Parameters
   //   imgSrcs

@@ -149,7 +149,7 @@ loadimages('blackletter.jpg', function (err, img) {
     var ran = model.getRange();
     var piv = model.getFixedPoint();
     var tra = model.getTransform();
-    var invtra = tra.getInverse();
+    var invtra = tra.inverse();
 
     // Clear
     ctxDomain.clearRect(0, 0, canvasDomain.width, canvasDomain.height);
