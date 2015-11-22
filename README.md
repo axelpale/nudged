@@ -2,7 +2,7 @@
 
 A JavaScript lib to estimate translation, scale, and/or rotation between two sets of 2D points. Applicable for example in cases where one wants to move objects by multiple fingers or where data from an eye tracker device are wanted to be corrected based on a few calibration points. In general, you can apply *nudged* in any situation where you want to transform a number of points based on a few sample points and optionally one fixed pivot point. See the image below for visual explanation.
 
-<img src="https://rawgit.com/axelpale/nudged/master/doc/figure-pointset.png" alt="Example transformation" width="400"/>
+<img src="https://rawgit.com/axelpale/nudged/development/doc/figure-pointset.png" alt="Example transformation" width="400"/>
 Image: You have a set of points (left) and you known where three of them should be moved (center). With *nudged*, based on the initial position of the three points, the *domain*, and their target positions, the *range*, you can estimate a transformation that nicely transforms all the rest of the points (right).
 
 Mathematically speaking, *nudged* is an optimal least squares estimator for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has time complexity of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, *nudged* solves an affine 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in linear time.
@@ -13,11 +13,15 @@ Available also [in Python](https://pypi.python.org/pypi/nudged).
 
 
 
-## Example app
+## Example apps
 
-To get a grip on how the transformation looks and how the points affect it, play with the [interactive example app](https://rawgit.com/axelpale/nudged/master/example/index.html).
+Many multitouch apps allow you to scale and rotate with two fingers. But what if one wants to use, say, both hands and all the fingers on a huge touchscreen? To get a feel, play with the [touch demonstration app](https://rawgit.com/axelpale/nudged/development/example/index.html).
 
-<img src="https://rawgit.com/axelpale/nudged/master/example/screenshot.png" alt="Example application" width="600"/>
+<todo image here>
+
+To get a grip on how the transformation looks and how the points affect it, play with the [interactive example app](https://rawgit.com/axelpale/nudged/development/example/index.html).
+
+<img src="https://rawgit.com/axelpale/nudged/development/example/screenshot.png" alt="Example application" width="600"/>
 
 
 
@@ -34,7 +38,7 @@ Let `domain` and `range` be point sets before and after transformation i.e. the 
     var domain = [[0,0], [2,0], [ 1,2]]
     var range  = [[1,1], [1,3], [-1,2]]
 
-<img src="https://rawgit.com/axelpale/nudged/master/doc/simple-example-pointset.png" alt="The transformation" width="400"/>
+<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-pointset.png" alt="The transformation" width="400"/>
 
 Compute an optimal transformation based on the points:
 
@@ -70,7 +74,7 @@ Alternatively, set a fixed pivot point that should not be altered in the transfo
     var pivot = [-1,0];
     var pivotTrans = nudged.estimate('SR', domain, range, pivot);
 
-<img src="https://rawgit.com/axelpale/nudged/master/doc/simple-example-fixed.png" alt="A fixed point transformation" width="400"/>
+<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-fixed.png" alt="A fixed point transformation" width="400"/>
 
 Not the domain transforms to:
 
