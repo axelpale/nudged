@@ -15,13 +15,13 @@ Available also [in Python](https://pypi.python.org/pypi/nudged).
 
 ## Example apps
 
-Many multitouch apps allow you to scale and rotate with two fingers. But what if one wants to use, say, both hands and all the fingers on a huge touchscreen? To get a feel, play with the [touch demonstration app](https://rawgit.com/axelpale/nudged/development/example/index.html).
+Many multitouch apps allow you to scale and rotate with two fingers. But what if one wants to use, say, both hands and all the fingers on a huge touchscreen? To get a feel, play with the [touch demonstration app](https://rawgit.com/axelpale/nudged/development/touch-example/index.html).
 
 <todo image here>
 
-To get a grip on how the transformation looks and how the points affect it, play with the [interactive example app](https://rawgit.com/axelpale/nudged/development/example/index.html).
+To get a grip on how the transformation looks and how the points affect it, play with the [interactive example app](https://rawgit.com/axelpale/nudged/development/editor-example/index.html).
 
-<img src="https://rawgit.com/axelpale/nudged/development/example/screenshot.png" alt="Example application" width="600"/>
+<img src="https://rawgit.com/axelpale/nudged/development/editor-example/screenshot.png" alt="Example application" width="600"/>
 
 
 
