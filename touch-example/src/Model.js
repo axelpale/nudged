@@ -5,95 +5,94 @@ var nudged = require('../../index');
 var Model = function () {
   Emitter(this);
 
-  this.domain = [];
-  this.range = [];
+  // For ongoing transformation, remember where the pointers started from
+  // and keep track where they are now. We store this information to
+  // the pointers variable. It has a property for each current pointer.
+  //
+  // Example:
+  // {
+  //   'pointerid': {dx: <domainx>, dy: <domainy>, rx: <rangex>, ry}
+  // }
+  var pointers = {};
 
-  // If fixed point is set, pivot !== null
-  // If so, we use fixed point transformation.
-  this.pivot = null;
+  // Cumulated transformation. Like a history.
+  var committedTransform = nudged.Transform.IDENTITY;
+  // When the history is combined with the ongoing transformation,
+  // the result is total transformation.
+  var totalTransform = nudged.Transform.IDENTITY;
 
-  // Init with identity transform
-  this.transform = nudged.estimate('TSR', [], []);
+  var commit = function () {
+    // Move ongoint transformation to the committed transformation so that
+    // the total transformation stays the same.
 
-  this.set = function (dom, ran) {
-    // Replace model's domain and range.
-
-    var piv, newtrans;
-    this.domain = dom;
-    this.range = ran;
-    if (this.pivot === null) {
-      newtrans = nudged.estimate('TSR', dom, ran);
-      this.transform = this.transform.multiply(newtrans);
-    } else {
-      piv = [this.pivot.x, this.pivot.y];
-      newtrans  = nudged.estimate('SR', dom, ran, piv);
-      this.transform = this.transform.multiply(newtrans);
-    }
-    this.emit('update');
-  };
-
-  /*this.addFixedPoint = function (x, y) {
-    this.pivot = new Point(x, y, 'X');
-    var model = this;
-    this.pivot.on('update', function () {
-      model._updateTransform();
-      model.emit('update');
-    });
-
-    this._updateTransform();
-    this.emit('update');
-  };
-
-  this._findNearestPoint = function (list, x, y) {
-    // Time complexity O(n) ≈ sloooow
-    var i, p, dx, dy, d2, min_d2, min_p;
-    min_d2 = Infinity;
-    min_p = null;
-    for (i = 0; i < list.length; i += 1) {
-      p = list[i];
-      dx = p.x - x;
-      dy = p.y - y;
-      d2 = dx * dx + dy * dy;
-      if (d2 < min_d2) {
-        min_d2 = d2;
-        min_p = p;
+    // Commit ongoingTransformation. As a result
+    // the domain and range of all pointers become equal.
+    var id, p, domain, range, t;
+    domain = [];
+    range = [];
+    for (id in pointers) {
+      if (pointers.hasOwnProperty(id)) {
+        p = pointers[id];
+        domain.push([p.dx, p.dy]);
+        range.push([p.rx, p.ry]); // copies
+        // Move transformation from current pointers;
+        // Turn ongoingTransformation to identity.
+        p.dx = p.rx;
+        p.dy = p.ry;
       }
     }
-    return min_p;
+    // Calculate the transformation to commit and commit it by
+    // combining it with the previous transformations. Total transform
+    // then becomes identical with the commited ones.
+    t = nudged.estimateTSR(domain, range);
+    committedTransform = t.multiply(committedTransform);
+    totalTransform = committedTransform;
   };
 
-  this.findNearestDomainPoint = function (x, y) {
-    return this._findNearestPoint(this.domain, x, y);
-  };
+  var updateTransform = function () {
+    // Calculate the total transformation from the committed transformation
+    // and the points of the ongoing transformation.
 
-  this.findNearestRangePoint = function (x, y) {
-    return this._findNearestPoint(this.range, x, y);
-  };
-
-  this.findNearestDomainOrFixedPoint = function (x, y) {
-    var points;
-    if (this.pivot === null) {
-      points = this.domain;
-    } else {
-      points = this.domain.concat([this.pivot]);
+    var id, p, domain, range, t;
+    domain = [];
+    range = [];
+    for (id in pointers) {
+      if (pointers.hasOwnProperty(id)) {
+        p = pointers[id];
+        domain.push([p.dx, p.dy]);
+        range.push([p.rx, p.ry]);
+      }
     }
-    return this._findNearestPoint(points, x, y);
-  };*/
-
-  this.getDomain = function () {
-    return this.domain;
+    // Calculate ongoing transform and combine it with the committed.
+    t = nudged.estimateTSR(domain, range);
+    totalTransform = t.multiply(committedTransform);
   };
 
-  this.getRange = function () {
-    return this.range;
+  this.startTouchPoint = function (id, x, y) {
+    // For each new touch.
+    commit();
+    pointers[id] = { dx: x, dy: y, rx: x, ry: y };
+    updateTransform();
+    this.emit('update', totalTransform);
   };
 
-  this.getFixedPoint = function () {
-    return this.pivot;
+  this.moveTouchPoint = function (id, x, y) {
+    // For each moved touch.
+    pointers[id].rx = x;
+    pointers[id].ry = y;
+    updateTransform();
+    this.emit('update', totalTransform);
   };
 
-  this.getTransform = function () {
-    return this.transform;
+  this.endTouchPoint = function (id) {
+    // For each removed touch.
+    commit();
+    delete pointers[id];
+  };
+
+  this.init = function () {
+    // To emit the transformation
+    this.emit('update', totalTransform);
   };
 };
 

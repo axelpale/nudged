@@ -5,124 +5,122 @@ A demonstration app for nudged
 */
 var Hammer = require('hammerjs');
 var loadimages = require('loadimages');
+var makefullcanvas = require('./makefullcanvas');
 var Model = require('./Model');
 var toFixed = require('./toFixed');
 
-var codeView = document.getElementById('codeView');
+var debugView = document.getElementById('debug');
 var touchcanvas = document.getElementById('touchcanvas');
 var ctx = touchcanvas.getContext('2d');
 
+// Automatically resize canvas to screen.
+makefullcanvas(touchcanvas);
+
 loadimages('blackletter.jpg', function (err, img) {
-  var w = 800;
-  var h = 600;
-  var iw = w * 0.618;
-  var ih = h * 0.618;
-  var dx = Math.round((w - iw) / 2);
-  var dy = dx;
-  ctx.drawImage(img, dx, dy, iw, iw);
 
   var model = new Model();
 
-  var hammertime = new Hammer(touchcanvas);
-
-  // Improve usability by tweaking the recognizers
-  hammertime.get('swipe').set({ enable: false });
-  hammertime.get('pan').set({ enable: false });
+  var hammertime = new Hammer.Manager(touchcanvas);
+  hammertime.add( new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0, pointers: 0 }) );
 
   (function defineHowToTransform() {
-    var prev, domain, range;
-    prev = null;
-    hammertime.on('hammer.input', function (ev) {
-      console.log(ev);
-      // Capture to prev so we can track differences.
-      if (prev === null) {
-        // Initialize
-        prev = ev;
+
+    // ### Design ###
+    //
+    // One high-level gesture G can consist of many child gestures,
+    // g1, g2, and so on. For example, during a three-fingered gesture
+    // a fourth finger can appear, move along with the three, and then
+    // disappear, leaving the three fingers continue the gesture. We can see
+    // this as one gesture <g1, g2, g3> that consists of two three-fingered
+    // gestures {g1, g3} and one four-fingered gesture {g2}.
+    //
+    // The problem is how to update the transformation under the constant
+    // possibility of fingers appearing or disappearing. We solve the problem
+    // by keeping track of two transformations: 1) the combined transformation
+    // caused by already ended child gestures, and 2) the transformation
+    // of the ongoing child gesture. We call (1) the committed transformation,
+    // (2) the ongoing transformation. Their combination we call the total
+    // transformation.
+    //
+    // The ongoing transformation is ended either by appearing finger
+    // or disappearing finger. We associate these with touchstart and
+    // touchend/touchcancel events. When the ending happens, we calculate
+    // the final state for the ongoing transformation and merge or commit it
+    // to the committed transformation. We set the ongoing transformation to
+    // identity transformation so that the total transformation is kept
+    // constant.
+    //
+    // on touchstart
+    //   Note, changedTouches include all new touches and nothing more [1].
+    //   for each new touch
+    //     Commit the ongoing transformation before the new touch.
+    //     Start building new transformation and for that, store
+    //     the places of current touches, including the new touches.
+    //
+    // on touchmove
+    //   Note, changedTouches include all moved touches and nothing more [1].
+    //   for each moved touch
+    //     Update the current location of the touch but still remember
+    //     where the touch was when the ongoing transformation started.
+    //
+    // on touchend or touchcancel
+    //   changedTouches include all the removed touches and nothing more [1]
+    //   for each removed touch
+    //     commit the working transformation before removal
+    //     store the placements of the fingers, excluding the removed touches
+    //
+    // model updates its readable transformation by each
+    // touchstart and touchmove. Model sends 'update' event when this happens.
+    // model.getTransform returns the committed transform multiplied with the working transform.
+    //
+    // [1] https://developer.mozilla.org/en-US/docs/Web/Events/touchstart
+
+    var onTouchStart = function (ev) {
+      var cts, i;
+      cts = ev.changedTouches;
+      for (i = 0; i < cts.length; i += 1) {
+        model.startTouchPoint(cts[i].identifier, cts[i].pageX, cts[i].pageY);
       }
-      if (ev.isFinal) {
-        // Forget to be able to start fresh.
-        prev = null;
-      } else {
-        if (ev.pointerType === 'mouse') {
-          domain = [[prev.pointers[0].pageX, prev.pointers[0].pageY]];
-          range =  [[ev.pointers[0].pageX  , ev.pointers[0].pageY  ]];
-          model.set(domain, range);
-          // Move history
-          prev = ev;
-        }
+      ev.preventDefault();
+    };
+    var onTouchMove = function (ev) {
+      var cts, i;
+      cts = ev.changedTouches;
+      for (i = 0; i < cts.length; i += 1) {
+        model.moveTouchPoint(cts[i].identifier, cts[i].pageX, cts[i].pageY);
       }
-    });
+      ev.preventDefault();
+    };
+    var onTouchEndTouchCancel = function (ev) {
+      var cts, i;
+      cts = ev.changedTouches;
+      for (i = 0; i < cts.length; i += 1) {
+        model.endTouchPoint(cts[i].identifier);
+      }
+      ev.preventDefault();
+    };
+
+    touchcanvas.addEventListener('touchstart', onTouchStart);
+    touchcanvas.addEventListener('touchmove', onTouchMove);
+    touchcanvas.addEventListener('touchend', onTouchEndTouchCancel);
+    touchcanvas.addEventListener('touchcancel', onTouchEndTouchCancel);
   }());
 
 
-  /*(function defineHowToPanRangePoints() {
-    var movingPoint = null;
-    var x0 = 0;
-    var y0 = 0;
-    hammerRange.on('panstart', function (ev) {
-      if (movingPoint === null) {
-        // Transform to canvas coordinates
-        var cr = canvasRange.getBoundingClientRect();
-        var x = ev.center.x - cr.left;
-        var y = ev.center.y - cr.top;
-
-        var np = model.findNearestRangePoint(x, y);
-        if (np !== null) {
-          // Found
-          movingPoint = np;
-          x0 = np.x;
-          y0 = np.y;
-        }
-      }
-    });
-
-    hammerRange.on('panmove', function (ev) {
-      if (movingPoint !== null) {
-        movingPoint.moveTo(x0 + ev.deltaX, y0 + ev.deltaY);
-      }
-    });
-
-    hammerRange.on('panend pancancel', function (ev) {
-      movingPoint = null;
-    });
-  }());*/
-
-
   // Output: view update
-  model.on('update', function () {
-    var dom = model.getDomain();
-    var ran = model.getRange();
-    var piv = model.getFixedPoint();
-    var tra = model.getTransform();
-    var invtra = tra.inverse();
+  model.on('update', function (totalTransformation) {
+    var tra = totalTransformation; // alias
 
     // Clear
     ctx.clearRect(0, 0, touchcanvas.width, touchcanvas.height);
 
     // Range image: apply transform to it
     ctx.setTransform(tra.s, tra.r, -tra.r, tra.s, tra.tx, tra.ty);
-    ctx.drawImage(img, dx, dy, iw, iw);
-    ctx.resetTransform();
-
-    // Show how the points and transformation looks in code
-    var pointToArray = function (p) {
-      return [Math.round(p.x), Math.round(p.y)];
-    };
-    var domparam = dom.map(pointToArray);
-    var ranparam = ran.map(pointToArray);
-    var m = toFixed(tra.getMatrix(), 2);
-    var html = 'var domain = ' + JSON.stringify(domparam) + ';<br>' +
-      'var range = ' + JSON.stringify(ranparam) + ';<br>';
-    if (piv !== null) {
-      html += 'var pivot = ' + JSON.stringify(pointToArray(piv)) + ';<br>';
-      html += 'var trans = nudged.estimateFixed(domain, range, pivot);<br>';
-    } else {
-      html += 'var trans = nudged.estimate(domain, range);<br>';
-    }
-    html += 'trans.getMatrix();<br>' +
-      '-> [[' + m[0][0] + ', ' + m[0][1] + ', ' + m[0][2] + '],<br>' +
-      '    [' + m[1][0] + ', ' + m[1][1] + ', ' + m[1][2] + '],<br>' +
-      '    [' + m[2][0] + ', ' + m[2][1] + ', ' + m[2][2] + ']]';
-    codeView.innerHTML = html;
+    ctx.drawImage(img, 256, 256, 256, 256);
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+    // Alternative: ctx.resetTransform();
+    // does not work on iOS
   });
+  // Init model to emit first update.
+  model.init();
 });

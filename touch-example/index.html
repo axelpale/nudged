@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
   <title>Nudged Touch Example</title>
 
   <style>
@@ -19,48 +20,35 @@
       color: white;
     }
 
-    .container {
-      max-width: 850px;
-      margin: 0 auto 0 auto;
+    .canvas {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
     }
-
-    .card {
-      display: inline-block;
-      width: 400px;
-    }
-
     .canvas canvas {
-      border: 1px solid grey;
+      width: 100%;
+      height: 100%;
       cursor: default;
     }
 
-    .source {
-      font-size: 14px;
-      font-family: monospace;
-      white-space: pre;
+    .info {
+      position: absolute;
+      top: 0em;
+      left: 1em;
+      z-index: 1;
     }
 
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <div class="header">
-        <h2>Transform by N Pointers</h2>
-        <p>You need a multitouch-enabled device to get the most out of this demo.</p>
-      </div>
-      <div class="canvas">
-        <canvas id="touchcanvas" width="800" height="600"></canvas>
-      </div>
-    </div>
+  <div class="canvas">
+    <canvas id="touchcanvas" width="800" height="600"></canvas>
   </div>
-  <div class="container">
-    <div class="card">
-      <div class="header">
-        <h2>Code</h2>
-        <p id="codeView" class="source">_</p>
-      </div>
-    </div>
+  <div class="info">
+    <h2>Transform with N pointers</h2>
+    <p>For example, try with your both hands.<br>You need a multitouch-enabled device to get the most out of this demo.</p>
+    <p id="debug"></p>
   </div>
   <script src="./app.js"></script>
 </body>
