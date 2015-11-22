@@ -17,7 +17,7 @@ Available also [in Python](https://pypi.python.org/pypi/nudged).
 
 Many multitouch apps allow you to scale and rotate with two fingers. But what if one wants to use, say, both hands and all the fingers on a huge touchscreen? To get a feel, play with the [touch demonstration app](https://rawgit.com/axelpale/nudged/development/touch-example/index.html).
 
-<todo image here>
+TODO image here
 
 To get a grip on how the transformation looks and how the points affect it, play with the [interactive example app](https://rawgit.com/axelpale/nudged/development/editor-example/index.html).
 
