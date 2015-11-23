@@ -68,15 +68,18 @@ Inverse the transformation:
     inv.transform([-1,3])
     -> [2,2]
 
+### Pivoted transformation
 
-Alternatively, set a fixed pivot point that should not be altered in the transformation. You can think it as a pin or anchor:
+Alternatively, in addition to the domain and range, set a fixed pivot point that should not be altered in the transformation.
 
-    var pivot = [-1,0];
-    var pivotTrans = nudged.estimate('SR', domain, range, pivot);
+    var pivot = [-1,0]
+    var domain = [[0,0], [2,0], [ 1,2]]
+    var range  = [[1,1], [1,3], [-1,2]]
+    var pivotTrans = nudged.estimate('SR', domain, range, pivot)
 
 <img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-fixed.png" alt="A fixed point transformation" width="400"/>
 
-Not the domain transforms to:
+Now the domain points can be transformed:
 
     pivotTrans.transform(domain)
     -> TODO
@@ -185,7 +188,7 @@ Build example app:
 - OK Transform methods: scale, rotate, multiply, translate
 - OK Pivoted transformation example
 - Improved demo application
-- Touch demo
+- OK Touch demo
 
 ## Versioning
 
