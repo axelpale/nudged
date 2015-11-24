@@ -82,7 +82,7 @@ Alternatively, in addition to the domain and range, set a fixed pivot point that
 Now the domain points can be transformed:
 
     pivotTrans.transform(domain)
-    -> TODO
+    -> [[-0.33, 0.77], [0.99, 2.33], [-1.22, 2.88]]
 
 
 ## API

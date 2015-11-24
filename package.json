@@ -46,6 +46,7 @@
     "test:touch-example": "jshint touch-example/src/*.js",
     "build:editor-example": "npm run test:editor-example && browserify editor-example/src/index.js -o editor-example/app.js",
     "build:touch-example": "npm run test:touch-example && browserify touch-example/src/index.js -o touch-example/app.js",
-    "build:examples": "npm run build:touch-example && npm run build:editor-example"
+    "build:examples": "npm run build:touch-example && npm run build:editor-example",
+    "build:standalone": "browserify index.js --standalone nudged -o nudged.js"
   }
 }
