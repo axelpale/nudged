@@ -16,11 +16,17 @@ Available also [in Python](https://pypi.python.org/pypi/nudged).
 
 ## Example apps
 
-Many multitouch apps allow you to scale and rotate with two fingers. But what if one wants to use, say, both hands and all the fingers on a huge touchscreen? To get a feel, play with the [touch demonstration app](https://rawgit.com/axelpale/nudged/development/touch-example/index.html).
+To get a grip on how the transformation looks and feels and how the points affect it, play with the following demos.
 
-TODO image here
+### Multitouch transformation with N fingers
 
-To get a grip on how the transformation looks and how the points affect it, play with the [interactive example app](https://rawgit.com/axelpale/nudged/development/editor-example/index.html).
+The [touch demo](https://rawgit.com/axelpale/nudged/development/touch-example/index.html) takes the common pinch-zoom and rotate gestures a step further. Many multitouch apps allow you to scale and rotate with two fingers. However, usually the additional fingers are ignored. But what if one wants to use, say, both hands and all the fingers on a huge touchscreen?
+
+TODO insert image with pretty fingers
+
+### Point set editor
+
+The [editor demo](https://rawgit.com/axelpale/nudged/development/editor-example/index.html) allows you to add domain and range points on a surface and explore how the points affect the transformation.
 
 <img src="https://rawgit.com/axelpale/nudged/development/editor-example/screenshot.png" alt="Example application" width="600"/>
 
