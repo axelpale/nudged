@@ -2,7 +2,8 @@
 
 A JavaScript lib to estimate translation, scale, and/or rotation between two sets of 2D points. Applicable for example in cases where one wants to move objects by multiple fingers or where data from an eye tracker device are wanted to be corrected based on a few calibration points. In general, you can apply *nudged* in any situation where you want to transform a number of points based on a few sample points and optionally one fixed pivot point. See the image below for visual explanation.
 
-<img src="https://rawgit.com/axelpale/nudged/development/doc/figure-pointset.png" alt="Example transformation" width="400"/>
+<img src="https://rawgit.com/axelpale/nudged/development/doc/figure-pointset.png" alt="Example transformation" width="500"/>
+
 Image: You have a set of points (left) and you known where three of them should be moved (center). With *nudged*, based on the initial position of the three points, the *domain*, and their target positions, the *range*, you can estimate a transformation that nicely transforms all the rest of the points (right).
 
 Mathematically speaking, *nudged* is an optimal least squares estimator for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has time complexity of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, *nudged* solves an affine 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in linear time.
@@ -38,7 +39,7 @@ Let `domain` and `range` be point sets before and after transformation i.e. the 
     var domain = [[0,0], [2,0], [ 1,2]]
     var range  = [[1,1], [1,3], [-1,2]]
 
-<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-pointset.png" alt="The transformation" width="400"/>
+<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-pointset.png" alt="The transformation" width="500"/>
 
 Compute an optimal transformation based on the points:
 
@@ -77,7 +78,7 @@ Alternatively, in addition to the domain and range, set a fixed pivot point that
     var range  = [[1,1], [1,3], [-1,2]]
     var pivotTrans = nudged.estimate('SR', domain, range, pivot)
 
-<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-fixed.png" alt="A fixed point transformation" width="400"/>
+<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-fixed.png" alt="A fixed point transformation" width="500"/>
 
 Now the domain points can be transformed:
 
@@ -104,7 +105,7 @@ The *domain* and *range* should have equal length. Different lengths are allowed
 
 **Return** new `nudged.Transform(...)` instance.
 
-You can also call any type of estimator directly:
+You can also call the estimators directly:
 
 - `nudged.estimateT(domain, range)`
 - `nudged.estimateS(domain, range, pivot)`
@@ -122,7 +123,7 @@ Contains the module version string equal to the version in *package.json*.
 
 ### nudged.Transform(s, r, tx, ty)
 
-An instance returned by the `nudged.estimate(...)`.
+A `nudged.Transform` instance is returned by the `nudged.estimate(...)`.
 
 In addition to the methods below, it has properties *s*, *r*, *tx*, *ty* that define the [augmented transformation matrix](https://en.wikipedia.org/wiki/Affine_transformation#Augmented_matrix):
 
@@ -130,7 +131,7 @@ In addition to the methods below, it has properties *s*, *r*, *tx*, *ty* that de
     |r   s  ty|
     |0   0   1|
 
-#### #transform(points)
+#### nudged.Transform#transform(points)
 
 Apply the transform to a point or an array of points.
 
@@ -140,7 +141,7 @@ Apply the transform to a point or an array of points.
     trans.transform([[1,1]])         // [[2,2]]
     trans.transform([[1,1], [2,3]])  // [[2,2], [3,4]]
 
-#### #getMatrix()
+#### nudged.Transform#getMatrix()
 
 **Return** an 3x3 augmented transformation matrix in the following array format:
 
@@ -148,21 +149,21 @@ Apply the transform to a point or an array of points.
      [r, s, ty],
      [0, 0,  1]]
 
-#### #getRotation()
+#### nudged.Transform#getRotation()
 
 Get clockwise rotation from the positive x-axis.
 
 **Return** rotation in radians.
 
-#### #getScale()
+#### nudged.Transform#getScale()
 
 **Return** scaling multiplier, e.g. `0.333` for a threefold shrink.
 
-#### #getTranslation()
+#### nudged.Transform#getTranslation()
 
 **Return** `[tx, ty]` where `tx` and `ty` denotes movement along x-axis and y-axis accordingly.
 
-#### #inverse()
+#### nudged.Transform#inverse()
 
 **Return** a new `nudged.Transform` instance that is the inverse of the transformation.
 
@@ -176,9 +177,10 @@ Run lint & unit tests:
 
     $ npm run test
 
-Build example app:
+Build example apps:
 
-    $ npm run build:example
+    $ npm run build:editor-example
+    $ npm run build:touch-example
 
 
 
@@ -189,6 +191,8 @@ Build example app:
 - OK Pivoted transformation example
 - Improved demo application
 - OK Touch demo
+
+
 
 ## Versioning
 
