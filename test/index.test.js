@@ -5,6 +5,7 @@ var sqrt2 = Math.sqrt(2);
 var pi = Math.PI;
 var cos = Math.cos;
 var sin = Math.sin;
+var epsilon = 0.000000000000001;
 
 // The unit
 var nudged = require('../index');
@@ -296,19 +297,28 @@ describe('nudged', function () {
     var t;
 
     beforeEach(function () {
-      var domain = [[1, -1], [ 3, -2]];
-      var range = [[3,  4], [10,  8]];
-      // s: 2, r: 3, tx: -2, ty: 3
+      //    |
+      //    4     r
+      //    |
+      //    2 r
+      //    |
+      // -1-0-1-2-3-4-5-6-7-8-9-
+      //    | d
+      //   -2   d
+      //    |
+      var domain = [[1, -1], [ 2, -2]];
+      var range = [[1,  2], [3,  4]];
+      // s: 0, r: 2, tx: -1, ty: 0
       t = nudged.estimateTSR(domain, range);
     });
 
     it('should allow single points', function () {
-      t.transform([1, 1]).should.deepEqual([-3, 8]);
-      t.transform([[1, 1]]).should.deepEqual([[-3, 8]]);
+      t.transform([1, 0]).should.deepEqual([-1, 2]);
+      t.transform([[1, 0]]).should.deepEqual([[-1, 2]]);
     });
 
     it('should be able to return matrix in array form', function () {
-      t.getMatrix().should.deepEqual([[2, -3, -2], [3, 2, 3], [0, 0, 1]]);
+      t.getMatrix().should.deepEqual([[0, -2, -1], [2, 0, 0], [0, 0, 1]]);
     });
 
     it('should give rotation in radians', function () {
@@ -324,43 +334,48 @@ describe('nudged', function () {
     });
 
     it('should give translation', function () {
-      t.getTranslation().should.deepEqual([-2, 3]);
+      t.getTranslation().should.deepEqual([-1, 0]);
     });
 
     it('should be translatable', function () {
-      var tt = t.translate(-3,-3);
-      tt.transform([1,1]).should.deepEqual([-6,5]);
+      // The image of t should be translated by -2,-2
+      var tt = t.translateBy(-2,-2);
+      tt.transform([1,0]).should.deepEqual([-3,0]);
     });
 
     it('should be scalable', function () {
-      var tt = t.scale(2); // s: 4, r: 6, tx: -4, ty: 6
-      tt.transform([1,1]).should.deepEqual([-6,16]);
+      // The image of t should be scaled by 2
+      var tt = t.scaleBy(2); // s: 0, r: 4, tx: -2, ty: 0
+      tt.transform([1,-1]).should.deepEqual([2,4]);
     });
 
     it('should be scalable around pivot', function () {
-      var tt = t.scale(2, [2,2]); // s: 4, r: 6, tx: -2, ty: 8
-      tt.transform([1,1]).should.deepEqual([-4,18]);
+      // The image of t should be scaled around pivot.
+      var tt = t.scaleBy(2, [2,3]);
+      tt.transform([1,-1]).should.deepEqual([0,1]);
     });
 
     it('should be rotatable', function () {
-      var tt = t.rotate(pi / 2); // s: -3, r: 2, tx: -3, ty: -2
-      tt.transform([1,-1]).should.deepEqual([-4, 3]);
+      // The image of t should be rotated around origo.
+      var tt = t.rotateBy(pi / 2);
+      tt.transform([1,-1])[0].should.be.approximately(-2, epsilon);
+      tt.transform([1,-1])[1].should.be.approximately(1, epsilon);
     });
 
     it('should be rotatable around pivot', function () {
-      var tt = t.rotate(pi / 2, [2,2]);
-      // s: -3, r: 2, tx: -7, ty: -2
-      tt.transform([1,-1]).should.deepEqual([-8, 3]);
+      // The image of t should be rotated around pivot.
+      var tt = t.rotateBy(pi / 2, [2,2]);
+      tt.transform([1,-1]).should.deepEqual([2, 1]);
     });
 
-    it('should be multiplyable', function () {
-      var tt = t.multiply(t);
-      // s: -5, r: 12, tx: -15, ty: 3
-      tt.transform([1,1]).should.deepEqual([-32, 10]);
+    it('should be multipliable', function () {
+      var tt = t.multiplyBy(t);
+      // s: -4, r: 0, tx: -1, ty: -2
+      tt.transform([1,-1]).should.deepEqual([-5, 2]);
     });
 
     it('should inverse', function () {
-      t.inverse().transform([3, 4]).should.deepEqual([1,-1]);
+      t.inverse().transform([1,2]).should.deepEqual([1,-1]);
     });
 
     it('should throw if impossible to inverse', function () {

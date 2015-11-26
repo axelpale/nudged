@@ -171,9 +171,25 @@ Get clockwise rotation from the positive x-axis.
 
 #### nudged.Transform#inverse()
 
-**Return** a new `nudged.Transform` instance that is the inverse of the transformation.
+**Return** a new `nudged.Transform` instance that is the inverse of the original transformation.
 
 **Throw** an `Error` instance if the transformation is singular and cannot be inversed. This occurs if the range points are all the same which forces the scale to drop to zero.
+
+#### nudged.Transform#translateBy(dx, dy)
+
+**Return** a new `nudged.Transform` instance where the image of the original has been translated.
+
+#### nudged.Transform#scaleBy(multiplier, pivot?)
+
+**Return** a new `nudged.Transform` instance where the image of the original has been scaled.
+
+The scaling is done around an optional pivot point that defaults to [0,0].
+
+#### nudged.Transform#rotateBy(radians, pivot?)
+
+**Return** a new `nudged.Transform` instance where the image of the original has been rotated.
+
+The rotation is done around an optional pivot point that defaults to [0,0].
 
 
 
@@ -194,6 +210,8 @@ Build example apps:
 
 - OK type API implementation & testing
 - OK Transform methods: scale, rotate, multiply, translate
+- Document scale, rotate, multiply, translate
+- scaleBy, rotateBy ... to prevent misunderstanding
 - OK Pivoted transformation example
 - Improved demo application
 - OK Touch demo
