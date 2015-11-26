@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  <title>Nudged Touch Example</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      font-size: 16px;
+      background: #222;
+      font-family: sans-serif;
+      color: white;
+    }
+
+    .canvas {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+    }
+    .canvas canvas {
+      width: 100%;
+      height: 100%;
+      cursor: default;
+    }
+
+    .info {
+      position: absolute;
+      top: 0em;
+      left: 1em;
+      z-index: 1;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <canvas id="touchcanvas" width="800" height="600"></canvas>
+  </div>
+  <div class="info">
+    <h2>Transform with N pointers</h2>
+    <p>You need a multitouch-enabled device to get the most out of this demo.<br><br>
+    Nudged's general approach regards the fingers equally and allows any number of them.<br>
+    This makes the transformation feel smooth and natural.<br>
+    For example, try to scale with all your fingers and both hands.</p>
+    <p id="debug"></p>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
-  <title>Nudged Touch Example</title>
+  <title>Typical Transform</title>
 
   <style>
     html, body {
@@ -46,8 +46,15 @@
     <canvas id="touchcanvas" width="800" height="600"></canvas>
   </div>
   <div class="info">
-    <h2>Transform with N pointers</h2>
-    <p>For example, try with your both hands.<br>You need a multitouch-enabled device to get the most out of this demo.</p>
+    <h2>Typical transform gesture</h2>
+    <p>You need a multitouch-enabled device to get the most out of this demo.<br><br>
+    Typical implementation of multitouch gestures for scale and rotation<br>
+    often behave unexpectedly with more than two fingers.<br>
+    This makes especially the two-handed transformation error-prone.<br>
+    For instance, try to rotate by placing first your right hand and then the left.<br>
+    As you can notice, only the first two fingers affect the scale and rotation.<br>
+    This demo was made with <strong>Hammer.js</strong> touch gesture library.
+    </p>
     <p id="debug"></p>
   </div>
   <script src="./app.js"></script>

@@ -1,6 +1,5 @@
 var Emitter = require('component-emitter');
-var Point = require('./Point');
-var nudged = require('../../index');
+var nudged = require('../../../index');
 
 var Model = function () {
   Emitter(this);
@@ -45,7 +44,7 @@ var Model = function () {
     // combining it with the previous transformations. Total transform
     // then becomes identical with the commited ones.
     t = nudged.estimateTSR(domain, range);
-    committedTransform = t.multiply(committedTransform);
+    committedTransform = t.multiplyBy(committedTransform);
     totalTransform = committedTransform;
   };
 
@@ -65,7 +64,7 @@ var Model = function () {
     }
     // Calculate ongoing transform and combine it with the committed.
     t = nudged.estimateTSR(domain, range);
-    totalTransform = t.multiply(committedTransform);
+    totalTransform = t.multiplyBy(committedTransform);
   };
 
   this.startTouchPoint = function (id, x, y) {

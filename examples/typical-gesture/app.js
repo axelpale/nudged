@@ -1,4 +1,138 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var Emitter = require('component-emitter');
+var nudged = require('../../../index');
+
+var Model = function () {
+  Emitter(this);
+
+  // Transformations
+  var committed = nudged.Transform.IDENTITY;
+  var ongoing = nudged.Transform.IDENTITY;
+  var total = nudged.Transform.IDENTITY;
+
+  this.setGesture = function (ev) {
+    var x = ev.center.x;
+    var y = ev.center.y;
+    var dx = ev.deltaX;
+    var dy = ev.deltaY;
+    var scale = ev.scale;
+    var rads = ev.rotation * Math.PI / 180;
+    var identity = nudged.Transform.IDENTITY;
+    ongoing = identity.translateBy(dx, dy)
+      .scaleBy(scale, [x, y])
+      .rotateBy(rads, [x, y]);
+    total = ongoing.multiplyBy(committed);
+
+    this.emit('update', total);
+  };
+
+  this.commit = function () {
+    // Execute after setGesture
+    committed = total;
+    ongoing = nudged.Transform.IDENTITY;
+  };
+
+  this.init = function () {
+    // To emit the transformation
+    this.emit('update', nudged.Transform.IDENTITY);
+  };
+};
+
+module.exports = Model;
+
+},{"../../../index":4,"component-emitter":14}],2:[function(require,module,exports){
+/*
+
+A demonstration app for nudged
+
+*/
+var Hammer = require('hammerjs');
+var loadimages = require('loadimages');
+var makefullcanvas = require('./makefullcanvas');
+var Model = require('./Model');
+
+var debugView = document.getElementById('debug');
+var touchcanvas = document.getElementById('touchcanvas');
+var ctx = touchcanvas.getContext('2d');
+
+// Automatically resize canvas to screen.
+makefullcanvas(touchcanvas);
+
+loadimages('castle.jpg', function (err, img) {
+
+  var model = new Model();
+
+  var hammertime = new Hammer.Manager(touchcanvas);
+  (function setupGestures() {
+    var pan = new Hammer.Pan({
+      direction: Hammer.DIRECTION_ALL, threshold: 0, pointers: 0
+    });
+    var pinch = new Hammer.Pinch({
+      direction: Hammer.DIRECTION_ALL, threshold: 0, pointers: 0
+    });
+    var rotate = new Hammer.Rotate({
+      direction: Hammer.DIRECTION_ALL, threshold: 0, pointers: 0
+    });
+    pan.recognizeWith(pinch);
+    pinch.recognizeWith(rotate);
+    hammertime.add(pan);
+    hammertime.add(pinch);
+    hammertime.add(rotate);
+  }());
+
+  hammertime.on('hammer.input', function (ev) {
+    ev.preventDefault();
+  });
+
+  hammertime.on('panstart panmove', function (ev) {
+    model.setGesture(ev);
+  });
+
+  hammertime.on('panend pancancel', function (ev) {
+    // Store the transformation state
+    model.commit();
+  });
+
+
+  // Output: view update
+  model.on('update', function (totalTransformation) {
+    var tra = totalTransformation; // alias
+
+    // Clear
+    ctx.clearRect(0, 0, touchcanvas.width, touchcanvas.height);
+
+    // Range image: apply transform to it
+    ctx.setTransform(tra.s, tra.r, -tra.r, tra.s, tra.tx, tra.ty);
+    ctx.drawImage(img, 256, 256, 256, 256);
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+    // Alternative: ctx.resetTransform();
+    // does not work on iOS
+  });
+  // Init model to emit first update.
+  model.init();
+});
+
+},{"./Model":1,"./makefullcanvas":3,"hammerjs":15,"loadimages":16}],3:[function(require,module,exports){
+module.exports = function (canvas) {
+  // makeCanvasAutoFullwindow
+  // Canvas is resized when window size changes, e.g.
+  // when a mobile device is tilted.
+  //
+  // Parameter
+  //   canvas
+  //     HTML Canvas element
+  //
+  var resizeCanvas = function () {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  };
+  // resize the canvas to fill browser window dynamically
+  window.addEventListener('resize', resizeCanvas, false);
+  // Initially resized to fullscreen.
+  resizeCanvas();
+};
+
+},{}],4:[function(require,module,exports){
 /*
 
 */
@@ -29,7 +163,7 @@ exports.estimate = function (type, domain, range, pivot) {
   throw new Error('Unknown estimator type: ' + type);
 };
 
-},{"./lib/Transform":2,"./lib/estimateR":3,"./lib/estimateS":4,"./lib/estimateSR":5,"./lib/estimateT":6,"./lib/estimateTR":7,"./lib/estimateTS":8,"./lib/estimateTSR":9,"./lib/version":10}],2:[function(require,module,exports){
+},{"./lib/Transform":5,"./lib/estimateR":6,"./lib/estimateS":7,"./lib/estimateSR":8,"./lib/estimateT":9,"./lib/estimateTR":10,"./lib/estimateTS":11,"./lib/estimateTSR":12,"./lib/version":13}],5:[function(require,module,exports){
 
 var Transform = function (s, r, tx, ty) {
 
@@ -94,15 +228,15 @@ var Transform = function (s, r, tx, ty) {
     return new Transform(shat, rhat, txhat, tyhat);
   };
 
-  this.translate = function (dx, dy) {
+  this.translateBy = function (dx, dy) {
     return new Transform(s, r, tx + dx, ty + dy);
   };
 
-  this.scale = function (multiplier, pivot) {
+  this.scaleBy = function (multiplier, pivot) {
     // Parameter
     //   multiplier
     //   pivot
-    //     optional
+    //     optional, a [x, y] point
     var m, x, y;
     m = multiplier; // alias
     if (typeof pivot === 'undefined') {
@@ -111,15 +245,15 @@ var Transform = function (s, r, tx, ty) {
       x = pivot[0];
       y = pivot[1];
     }
-    return new Transform(m * s, m * r, m * tx + (m-1) * x, m * ty + (m-1) * y);
+    return new Transform(m * s, m * r, m * tx + (1-m) * x, m * ty + (1-m) * y);
   };
 
-  this.rotate = function (radians, pivot) {
+  this.rotateBy = function (radians, pivot) {
     // Parameter
     //   radians
     //     from positive x to positive y axis
     //   pivot
-    //     optional
+    //     optional, a [x, y] point
     var co, si, x, y, shat, rhat, txhat, tyhat;
     co = Math.cos(radians);
     si = Math.sin(radians);
@@ -131,13 +265,13 @@ var Transform = function (s, r, tx, ty) {
     }
     shat = s * co - r * si;
     rhat = s * si + r * co;
-    txhat = (tx + x) * co - (ty + y) * si - x;
-    tyhat = (tx + x) * si + (ty + y) * co - y;
+    txhat = (tx - x) * co - (ty - y) * si + x;
+    tyhat = (tx - x) * si + (ty - y) * co + y;
     return new Transform(shat, rhat, txhat, tyhat);
   };
 
 
-  this.multiply = function (transform) {
+  this.multiplyBy = function (transform) {
     // Multiply this transformation matrix A
     // from the right with the given transformation matrix B
     // and return the result AB
@@ -159,7 +293,7 @@ Transform.IDENTITY = new Transform(1, 0, 0, 0);
 
 module.exports = Transform;
 
-},{}],3:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var Transform = require('./Transform');
 
 module.exports = function (domain, range, pivot) {
@@ -210,7 +344,7 @@ module.exports = function (domain, range, pivot) {
   return new Transform(shat, rhat, tx, ty);
 };
 
-},{"./Transform":2}],4:[function(require,module,exports){
+},{"./Transform":5}],7:[function(require,module,exports){
 var Transform = require('./Transform');
 
 module.exports = function (domain, range, pivot) {
@@ -256,7 +390,7 @@ module.exports = function (domain, range, pivot) {
   return new Transform(shat, 0, tx, ty);
 };
 
-},{"./Transform":2}],5:[function(require,module,exports){
+},{"./Transform":5}],8:[function(require,module,exports){
 var Transform = require('./Transform');
 
 module.exports = function (domain, range, pivot) {
@@ -336,7 +470,7 @@ module.exports = function (domain, range, pivot) {
   return new Transform(s, r, tx, ty);
 };
 
-},{"./Transform":2}],6:[function(require,module,exports){
+},{"./Transform":5}],9:[function(require,module,exports){
 var Transform = require('./Transform');
 
 module.exports = function (domain, range) {
@@ -363,7 +497,7 @@ module.exports = function (domain, range) {
   return new Transform(1, 0, txhat, tyhat);
 };
 
-},{"./Transform":2}],7:[function(require,module,exports){
+},{"./Transform":5}],10:[function(require,module,exports){
 var Transform = require('./Transform');
 
 module.exports = function (domain, range) {
@@ -423,7 +557,7 @@ module.exports = function (domain, range) {
   return new Transform(shat, rhat, txhat, tyhat);
 };
 
-},{"./Transform":2}],8:[function(require,module,exports){
+},{"./Transform":5}],11:[function(require,module,exports){
 var Transform = require('./Transform');
 
 module.exports = function (domain, range) {
@@ -485,7 +619,7 @@ module.exports = function (domain, range) {
   return new Transform(shat, 0, txhat, tyhat);
 };
 
-},{"./Transform":2}],9:[function(require,module,exports){
+},{"./Transform":5}],12:[function(require,module,exports){
 var Transform = require('./Transform');
 
 module.exports = function (domain, range) {
@@ -560,10 +694,10 @@ module.exports = function (domain, range) {
   return new Transform(s, r, tx, ty);
 };
 
-},{"./Transform":2}],10:[function(require,module,exports){
+},{"./Transform":5}],13:[function(require,module,exports){
 module.exports = '1.0.0';
 
-},{}],11:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -726,7 +860,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],12:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*! Hammer.JS - v2.0.4 - 2014-09-28
  * http://hammerjs.github.io/
  *
@@ -3191,7 +3325,7 @@ if (typeof define == TYPE_FUNCTION && define.amd) {
 
 })(window, document, 'Hammer');
 
-},{}],13:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = function loadimages(imgSrcs, then) {
   // Parameters
   //   imgSrcs
@@ -3262,293 +3396,4 @@ module.exports = function loadimages(imgSrcs, then) {
   }
 };
 
-},{}],14:[function(require,module,exports){
-var Emitter = require('component-emitter');
-var Point = require('./Point');
-var nudged = require('../../index');
-
-var Model = function () {
-  Emitter(this);
-
-  // For ongoing transformation, remember where the pointers started from
-  // and keep track where they are now. We store this information to
-  // the pointers variable. It has a property for each current pointer.
-  //
-  // Example:
-  // {
-  //   'pointerid': {dx: <domainx>, dy: <domainy>, rx: <rangex>, ry}
-  // }
-  var pointers = {};
-
-  // Cumulated transformation. Like a history.
-  var committedTransform = nudged.Transform.IDENTITY;
-  // When the history is combined with the ongoing transformation,
-  // the result is total transformation.
-  var totalTransform = nudged.Transform.IDENTITY;
-
-  var commit = function () {
-    // Move ongoint transformation to the committed transformation so that
-    // the total transformation stays the same.
-
-    // Commit ongoingTransformation. As a result
-    // the domain and range of all pointers become equal.
-    var id, p, domain, range, t;
-    domain = [];
-    range = [];
-    for (id in pointers) {
-      if (pointers.hasOwnProperty(id)) {
-        p = pointers[id];
-        domain.push([p.dx, p.dy]);
-        range.push([p.rx, p.ry]); // copies
-        // Move transformation from current pointers;
-        // Turn ongoingTransformation to identity.
-        p.dx = p.rx;
-        p.dy = p.ry;
-      }
-    }
-    // Calculate the transformation to commit and commit it by
-    // combining it with the previous transformations. Total transform
-    // then becomes identical with the commited ones.
-    t = nudged.estimateTSR(domain, range);
-    committedTransform = t.multiply(committedTransform);
-    totalTransform = committedTransform;
-  };
-
-  var updateTransform = function () {
-    // Calculate the total transformation from the committed transformation
-    // and the points of the ongoing transformation.
-
-    var id, p, domain, range, t;
-    domain = [];
-    range = [];
-    for (id in pointers) {
-      if (pointers.hasOwnProperty(id)) {
-        p = pointers[id];
-        domain.push([p.dx, p.dy]);
-        range.push([p.rx, p.ry]);
-      }
-    }
-    // Calculate ongoing transform and combine it with the committed.
-    t = nudged.estimateTSR(domain, range);
-    totalTransform = t.multiply(committedTransform);
-  };
-
-  this.startTouchPoint = function (id, x, y) {
-    // For each new touch.
-    commit();
-    pointers[id] = { dx: x, dy: y, rx: x, ry: y };
-    updateTransform();
-    this.emit('update', totalTransform);
-  };
-
-  this.moveTouchPoint = function (id, x, y) {
-    // For each moved touch.
-    pointers[id].rx = x;
-    pointers[id].ry = y;
-    updateTransform();
-    this.emit('update', totalTransform);
-  };
-
-  this.endTouchPoint = function (id) {
-    // For each removed touch.
-    commit();
-    delete pointers[id];
-  };
-
-  this.init = function () {
-    // To emit the transformation
-    this.emit('update', totalTransform);
-  };
-};
-
-
-module.exports = Model;
-
-},{"../../index":1,"./Point":15,"component-emitter":11}],15:[function(require,module,exports){
-var Emitter = require('component-emitter');
-
-var Point = function (x, y, label) {
-  Emitter(this);
-  if (typeof label === 'undefined') { label = ''; }
-
-  this.x = x;
-  this.y = y;
-  this.label = label;
-
-  this.moveTo = function (x, y) {
-    this.x = x;
-    this.y = y;
-    this.emit('update');
-  };
-};
-
-module.exports = Point;
-
-},{"component-emitter":11}],16:[function(require,module,exports){
-/*
-
-A demonstration app for nudged
-
-*/
-var Hammer = require('hammerjs');
-var loadimages = require('loadimages');
-var makefullcanvas = require('./makefullcanvas');
-var Model = require('./Model');
-var toFixed = require('./toFixed');
-
-var debugView = document.getElementById('debug');
-var touchcanvas = document.getElementById('touchcanvas');
-var ctx = touchcanvas.getContext('2d');
-
-// Automatically resize canvas to screen.
-makefullcanvas(touchcanvas);
-
-loadimages('blackletter.jpg', function (err, img) {
-
-  var model = new Model();
-
-  var hammertime = new Hammer.Manager(touchcanvas);
-  hammertime.add( new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0, pointers: 0 }) );
-
-  (function defineHowToTransform() {
-
-    // ### Design ###
-    //
-    // One high-level gesture G can consist of many child gestures,
-    // g1, g2, and so on. For example, during a three-fingered gesture
-    // a fourth finger can appear, move along with the three, and then
-    // disappear, leaving the three fingers continue the gesture. We can see
-    // this as one gesture <g1, g2, g3> that consists of two three-fingered
-    // gestures {g1, g3} and one four-fingered gesture {g2}.
-    //
-    // The problem is how to update the transformation under the constant
-    // possibility of fingers appearing or disappearing. We solve the problem
-    // by keeping track of two transformations: 1) the combined transformation
-    // caused by already ended child gestures, and 2) the transformation
-    // of the ongoing child gesture. We call (1) the committed transformation,
-    // (2) the ongoing transformation. Their combination we call the total
-    // transformation.
-    //
-    // The ongoing transformation is ended either by appearing finger
-    // or disappearing finger. We associate these with touchstart and
-    // touchend/touchcancel events. When the ending happens, we calculate
-    // the final state for the ongoing transformation and merge or commit it
-    // to the committed transformation. We set the ongoing transformation to
-    // identity transformation so that the total transformation is kept
-    // constant.
-    //
-    // on touchstart
-    //   Note, changedTouches include all new touches and nothing more [1].
-    //   for each new touch
-    //     Commit the ongoing transformation before the new touch.
-    //     Start building new transformation and for that, store
-    //     the places of current touches, including the new touches.
-    //
-    // on touchmove
-    //   Note, changedTouches include all moved touches and nothing more [1].
-    //   for each moved touch
-    //     Update the current location of the touch but still remember
-    //     where the touch was when the ongoing transformation started.
-    //
-    // on touchend or touchcancel
-    //   changedTouches include all the removed touches and nothing more [1]
-    //   for each removed touch
-    //     commit the working transformation before removal
-    //     store the placements of the fingers, excluding the removed touches
-    //
-    // model updates its readable transformation by each
-    // touchstart and touchmove. Model sends 'update' event when this happens.
-    // model.getTransform returns the committed transform multiplied with the working transform.
-    //
-    // [1] https://developer.mozilla.org/en-US/docs/Web/Events/touchstart
-
-    var onTouchStart = function (ev) {
-      var cts, i;
-      cts = ev.changedTouches;
-      for (i = 0; i < cts.length; i += 1) {
-        model.startTouchPoint(cts[i].identifier, cts[i].pageX, cts[i].pageY);
-      }
-      ev.preventDefault();
-    };
-    var onTouchMove = function (ev) {
-      var cts, i;
-      cts = ev.changedTouches;
-      for (i = 0; i < cts.length; i += 1) {
-        model.moveTouchPoint(cts[i].identifier, cts[i].pageX, cts[i].pageY);
-      }
-      ev.preventDefault();
-    };
-    var onTouchEndTouchCancel = function (ev) {
-      var cts, i;
-      cts = ev.changedTouches;
-      for (i = 0; i < cts.length; i += 1) {
-        model.endTouchPoint(cts[i].identifier);
-      }
-      ev.preventDefault();
-    };
-
-    touchcanvas.addEventListener('touchstart', onTouchStart);
-    touchcanvas.addEventListener('touchmove', onTouchMove);
-    touchcanvas.addEventListener('touchend', onTouchEndTouchCancel);
-    touchcanvas.addEventListener('touchcancel', onTouchEndTouchCancel);
-  }());
-
-
-  // Output: view update
-  model.on('update', function (totalTransformation) {
-    var tra = totalTransformation; // alias
-
-    // Clear
-    ctx.clearRect(0, 0, touchcanvas.width, touchcanvas.height);
-
-    // Range image: apply transform to it
-    ctx.setTransform(tra.s, tra.r, -tra.r, tra.s, tra.tx, tra.ty);
-    ctx.drawImage(img, 256, 256, 256, 256);
-    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
-    // Alternative: ctx.resetTransform();
-    // does not work on iOS
-  });
-  // Init model to emit first update.
-  model.init();
-});
-
-},{"./Model":14,"./makefullcanvas":17,"./toFixed":18,"hammerjs":12,"loadimages":13}],17:[function(require,module,exports){
-module.exports = function (canvas) {
-  // makeCanvasAutoFullwindow
-  // Canvas is resized when window size changes, e.g.
-  // when a mobile device is tilted.
-  //
-  // Parameter
-  //   canvas
-  //     HTML Canvas element
-  //
-  var resizeCanvas = function () {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  };
-  // resize the canvas to fill browser window dynamically
-  window.addEventListener('resize', resizeCanvas, false);
-  // Initially resized to fullscreen.
-  resizeCanvas();
-};
-
-},{}],18:[function(require,module,exports){
-/*
-Recursive implementation of Number.prototype.toFixed
-*/
-
-module.exports = function toFixed(arr, digits) {
-  var i, result;
-  if (typeof arr !== 'number') {
-    // It is array
-    result = [];
-    for (i = 0; i < arr.length; i += 1) {
-      result.push(toFixed(arr[i], digits));
-    }
-    return result;
-  } else {
-    return arr.toFixed(digits);
-  }
-};
-
-},{}]},{},[16]);
+},{}]},{},[2]);

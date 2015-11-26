@@ -1,7 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Emitter = require('component-emitter');
 var Point = require('./Point');
-var nudged = require('../../index');
+var nudged = require('../../../index');
 
 var Model = function () {
   Emitter(this);
@@ -119,7 +119,7 @@ var Model = function () {
 
 module.exports = Model;
 
-},{"../../index":5,"./Point":2,"component-emitter":15}],2:[function(require,module,exports){
+},{"../../../index":5,"./Point":2,"component-emitter":15}],2:[function(require,module,exports){
 var Emitter = require('component-emitter');
 
 var Point = function (x, y, label) {
@@ -462,15 +462,15 @@ var Transform = function (s, r, tx, ty) {
     return new Transform(shat, rhat, txhat, tyhat);
   };
 
-  this.translate = function (dx, dy) {
+  this.translateBy = function (dx, dy) {
     return new Transform(s, r, tx + dx, ty + dy);
   };
 
-  this.scale = function (multiplier, pivot) {
+  this.scaleBy = function (multiplier, pivot) {
     // Parameter
     //   multiplier
     //   pivot
-    //     optional
+    //     optional, a [x, y] point
     var m, x, y;
     m = multiplier; // alias
     if (typeof pivot === 'undefined') {
@@ -479,15 +479,15 @@ var Transform = function (s, r, tx, ty) {
       x = pivot[0];
       y = pivot[1];
     }
-    return new Transform(m * s, m * r, m * tx + (m-1) * x, m * ty + (m-1) * y);
+    return new Transform(m * s, m * r, m * tx + (1-m) * x, m * ty + (1-m) * y);
   };
 
-  this.rotate = function (radians, pivot) {
+  this.rotateBy = function (radians, pivot) {
     // Parameter
     //   radians
     //     from positive x to positive y axis
     //   pivot
-    //     optional
+    //     optional, a [x, y] point
     var co, si, x, y, shat, rhat, txhat, tyhat;
     co = Math.cos(radians);
     si = Math.sin(radians);
@@ -499,13 +499,13 @@ var Transform = function (s, r, tx, ty) {
     }
     shat = s * co - r * si;
     rhat = s * si + r * co;
-    txhat = (tx + x) * co - (ty + y) * si - x;
-    tyhat = (tx + x) * si + (ty + y) * co - y;
+    txhat = (tx - x) * co - (ty - y) * si + x;
+    tyhat = (tx - x) * si + (ty - y) * co + y;
     return new Transform(shat, rhat, txhat, tyhat);
   };
 
 
-  this.multiply = function (transform) {
+  this.multiplyBy = function (transform) {
     // Multiply this transformation matrix A
     // from the right with the given transformation matrix B
     // and return the result AB

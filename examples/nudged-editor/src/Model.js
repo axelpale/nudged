@@ -1,6 +1,6 @@
 var Emitter = require('component-emitter');
 var Point = require('./Point');
-var nudged = require('../../index');
+var nudged = require('../../../index');
 
 var Model = function () {
   Emitter(this);

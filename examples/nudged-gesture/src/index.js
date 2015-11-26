@@ -3,11 +3,9 @@
 A demonstration app for nudged
 
 */
-var Hammer = require('hammerjs');
 var loadimages = require('loadimages');
 var makefullcanvas = require('./makefullcanvas');
 var Model = require('./Model');
-var toFixed = require('./toFixed');
 
 var debugView = document.getElementById('debug');
 var touchcanvas = document.getElementById('touchcanvas');
@@ -19,9 +17,6 @@ makefullcanvas(touchcanvas);
 loadimages('blackletter.jpg', function (err, img) {
 
   var model = new Model();
-
-  var hammertime = new Hammer.Manager(touchcanvas);
-  hammertime.add( new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0, pointers: 0 }) );
 
   (function defineHowToTransform() {
 

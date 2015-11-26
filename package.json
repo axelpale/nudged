@@ -42,11 +42,17 @@
     "test": "npm run test:lint && npm run test:unit",
     "test:unit": "mocha test/index.test.js",
     "test:lint": "jshint index.js lib/*.js test/*.js",
-    "test:editor-example": "jshint editor-example/src/*.js",
-    "test:touch-example": "jshint touch-example/src/*.js",
-    "build:editor-example": "npm run test:editor-example && browserify editor-example/src/index.js -o editor-example/app.js",
-    "build:touch-example": "npm run test:touch-example && browserify touch-example/src/index.js -o touch-example/app.js",
-    "build:examples": "npm run build:touch-example && npm run build:editor-example",
+
+    "test:nudged-editor": "jshint examples/nudged-editor/src/*.js",
+    "build:nudged-editor": "npm run test:nudged-editor && browserify examples/nudged-editor/src/index.js -o examples/nudged-editor/app.js",
+
+    "test:nudged-gesture": "jshint examples/nudged-gesture/src/*.js",
+    "build:nudged-gesture": "npm run test:nudged-gesture && browserify examples/nudged-gesture/src/index.js -o examples/nudged-gesture/app.js",
+
+    "test:typical-gesture": "jshint examples/typical-gesture/src/*.js",
+    "build:typical-gesture": "npm run test:typical-gesture && browserify examples/typical-gesture/src/index.js -o examples/typical-gesture/app.js",
+
+    "build:examples": "npm run build:nudged-editor && npm run build:nudged-gesture && npm run build:typical-gesture",
     "build:standalone": "browserify index.js --standalone nudged -o nudged.js"
   }
 }

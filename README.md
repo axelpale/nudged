@@ -20,15 +20,19 @@ To get a grip on how the transformation looks and feels and how the points affec
 
 ### Multitouch transformation with N fingers
 
-The [touch demo](https://rawgit.com/axelpale/nudged/development/touch-example/index.html) takes the common pinch-zoom and rotate gestures a step further. Many multitouch apps allow you to scale and rotate with two fingers. However, usually the additional fingers are ignored. But what if one wants to use, say, both hands and all the fingers on a huge touchscreen?
-
 TODO insert image with pretty fingers
+
+The [**touch gesture demo**](https://rawgit.com/axelpale/nudged/development/examples/nudged-gesture/index.html) takes the common pinch-zoom and rotate gestures a step further. Many multitouch apps allow you to scale and rotate with two fingers. However, usually the additional fingers are ignored. But what if one wants to use, say, both hands and all the fingers on a huge touchscreen?
+
+For reference, the [**typical gesture demo**](https://rawgit.com/axelpale/nudged/development/examples/typical-gesture/index.html) implements similar demo with the popular [Hammer.js](http://hammerjs.github.io/) touch gesture library. As you can experience, only the first two pointers are regarded for scaling and rotation.
+
+
 
 ### Point set editor
 
-The [editor demo](https://rawgit.com/axelpale/nudged/development/editor-example/index.html) allows you to add domain and range points on a surface and explore how the points affect the transformation.
+[<img src="https://rawgit.com/axelpale/nudged/development/editor-example/screenshot.png" alt="Example application" width="600"/>](https://rawgit.com/axelpale/nudged/development/examples/nudged-editor/index.html)
 
-<img src="https://rawgit.com/axelpale/nudged/development/editor-example/screenshot.png" alt="Example application" width="600"/>
+The [**editor demo**](https://rawgit.com/axelpale/nudged/development/examples/nudged-editor/index.html) allows you to add domain and range points on a surface and explore how the points affect the transformation.
 
 
 
@@ -201,8 +205,7 @@ Run lint & unit tests:
 
 Build example apps:
 
-    $ npm run build:editor-example
-    $ npm run build:touch-example
+    $ npm run build:examples
 
 
 
