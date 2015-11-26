@@ -30,7 +30,7 @@ For reference, the [**typical gesture demo**](https://rawgit.com/axelpale/nudged
 
 ### Point set editor
 
-[<img src="https://rawgit.com/axelpale/nudged/development/editor-example/screenshot.png" alt="Example application" width="600"/>](https://rawgit.com/axelpale/nudged/development/examples/nudged-editor/index.html)
+[<img src="https://rawgit.com/axelpale/nudged/development/examples/nudged-editor/screenshot.png" alt="Nudged editor screenshot" width="600"/>](https://rawgit.com/axelpale/nudged/development/examples/nudged-editor/index.html)
 
 The [**editor demo**](https://rawgit.com/axelpale/nudged/development/examples/nudged-editor/index.html) allows you to add domain and range points on a surface and explore how the points affect the transformation.
 
@@ -213,11 +213,13 @@ Build example apps:
 
 - OK type API implementation & testing
 - OK Transform methods: scale, rotate, multiply, translate
-- Document scale, rotate, multiply, translate
-- scaleBy, rotateBy ... to prevent misunderstanding
+- OK Document scale, rotate, multiply, translate
+- OK scaleBy, rotateBy ... to prevent misunderstanding
 - OK Pivoted transformation example
-- Improved demo application
+- OK Reference touch demo
 - OK Touch demo
+- Improved demo application
+- Mouse support for the touch demo.
 
 
 
