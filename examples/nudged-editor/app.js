@@ -340,29 +340,47 @@ loadimages('blackletter.jpg', function (err, img) {
       html += 'var trans = nudged.estimate(domain, range);<br>';
     }
     html += 'trans.getMatrix();<br>' +
-      '-> [[' + m[0][0] + ', ' + m[0][1] + ', ' + m[0][2] + '],<br>' +
-      '    [' + m[1][0] + ', ' + m[1][1] + ', ' + m[1][2] + '],<br>' +
-      '    [' + m[2][0] + ', ' + m[2][1] + ', ' + m[2][2] + ']]';
+      '-> { a: ' + m.a + ', c: ' + m.c + ', e: ' + m.e + ',<br>' +
+      '     b: ' + m.b + ', d: ' + m.d + ', f: ' + m.f + ' };';
     codeView.innerHTML = html;
   });
 });
 
 },{"./Model":1,"./toFixed":4,"hammerjs":16,"loadimages":17}],4:[function(require,module,exports){
 /*
-Recursive implementation of Number.prototype.toFixed
+Recursive implementation of Number.prototype.toFixed for collections
 */
 
+var isArray = function (a) {
+  if (Object.prototype.toString.call(a) === '[object Array]') {
+    return true;
+  } // else
+  return false;
+};
+
 module.exports = function toFixed(arr, digits) {
-  var i, result;
-  if (typeof arr !== 'number') {
-    // It is array
-    result = [];
-    for (i = 0; i < arr.length; i += 1) {
-      result.push(toFixed(arr[i], digits));
+  var i, result, type;
+  type = typeof arr;
+  if (type === 'number') {
+    return arr.toFixed(digits);
+  } // else
+  if (type === 'object') {
+    if (isArray(arr)) {
+      // It is array
+      result = [];
+      for (i = 0; i < arr.length; i += 1) {
+        result.push(toFixed(arr[i], digits));
+      }
+      return result;
+    } // else
+    // It is object
+    result = {};
+    for (i in arr) {
+      if (arr.hasOwnProperty(i)) {
+        result[i] = toFixed(arr[i], digits);
+      }
     }
     return result;
-  } else {
-    return arr.toFixed(digits);
   }
 };
 
@@ -428,7 +446,16 @@ var Transform = function (s, r, tx, ty) {
   };
 
   this.getMatrix = function () {
-    return [[s, -r, tx], [r, s, ty], [0, 0, 1]];
+    // Get the transformation matrix in the format common to
+    // many APIs, including:
+    // - kld-affine
+    //
+    // Return
+    //   object o, having properties a, b, c, d, e, f:
+    //   [ s  -r  tx ]   [ o.a  o.c  o.e ]
+    //   [ r   s  ty ] = [ o.b  o.d  o.f ]
+    //   [ 0   0   1 ]   [  -    -    -  ]
+    return { a: s, b: r, c: -r, d: s, e: tx, f: ty };
   };
 
   this.getRotation = function () {

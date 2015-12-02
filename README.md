@@ -20,7 +20,7 @@ To get a grip on how the transformation looks and feels and how the points affec
 
 ### Multitouch transformation with N fingers
 
-TODO insert image with pretty fingers
+[<img src="https://rawgit.com/axelpale/nudged/development/examples/nudged-gesture/screenshot.jpg" alt="Four hands transforming the image simultaneously" width="600"/>](https://rawgit.com/axelpale/nudged/development/examples/nudged-gesture/index.html)
 
 The [**touch gesture demo**](https://rawgit.com/axelpale/nudged/development/examples/nudged-gesture/index.html) takes the common pinch-zoom and rotate gestures a step further. Many multitouch apps allow you to scale and rotate with two fingers. However, usually the additional fingers are ignored. But what if one wants to use, say, both hands and all the fingers on a huge touchscreen?
 
@@ -37,6 +37,8 @@ The [**editor demo**](https://rawgit.com/axelpale/nudged/development/examples/nu
 
 
 ## Install
+
+With [npm](https://www.npmjs.com/package/nudged):
 
     $ npm install nudged
 
@@ -153,11 +155,15 @@ Apply the transform to a point or an array of points.
 
 #### nudged.Transform#getMatrix()
 
-**Return** an 3x3 augmented transformation matrix in the following array format:
+**Return** the transformation matrix in the following format:
 
-    [[s,-r, tx],
-     [r, s, ty],
-     [0, 0,  1]]
+    { a: s, c: -r, e: tx,
+      b: r, d:  s, f: ty }
+
+For example:
+
+    { a: 0.48, c: -0.52, e: 205.04,
+      b: 0.52, d: 0.48, f: 4.83 }
 
 #### nudged.Transform#getRotation()
 
@@ -219,7 +225,11 @@ Build example apps:
 - OK Reference touch demo
 - OK Touch demo
 - Improved demo application
-- Mouse support for the touch demo.
+- OK Insert touch demo image
+- OK Include link to npm
+- OK Mouse support for the touch demo.
+- OK redesign getMatrix to return typical a, b, c, d, e, f
+- Release 1.0.0
 
 
 

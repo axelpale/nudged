@@ -318,7 +318,9 @@ describe('nudged', function () {
     });
 
     it('should be able to return matrix in array form', function () {
-      t.getMatrix().should.deepEqual([[0, -2, -1], [2, 0, 0], [0, 0, 1]]);
+      t.getMatrix().should.deepEqual({
+        a: 0, b: 2, c: -2, d: 0, e: -1, f: 0
+      });
     });
 
     it('should give rotation in radians', function () {
