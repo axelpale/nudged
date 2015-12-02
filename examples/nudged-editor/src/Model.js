@@ -1,6 +1,6 @@
 var Emitter = require('component-emitter');
 var Point = require('./Point');
-var nudged = require('../../index');
+var nudged = require('../../../index');
 
 var Model = function () {
   Emitter(this);
@@ -13,17 +13,17 @@ var Model = function () {
   this.pivot = null;
 
   // Init with identity transform
-  this.transform = nudged.estimate([], []);
+  this.transform = nudged.estimate('TSR', [], []);
 
   this._updateTransform = function () {
     var dom = this.domain.map(function (p) { return [p.x, p.y]; });
     var ran =  this.range.map(function (p) { return [p.x, p.y]; });
     var piv;
     if (this.pivot === null) {
-      this.transform = nudged.estimate(dom, ran);
+      this.transform = nudged.estimate('TSR', dom, ran);
     } else {
       piv = [this.pivot.x, this.pivot.y];
-      this.transform = nudged.estimateFixed(dom, ran, piv);
+      this.transform = nudged.estimate('SR', dom, ran, piv);
     }
   };
 
