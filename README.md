@@ -4,7 +4,7 @@ A JavaScript lib to estimate translation, scale, and/or rotation between two set
 
 <img src="https://rawgit.com/axelpale/nudged/development/doc/figure-pointset.png" alt="Example transformation" width="500"/>
 
-Image: You have a set of points (left) and you known where three of them should be moved (center). With *nudged*, based on the initial position of the three points, the *domain*, and their target positions, the *range*, you can estimate a transformation that nicely transforms all the rest of the points (right).
+_**Figure**: Left: You have a set of points. Center: you known where three of them should be moved. Right: With *nudged*, based on the initial position of the three points, the *domain*, and their target positions, the *range*, you can estimate a transformation that nicely transforms all the rest of the points._
 
 Mathematically speaking, *nudged* is an optimal least squares estimator for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has time complexity of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, *nudged* solves an affine 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in linear time.
 
@@ -46,12 +46,14 @@ With [npm](https://www.npmjs.com/package/nudged):
 
 ## Usage
 
-Let `domain` and `range` be point sets before and after transformation i.e. the training data:
+<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-pointset.png" alt="The transformation" width="500"/>
+
+_**Figure**: Left: the domain. Center: the range. Right: the domain after transformation._
+
+Let `domain` and `range` be point sets before and after transformation as illustrated in the figure above:
 
     var domain = [[0,0], [2,0], [ 1,2]]
     var range  = [[1,1], [1,3], [-1,2]]
-
-<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-pointset.png" alt="The transformation" width="500"/>
 
 Compute an optimal transformation based on the points:
 
@@ -60,9 +62,8 @@ Compute an optimal transformation based on the points:
 Examine the transformation matrix:
 
     trans.getMatrix()
-    -> [[0,-1, 1],
-        [1, 0, 1],
-        [0, 0, 1]]
+    -> { a: 0, c: -1, e: 1,
+         b: 1, d:  0, f: 1 }
     trans.getRotation()
     -> 1.5707... = π / 2
     trans.getScale()
@@ -83,14 +84,16 @@ Inverse the transformation:
 
 ### Pivoted transformation
 
-Alternatively, in addition to the domain and range, set a fixed pivot point that should not be altered in the transformation.
+<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-fixed.png" alt="A fixed point transformation" width="500"/>
+
+_**Figure**: Left: a black pivot point and the domain. Center: the range. Right: the pivot and the domain after transformation._
+
+Alternatively, in addition to the domain and range, set a fixed pivot point that will stay intact in the transformation as illustrated in the figure above.
 
     var pivot = [-1,0]
     var domain = [[0,0], [2,0], [ 1,2]]
     var range  = [[1,1], [1,3], [-1,2]]
     var pivotTrans = nudged.estimate('SR', domain, range, pivot)
-
-<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-fixed.png" alt="A fixed point transformation" width="500"/>
 
 Now the domain points can be transformed:
 
