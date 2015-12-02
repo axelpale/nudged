@@ -102,7 +102,7 @@ module.exports = Model;
 },{"../../../index":4,"component-emitter":14}],2:[function(require,module,exports){
 /*
 
-A demonstration app for nudged
+A multitouch demonstration app for nudged
 
 */
 var loadimages = require('loadimages');
@@ -201,6 +201,28 @@ loadimages('blackletter.jpg', function (err, img) {
     touchcanvas.addEventListener('touchmove', onTouchMove);
     touchcanvas.addEventListener('touchend', onTouchEndTouchCancel);
     touchcanvas.addEventListener('touchcancel', onTouchEndTouchCancel);
+
+    // Mouse support
+
+    var onMouseDown = function (ev) {
+      model.startTouchPoint('mouse', ev.pageX, ev.pageY);
+      ev.preventDefault();
+    };
+
+    var onMouseMove = function (ev) {
+      model.moveTouchPoint('mouse', ev.pageX, ev.pageY);
+      ev.preventDefault();
+    };
+
+    var onMouseUp = function (ev) {
+      model.endTouchPoint('mouse');
+      ev.preventDefault();
+    };
+
+    touchcanvas.addEventListener('mousedown', onMouseDown);
+    touchcanvas.addEventListener('mousemove', onMouseMove);
+    touchcanvas.addEventListener('mouseup', onMouseUp);
+    touchcanvas.addEventListener('mouseout', onMouseUp);
   }());
 
 
