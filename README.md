@@ -227,13 +227,19 @@ Build example apps:
 - OK Pivoted transformation example
 - OK Reference touch demo
 - OK Touch demo
-- Improved demo application
 - OK Insert touch demo image
 - OK Include link to npm
 - OK Mouse support for the touch demo.
 - OK redesign getMatrix to return typical a, b, c, d, e, f
-- Release 1.0.0
+- OK Release 1.0.0
+- Include link to the math
+- Improved demo application
 
+
+## Thanks
+
+- Tanja for math photos.
+- Vilkku, Xiao, and Krista for fingers.
 
 
 ## Versioning
