@@ -1,6 +1,7 @@
 # nudged<sup>1.0.0</sup>
 
-[![Build Status](https://travis-ci.org/axelpale/nudged.svg?branch=development)](https://travis-ci.org/axelpale/nudged)
+[![NPM Version](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/nudged)
+[![Build Status](https://img.shields.io/travis/axelpale/nudged/development.svg)](https://travis-ci.org/axelpale/nudged)
 
 A JavaScript lib to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. Applicable for example where one wants to move objects by multiple fingers or where data from an eye tracker device are wanted to be corrected based on a few calibration points. In general, you can apply *nudged* in any situation where you want to transform a number of points based on a few sample points and optionally one fixed pivot point. See the image below for visual explanation.
 
@@ -223,6 +224,23 @@ Start local server to try out the examples:
 
     $ npm start
 
+Release:
+
+- Create release branch. See [tutorial](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
+  - `git checkout -b release-7.7.7 development`
+- Update [badge urls](http://shields.io/).
+- Update rawgit urls.
+- Merge (see the tut above):
+  - `git checkout master`
+  - `git merge release-7.7.7`
+  - `git push`
+- Create [tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging):
+  - `git tag -a 7.7.7 -m "v7.7.7 Superb Name"`
+  - `git push --tags`
+- Publish to npm:
+  - `npm publish`
+- Return to development to avoid accidental master commits
+  - `git checkout development`
 
 ## Roadmap
 
