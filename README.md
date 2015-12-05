@@ -1,12 +1,17 @@
-# nudged<sup>1.0.0</sup>
+# nudged<sup>1.0.1</sup>
 
-A JavaScript lib to estimate translation, scale, and/or rotation between two sets of 2D points. Applicable for example in cases where one wants to move objects by multiple fingers or where data from an eye tracker device are wanted to be corrected based on a few calibration points. In general, you can apply *nudged* in any situation where you want to transform a number of points based on a few sample points and optionally one fixed pivot point. See the image below for visual explanation.
+[![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
+[![Build Status](https://img.shields.io/travis/axelpale/nudged/master.svg)](https://travis-ci.org/axelpale/nudged)
+
+A JavaScript lib to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. Applicable for example where one wants to move objects by multiple fingers or where data from an eye tracker device are wanted to be corrected based on a few calibration points. In general, you can apply *nudged* in any situation where you want to transform a number of points based on a few sample points and optionally one fixed pivot point. See the image below for visual explanation.
 
 <img src="https://rawgit.com/axelpale/nudged/master/doc/figure-pointset.png" alt="Example transformation" width="500"/>
 
-_**Figure**: Left: You have a set of points. Center: you known where three of them should be moved. Right: With *nudged*, based on the initial position of the three points, the *domain*, and their target positions, the *range*, you can estimate a transformation that nicely transforms all the rest of the points._
+_**Figure**: Left: You have a set of points. Center: you known where three of them should be moved. Right: With *nudged*, based on the initial position of the three points and their target positions, you can estimate a transformation that nicely transforms all the rest of the points._
 
 Mathematically speaking, *nudged* is an optimal least squares estimator for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has time complexity of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, *nudged* solves an affine 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in linear time.
+
+For a proof of optimality, see [the derivation of the main algorithm](https://rawgit.com/axelpale/nudged/master/doc/nudged-panor-2015-10-16.jpg).
 
 The development of *nudged* has been supported by [Infant Cognition Laboratory](http://www.uta.fi/med/icl/index.html) at [University of Tampere](http://www.uta.fi/en/) where it is used to correct eye tracking data.
 
@@ -16,7 +21,7 @@ Available also [in Python](https://pypi.python.org/pypi/nudged).
 
 ## Example apps
 
-To get a grip on how the transformation looks and feels and how the points affect it, play with the following demos.
+To get a grip, play with the following demos.
 
 ### Multitouch transformation with N fingers
 
@@ -101,22 +106,23 @@ Now the domain points can be transformed:
     -> [[-0.33, 0.77], [0.99, 2.33], [-1.22, 2.88]]
 
 
+
 ## API
 
-Nudged provides 7 types of estimators, one for each combination of translation, scaling, and rotation. The ones without translation allow an optional fixed point where for the rest a fixed point does not make sense.
+Nudged provides 7 types of estimators, one for each combination of translation, scaling, and rotation. The ones without translation allow an optional fixed point.
 
 
 ### nudged.estimate(type, domain, range, pivot?)
 
-Compute an optimal affine transformation from the *domain* to *range* points. The type of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, given as *type* string. The transformations without translation allow an optional fixed *pivot* point.
+Compute an optimal affine transformation from the *domain* to *range* points. The *type* of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, in this order. The transformations without translation allow an optional fixed *pivot* point.
 
 **Parameters**
-- *type*: freedom of the transformation. Types available: 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
+- *type*: string, freedom of the transformation. Types available: `'T'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
 - *domain*: array of [x,y] points
 - *range*: array of [x,y] points
 - *pivot*: optional [x,y] point. Defaults to the origin [0,0].
 
-The *domain* and *range* should have equal length. Different lengths are allowed but additional points in the longer array are ignored in the estimation.
+The *domain* and *range* should have equal length. Different lengths are allowed but additional points in the longer array are ignored.
 
 **Return** new `nudged.Transform(...)` instance.
 
@@ -216,24 +222,37 @@ Build example apps:
 
     $ npm run build:examples
 
+Start local server to try out the examples:
 
+    $ npm start
+
+Release:
+
+- Create release branch. See [tutorial](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
+  - `$ git checkout -b release-7.7.7 development`
+- Update the [badge urls](http://shields.io/) in README.
+- Update the rawgit urls in README.
+- Merge (see the tut above):
+  - `$ git checkout master`
+  - `$ git merge release-7.7.7`
+  - `$ git push`
+- Create [tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging):
+  - `$ git tag -a 7.7.7 -m "v7.7.7 Superb Name"`
+  - `$ git push --tags`
+- Publish to npm:
+  - `$ npm publish`
+- Return to development to avoid accidental master commits
+  - `$ git checkout development`
 
 ## Roadmap
 
-- OK type API implementation & testing
-- OK Transform methods: scale, rotate, multiply, translate
-- OK Document scale, rotate, multiply, translate
-- OK scaleBy, rotateBy ... to prevent misunderstanding
-- OK Pivoted transformation example
-- OK Reference touch demo
-- OK Touch demo
-- Improved demo application
-- OK Insert touch demo image
-- OK Include link to npm
-- OK Mouse support for the touch demo.
-- OK redesign getMatrix to return typical a, b, c, d, e, f
-- Release 1.0.0
+- Example apps for SR, TS, and other cases.
 
+
+## Thanks
+
+- Tanja for math photos.
+- Vilkku, Xiao, and Krista for fingers.
 
 
 ## Versioning

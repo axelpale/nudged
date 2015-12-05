@@ -116,7 +116,7 @@ var ctx = touchcanvas.getContext('2d');
 // Automatically resize canvas to screen.
 makefullcanvas(touchcanvas);
 
-loadimages('blackletter.jpg', function (err, img) {
+loadimages('demo.taataa.me_2013-04-13.jpg', function (err, img) {
 
   var model = new Model();
 
@@ -225,17 +225,22 @@ loadimages('blackletter.jpg', function (err, img) {
     touchcanvas.addEventListener('mouseout', onMouseUp);
   }());
 
-
   // Output: view update
+  // Store initial canvas size for initial size of pic
+  var init_width = touchcanvas.width;
+  var init_height = touchcanvas.height;
   model.on('update', function (totalTransformation) {
     var tra = totalTransformation; // alias
 
     // Clear
     ctx.clearRect(0, 0, touchcanvas.width, touchcanvas.height);
 
+    var max_edge = Math.max(init_width, init_height);
+    var min_edge = Math.min(init_width, init_height);
+
     // Range image: apply transform to it
     ctx.setTransform(tra.s, tra.r, -tra.r, tra.s, tra.tx, tra.ty);
-    ctx.drawImage(img, 256, 256, 256, 256);
+    ctx.drawImage(img, 0, -(max_edge - min_edge) / 2, max_edge, max_edge);
     ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
     // Alternative: ctx.resetTransform();
     // does not work on iOS

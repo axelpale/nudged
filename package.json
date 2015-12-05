@@ -1,6 +1,6 @@
 {
   "name": "nudged",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Affine transformation estimator e.g. for multi-touch gestures and calibration",
   "keywords": [
     "transformation",
@@ -11,7 +11,9 @@
     "affine",
     "multitouch",
     "gesture",
-    "estimator"
+    "estimator",
+    "similarity",
+    "calibration"
   ],
   "homepage": "https://github.com/axelpale/nudged",
   "main": "index.js",
@@ -39,6 +41,8 @@
     "lodash": "^3.10.1"
   },
   "scripts": {
+    "start": "npm run start:examples_server",
+    "start:examples_server": "python2.7 -m SimpleHTTPServer 8000",
     "test": "npm run test:lint && npm run test:unit",
     "test:unit": "mocha test/index.test.js",
     "test:lint": "jshint index.js lib/*.js test/*.js",
@@ -46,13 +50,16 @@
     "test:nudged-editor": "jshint examples/nudged-editor/src/*.js",
     "build:nudged-editor": "npm run test:nudged-editor && browserify examples/nudged-editor/src/index.js -o examples/nudged-editor/app.js",
 
+    "test:nudged-taataa": "jshint examples/nudged-taataa/src/*.js",
+    "build:nudged-taataa": "npm run test:nudged-taataa && browserify examples/nudged-taataa/src/index.js -o examples/nudged-taataa/app.js",
+
     "test:nudged-gesture": "jshint examples/nudged-gesture/src/*.js",
     "build:nudged-gesture": "npm run test:nudged-gesture && browserify examples/nudged-gesture/src/index.js -o examples/nudged-gesture/app.js",
 
     "test:typical-gesture": "jshint examples/typical-gesture/src/*.js",
     "build:typical-gesture": "npm run test:typical-gesture && browserify examples/typical-gesture/src/index.js -o examples/typical-gesture/app.js",
 
-    "build:examples": "npm run build:nudged-editor && npm run build:nudged-gesture && npm run build:typical-gesture",
+    "build:examples": "npm run build:nudged-editor && npm run build:nudged-gesture && npm run build:typical-gesture && npm run build:nudged-taataa",
     "build:standalone": "browserify index.js --standalone nudged -o nudged.js"
   }
 }
