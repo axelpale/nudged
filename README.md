@@ -228,10 +228,13 @@ Start local server to try out the examples:
 
 Release:
 
+- Bump version and run tests.
 - Create release branch. See [tutorial](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
   - `$ git checkout -b release-7.7.7 development`
 - Update the [badge urls](http://shields.io/) in README.
-- Update the rawgit urls in README.
+- Update the rawgit urls in README:
+  - Replace 'nudged/development' with 'nudged/master'
+- Commit: `$ git commit -a -m "Clean release 7.7.7"`
 - Merge (see the tut above):
   - `$ git checkout master`
   - `$ git merge release-7.7.7`
