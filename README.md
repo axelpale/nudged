@@ -109,20 +109,20 @@ Now the domain points can be transformed:
 
 ## API
 
-Nudged provides 7 types of estimators, one for each combination of translation, scaling, and rotation. The ones without translation allow an optional fixed point where for the rest a fixed point does not make sense.
+Nudged provides 7 types of estimators, one for each combination of translation, scaling, and rotation. The ones without translation allow an optional fixed point.
 
 
 ### nudged.estimate(type, domain, range, pivot?)
 
-Compute an optimal affine transformation from the *domain* to *range* points. The type of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, given as *type* string. The transformations without translation allow an optional fixed *pivot* point.
+Compute an optimal affine transformation from the *domain* to *range* points. The *type* of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, in this order. The transformations without translation allow an optional fixed *pivot* point.
 
 **Parameters**
-- *type*: freedom of the transformation. Types available: 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
+- *type*: string, freedom of the transformation. Types available: `'T'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
 - *domain*: array of [x,y] points
 - *range*: array of [x,y] points
 - *pivot*: optional [x,y] point. Defaults to the origin [0,0].
 
-The *domain* and *range* should have equal length. Different lengths are allowed but additional points in the longer array are ignored in the estimation.
+The *domain* and *range* should have equal length. Different lengths are allowed but additional points in the longer array are ignored.
 
 **Return** new `nudged.Transform(...)` instance.
 
@@ -246,20 +246,7 @@ Release:
 
 ## Roadmap
 
-- OK type API implementation & testing
-- OK Transform methods: scale, rotate, multiply, translate
-- OK Document scale, rotate, multiply, translate
-- OK scaleBy, rotateBy ... to prevent misunderstanding
-- OK Pivoted transformation example
-- OK Reference touch demo
-- OK Touch demo
-- OK Insert touch demo image
-- OK Include link to npm
-- OK Mouse support for the touch demo.
-- OK redesign getMatrix to return typical a, b, c, d, e, f
-- OK Release 1.0.0
-- Include link to the math
-- Improved demo application
+- Example apps for SR, TS, and other cases.
 
 
 ## Thanks
