@@ -227,20 +227,20 @@ Start local server to try out the examples:
 Release:
 
 - Create release branch. See [tutorial](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
-  - `git checkout -b release-7.7.7 development`
-- Update [badge urls](http://shields.io/).
-- Update rawgit urls.
+  - `$ git checkout -b release-7.7.7 development`
+- Update the [badge urls](http://shields.io/) in README.
+- Update the rawgit urls in README.
 - Merge (see the tut above):
-  - `git checkout master`
-  - `git merge release-7.7.7`
-  - `git push`
+  - `$ git checkout master`
+  - `$ git merge release-7.7.7`
+  - `$ git push`
 - Create [tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging):
-  - `git tag -a 7.7.7 -m "v7.7.7 Superb Name"`
-  - `git push --tags`
+  - `$ git tag -a 7.7.7 -m "v7.7.7 Superb Name"`
+  - `$ git push --tags`
 - Publish to npm:
-  - `npm publish`
+  - `$ npm publish`
 - Return to development to avoid accidental master commits
-  - `git checkout development`
+  - `$ git checkout development`
 
 ## Roadmap
 
