@@ -1,10 +1,10 @@
 # nudged<sup>1.0.0</sup>
 
-A JavaScript lib to estimate translation, scale, and/or rotation between two sets of 2D points. Applicable for example in cases where one wants to move objects by multiple fingers or where data from an eye tracker device are wanted to be corrected based on a few calibration points. In general, you can apply *nudged* in any situation where you want to transform a number of points based on a few sample points and optionally one fixed pivot point. See the image below for visual explanation.
+A JavaScript lib to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. Applicable for example where one wants to move objects by multiple fingers or where data from an eye tracker device are wanted to be corrected based on a few calibration points. In general, you can apply *nudged* in any situation where you want to transform a number of points based on a few sample points and optionally one fixed pivot point. See the image below for visual explanation.
 
 <img src="https://rawgit.com/axelpale/nudged/development/doc/figure-pointset.png" alt="Example transformation" width="500"/>
 
-_**Figure**: Left: You have a set of points. Center: you known where three of them should be moved. Right: With *nudged*, based on the initial position of the three points, the *domain*, and their target positions, the *range*, you can estimate a transformation that nicely transforms all the rest of the points._
+_**Figure**: Left: You have a set of points. Center: you known where three of them should be moved. Right: With *nudged*, based on the initial position of the three points and their target positions, you can estimate a transformation that nicely transforms all the rest of the points._
 
 Mathematically speaking, *nudged* is an optimal least squares estimator for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has time complexity of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, *nudged* solves an affine 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in linear time.
 
@@ -16,7 +16,7 @@ Available also [in Python](https://pypi.python.org/pypi/nudged).
 
 ## Example apps
 
-To get a grip on how the transformation looks and feels and how the points affect it, play with the following demos.
+To get a grip, play with the following demos.
 
 ### Multitouch transformation with N fingers
 
@@ -99,6 +99,7 @@ Now the domain points can be transformed:
 
     pivotTrans.transform(domain)
     -> [[-0.33, 0.77], [0.99, 2.33], [-1.22, 2.88]]
+
 
 
 ## API
@@ -216,6 +217,9 @@ Build example apps:
 
     $ npm run build:examples
 
+Start local server to try out the examples:
+
+    $ npm start
 
 
 ## Roadmap

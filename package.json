@@ -11,7 +11,9 @@
     "affine",
     "multitouch",
     "gesture",
-    "estimator"
+    "estimator",
+    "similarity",
+    "calibration"
   ],
   "homepage": "https://github.com/axelpale/nudged",
   "main": "index.js",
@@ -57,7 +59,7 @@
     "test:typical-gesture": "jshint examples/typical-gesture/src/*.js",
     "build:typical-gesture": "npm run test:typical-gesture && browserify examples/typical-gesture/src/index.js -o examples/typical-gesture/app.js",
 
-    "build:examples": "npm run build:nudged-editor && npm run build:nudged-gesture && npm run build:typical-gesture",
+    "build:examples": "npm run build:nudged-editor && npm run build:nudged-gesture && npm run build:typical-gesture && npm run build:nudged-taataa",
     "build:standalone": "browserify index.js --standalone nudged -o nudged.js"
   }
 }
