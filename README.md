@@ -1,6 +1,6 @@
 # nudged<sup>1.0.0</sup>
 
-[![NPM Version](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/nudged)
+[![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
 [![Build Status](https://img.shields.io/travis/axelpale/nudged/development.svg)](https://travis-ci.org/axelpale/nudged)
 
 A JavaScript lib to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. Applicable for example where one wants to move objects by multiple fingers or where data from an eye tracker device are wanted to be corrected based on a few calibration points. In general, you can apply *nudged* in any situation where you want to transform a number of points based on a few sample points and optionally one fixed pivot point. See the image below for visual explanation.
