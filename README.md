@@ -152,6 +152,10 @@ In addition to the methods below, it has properties *s*, *r*, *tx*, *ty* that de
     |r   s  ty|
     |0   0   1|
 
+#### nudged.Transform#equals(tr)
+
+**Return** true if the parameters of the two transformations are equal and false otherwise.
+
 #### nudged.Transform#transform(points)
 
 Apply the transform to a point or an array of points.
@@ -210,6 +214,11 @@ The scaling is done around an optional pivot point that defaults to [0,0].
 
 The rotation is done around an optional pivot point that defaults to [0,0].
 
+#### nudged.Transform#multiplyBy(tr)
+
+**Return** matrix of this transform multiplied from the right with the matrix of the given transform `tr`.
+
+The resulting transformation is equal to first transforming with `tr` and then with the instance. More precisely, the image of the resulting transformation is the image of `tr` transformed by the instance.
 
 
 ## For developers
@@ -254,6 +263,8 @@ Release:
 
 ## Thanks
 
+- [Infant Cognition Laboratory at University of Tampere](http://www.uta.fi/med/icl/index.html) for funding.
+- [3D Media Group at Tampere University of Technology](http://www.tut.fi/en/about-tut/departments/signal-processing/research/3d-media/) for testing devices.
 - Tanja for math photos.
 - Vilkku, Xiao, and Krista for fingers.
 
