@@ -41,9 +41,9 @@ loadimages('demo.taataa.me_2013-04-13.jpg', function (err, img) {
     // or disappearing finger. We associate these with touchstart and
     // touchend/touchcancel events. When the ending happens, we calculate
     // the final state for the ongoing transformation and merge or commit it
-    // to the committed transformation. We set the ongoing transformation to
-    // identity transformation so that the total transformation is kept
-    // constant.
+    // to the committed transformation. Finally, we set the ongoing
+    // transformation to identity transformation so that the total
+    // transformation is kept constant.
     //
     // on touchstart
     //   Note, changedTouches include all new touches and nothing more [1].
@@ -66,7 +66,8 @@ loadimages('demo.taataa.me_2013-04-13.jpg', function (err, img) {
     //
     // model updates its readable transformation by each
     // touchstart and touchmove. Model sends 'update' event when this happens.
-    // model.getTransform returns the committed transform multiplied with the working transform.
+    // model.getTransform returns the committed transform multiplied
+    // with the working transform.
     //
     // [1] https://developer.mozilla.org/en-US/docs/Web/Events/touchstart
 
