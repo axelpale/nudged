@@ -9,9 +9,7 @@ A JavaScript lib to efficiently estimate translation, scale, and/or rotation bet
 
 _**Figure**: Left: You have a set of points. Center: you known where three of them should be moved. Right: With *nudged*, based on the initial position of the three points and their target positions, you can estimate a transformation that nicely transforms all the rest of the points._
 
-Mathematically speaking, *nudged* is an optimal least squares estimator for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has time complexity of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, *nudged* solves an affine 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in linear time.
-
-For a proof of optimality, see [the derivation of the main algorithm](https://rawgit.com/axelpale/nudged/development/doc/nudged-panor-2015-10-16.jpg).
+Mathematically speaking, *nudged* is a set of optimal least squares estimators for [affine transformation matrices](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has time complexity of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, *nudged* solves a 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in linear time. The algorithms and their efficiency are thoroughly described in a M.Sc. thesis [Advanced algorithms for manipulating 2D objects on touch screens](http://URN.fi/URN:NBN:fi:tty-201605264186).
 
 The development of *nudged* has been supported by [Infant Cognition Laboratory](http://www.uta.fi/med/icl/index.html) at [University of Tampere](http://www.uta.fi/en/) where it is used to correct eye tracking data.
 
