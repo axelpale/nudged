@@ -223,11 +223,16 @@ A default instance of `nudged.Transform` that represents the identity transforma
 
 ### nudged.Transform#s, #r, #tx, #ty
 
-Elements of the internal transformation matrix. Direct use of these properties is not recommended. If you still need to access them:
+Elements of the internal transformation matrix. Direct use of these properties is not recommended.
 
-    > trans.s
-    0.5
-    > trans.tx
+    > var t = nudged.create(2, Math.PI / 2, 10, 20)
+    > t.s
+    1.2246e-16
+    > t.r
+    2
+    > t.tx
+    10
+    > t.ty
     20
 
 ### nudged.Transform#equals(tr)
