@@ -78,10 +78,12 @@ var Model = function () {
 
   this.moveTouchPoint = function (id, x, y) {
     // For each moved touch.
-    pointers[id].rx = x;
-    pointers[id].ry = y;
-    updateTransform();
-    this.emit('update', totalTransform);
+    if (pointers.hasOwnProperty(id)) {
+      pointers[id].rx = x;
+      pointers[id].ry = y;
+      updateTransform();
+      this.emit('update', totalTransform);
+    }
   };
 
   this.endTouchPoint = function (id) {
@@ -278,6 +280,48 @@ exports.estimateSR = require('./lib/estimateSR');
 exports.estimateTSR = require('./lib/estimateTSR');
 exports.version = require('./lib/version');
 
+exports.create = function (scale, rotation, tx, ty) {
+  // Create a nudged.Transform instance by using more meaningful parameters
+  // than directly calling 'new nudged.Transform(...)'
+  //
+  // Parameters:
+  //   scale
+  //     number, the scaling factor
+  //   rotation
+  //     number, rotation in radians from positive x axis towards pos. y axis.
+  //   tx
+  //     translation toward pos. x
+  //   ty
+  //     translation toward pos. y
+
+  if (typeof scale !== 'number') { scale = 1; }
+  if (typeof rotation !== 'number') { rotation = 0; }
+  if (typeof tx !== 'number') { tx = 0; }
+  if (typeof ty !== 'number') { ty = 0; }
+
+  var s = scale * Math.cos(rotation);
+  var r = scale * Math.sin(rotation);
+  return new exports.Transform(s, r, tx, ty);
+};
+
+exports.createFromArray = function (arr) {
+  // Create a nudged.Transform instance from an array that was
+  // previously created with nudged.Transform#toArray().
+  //
+  // Together with nudged.Transform#toArray(), this method makes an easy
+  // serialization and deserialization to and from JSON possible.
+  //
+  // Parameter:
+  //   arr
+  //     array with four elements
+
+  var s = arr[0];
+  var r = arr[1];
+  var tx = arr[2];
+  var ty = arr[3];
+  return new exports.Transform(s, r, tx, ty);
+};
+
 exports.estimate = function (type, domain, range, pivot) {
   // Parameter
   //   type
@@ -309,22 +353,6 @@ var Transform = function (s, r, tx, ty) {
     return (s === t.s && r === t.r && tx === t.tx && ty === t.ty);
   };
 
-  this.transform = function (p) {
-    // p
-    //   point [x, y] or array of points [[x1,y1], [x2, y2], ...]
-
-    if (typeof p[0] === 'number') {
-      // Single point
-      return [s * p[0] - r * p[1] + tx, r * p[0] + s * p[1] + ty];
-    } // else
-
-    var i, c = [];
-    for (i = 0; i < p.length; i += 1) {
-      c.push([s * p[i][0] - r * p[i][1] + tx, r * p[i][0] + s * p[i][1] + ty]);
-    }
-    return c;
-  };
-
   this.getMatrix = function () {
     // Get the transformation matrix in the format common to
     // many APIs, including:
@@ -349,8 +377,39 @@ var Transform = function (s, r, tx, ty) {
   };
 
   this.getTranslation = function () {
+    // Current translation as a point.
     return [tx, ty];
   };
+
+  this.toArray = function () {
+    // Return an array representation of the transformation.
+    //
+    // Together with nudged.createFromArray(...), this method makes an easy
+    // serialization and deserialization to and from JSON possible.
+    return [s, r, tx, ty];
+  };
+
+
+  // Methods that return new points
+
+  this.transform = function (p) {
+    // p
+    //   point [x, y] or array of points [[x1,y1], [x2, y2], ...]
+
+    if (typeof p[0] === 'number') {
+      // Single point
+      return [s * p[0] - r * p[1] + tx, r * p[0] + s * p[1] + ty];
+    } // else
+
+    var i, c = [];
+    for (i = 0; i < p.length; i += 1) {
+      c.push([s * p[i][0] - r * p[i][1] + tx, r * p[i][0] + s * p[i][1] + ty]);
+    }
+    return c;
+  };
+
+
+  // Methods that return new Transformations
 
   this.inverse = function () {
     // Return inversed transform instance
@@ -836,7 +895,7 @@ module.exports = function (domain, range) {
 };
 
 },{"./Transform":5}],13:[function(require,module,exports){
-module.exports = '1.0.0';
+module.exports = '1.2.0';
 
 },{}],14:[function(require,module,exports){
 
@@ -844,7 +903,9 @@ module.exports = '1.0.0';
  * Expose `Emitter`.
  */
 
-module.exports = Emitter;
+if (typeof module !== 'undefined') {
+  module.exports = Emitter;
+}
 
 /**
  * Initialize a new `Emitter`.

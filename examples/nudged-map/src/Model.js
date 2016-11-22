@@ -77,10 +77,12 @@ var Model = function () {
 
   this.moveTouchPoint = function (id, x, y) {
     // For each moved touch.
-    pointers[id].rx = x; // TODO sometimes id is not found
-    pointers[id].ry = y;
-    updateTransform();
-    this.emit('update', totalTransform);
+    if (pointers.hasOwnProperty(id)) {
+      pointers[id].rx = x;
+      pointers[id].ry = y;
+      updateTransform();
+      this.emit('update', totalTransform);
+    }
   };
 
   this.endTouchPoint = function (id) {
