@@ -191,6 +191,15 @@ describe('nudged', function () {
     it('should default to identity', function () {
       assertIdentity(nudged.create());
     });
+
+    it('should be consistent with previous methods', function () {
+      var a = nudged.create(2.0, 3, 1, 2);
+      var b = nudged.Transform.IDENTITY
+        .scaleBy(2)
+        .rotateBy(3)
+        .translateBy(1, 2);
+      assertTransform(a, b);
+    });
   });
 
   describe('.estimate', function () {
