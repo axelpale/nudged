@@ -1,4 +1,4 @@
-# nudged<sup>1.0.1</sup>
+# nudged<sup>1.1.0</sup>
 
 [![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
 [![Build Status](https://img.shields.io/travis/axelpale/nudged/development.svg)](https://travis-ci.org/axelpale/nudged)
