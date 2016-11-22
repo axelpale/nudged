@@ -38,6 +38,12 @@ For reference, the [**typical gesture demo**](https://rawgit.com/axelpale/nudged
 The [**editor demo**](https://rawgit.com/axelpale/nudged/development/examples/nudged-editor/index.html) allows you to add domain and range points on a surface and explore how the points affect the transformation.
 
 
+### Tokyo metro map viewer
+
+[<img src="https://rawgit.com/axelpale/nudged/development/examples/nudged-map/screenshot.png" alt="A screenshot of Nudged map viewer example" width="600"/>](https://rawgit.com/axelpale/nudged/development/examples/nudged-map/index.html)
+
+In this [map viewer demo](https://rawgit.com/axelpale/nudged/development/examples/nudged-map/index.html), nudged is used to recognize multi-touch gestures to scale, rotate, and translate a large image on HTML5 canvas.
+
 
 ## Install
 
@@ -106,8 +112,6 @@ If we now apply the transformation to the domain, we see that the result is clos
     [[-0.33, 0.77], [0.99, 2.33], [-1.22, 2.88]]
     > pivotTrans.transform(pivot)
     [-1,0]
-
-###
 
 
 
