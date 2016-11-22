@@ -1,6 +1,9 @@
 /*
 
-A multitouch demonstration app for nudged
+A multitouch demonstration app for nudged.
+
+The Tokyo Metro Map image is published to Wikimedia Commons by Hisagi. See:
+https://commons.wikimedia.org/wiki/File:Tokyo_metro_map.png
 
 */
 var loadimages = require('loadimages');
