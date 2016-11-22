@@ -1,6 +1,9 @@
 /*
 
-A multitouch demonstration app for nudged
+A multitouch demonstration app for nudged.
+
+The Tokyo Metro Map image is published to Wikimedia Commons by Hisagi. See:
+https://commons.wikimedia.org/wiki/File:Tokyo_metro_map.png
 
 */
 var loadimages = require('loadimages');
@@ -14,7 +17,7 @@ var ctx = touchcanvas.getContext('2d');
 // Automatically resize canvas to screen.
 makefullcanvas(touchcanvas);
 
-loadimages('demo.taataa.me_2013-04-13.jpg', function (err, img) {
+loadimages('tokyo_metro_map_en.png', function (err, img) {
 
   var model = new Model();
 
@@ -41,9 +44,9 @@ loadimages('demo.taataa.me_2013-04-13.jpg', function (err, img) {
     // or disappearing finger. We associate these with touchstart and
     // touchend/touchcancel events. When the ending happens, we calculate
     // the final state for the ongoing transformation and merge or commit it
-    // to the committed transformation. We set the ongoing transformation to
-    // identity transformation so that the total transformation is kept
-    // constant.
+    // to the committed transformation. Finally, we set the ongoing
+    // transformation to identity transformation so that the total
+    // transformation is kept constant.
     //
     // on touchstart
     //   Note, changedTouches include all new touches and nothing more [1].
@@ -66,7 +69,8 @@ loadimages('demo.taataa.me_2013-04-13.jpg', function (err, img) {
     //
     // model updates its readable transformation by each
     // touchstart and touchmove. Model sends 'update' event when this happens.
-    // model.getTransform returns the committed transform multiplied with the working transform.
+    // model.getTransform returns the committed transform multiplied
+    // with the working transform.
     //
     // [1] https://developer.mozilla.org/en-US/docs/Web/Events/touchstart
 
@@ -123,25 +127,28 @@ loadimages('demo.taataa.me_2013-04-13.jpg', function (err, img) {
     touchcanvas.addEventListener('mouseout', onMouseUp);
   }());
 
-  // Output: view update
-  // Store initial canvas size for initial size of pic
-  var init_width = touchcanvas.width;
-  var init_height = touchcanvas.height;
+  // Render the view each time the model changes.
+
+  var initImgWidth = img.width;
+  var initImgHeight = img.height;
+  var initCanvasWidth = touchcanvas.width;
+  var initCanvasHeight = touchcanvas.height;
+
+  var initDx = Math.floor(initCanvasWidth / 2 - initImgWidth / 2);
+  var initDy = Math.floor(initCanvasHeight / 2 - initImgHeight / 2);
+
   model.on('update', function (totalTransformation) {
     var tra = totalTransformation; // alias
 
-    // Clear
+    // Clear. Otherwise some parts of the previous render might remain visible.
     ctx.clearRect(0, 0, touchcanvas.width, touchcanvas.height);
-
-    var max_edge = Math.max(init_width, init_height);
-    var min_edge = Math.min(init_width, init_height);
 
     // Range image: apply transform to it
     ctx.setTransform(tra.s, tra.r, -tra.r, tra.s, tra.tx, tra.ty);
-    ctx.drawImage(img, 0, -(max_edge - min_edge) / 2, max_edge, max_edge);
+    ctx.drawImage(img, initDx, initDy);
     ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
     // Alternative: ctx.resetTransform();
-    // does not work on iOS
+    // The alternative does not work on iOS
   });
   // Init model to emit first update.
   model.init();

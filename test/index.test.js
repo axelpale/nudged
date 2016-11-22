@@ -12,6 +12,14 @@ var nudged = require('../index');
 var IDENTITY = nudged.Transform.IDENTITY;
 
 var samples = {
+  // Info about the properties
+  //   id: description
+  //   a: domain
+  //   b: range
+  //   fixed: a fixed pivot point used in applicable estimations
+  //   t: result of translation estimation
+  //   ts: result of translation scaling estimation
+  //   fsr: result of scaling rotation estimation with a specified fixed pivot.
   'z-00': {
     id: 'should allow arrays of length zero',
     a: [],
@@ -180,6 +188,35 @@ describe('nudged', function () {
 
   it('should have version that match package', function () {
     nudged.version.should.equal(pjson.version);
+  });
+
+  describe('.create', function () {
+    it('should be able to create identity', function () {
+      var t = nudged.create(1, 0, 0, 0);
+      assertIdentity(t);
+    });
+
+    it('should default to identity', function () {
+      assertIdentity(nudged.create());
+    });
+
+    it('should be consistent with previous methods', function () {
+      var a = nudged.create(2.0, 3, 1, 2);
+      var b = nudged.Transform.IDENTITY
+        .scaleBy(2)
+        .rotateBy(3)
+        .translateBy(1, 2);
+      assertTransform(a, b);
+    });
+  });
+
+  describe('.createFromArray', function () {
+    it('should work with toArray', function () {
+      var t1 = nudged.create(0.4, 2.2, 10, 10);
+      var arr = t1.toArray();
+      var t2 = nudged.createFromArray(arr);
+      assertTransform(t1, t2);
+    });
   });
 
   describe('.estimate', function () {

@@ -78,10 +78,12 @@ var Model = function () {
 
   this.moveTouchPoint = function (id, x, y) {
     // For each moved touch.
-    pointers[id].rx = x;
-    pointers[id].ry = y;
-    updateTransform();
-    this.emit('update', totalTransform);
+    if (pointers.hasOwnProperty(id)) {
+      pointers[id].rx = x;
+      pointers[id].ry = y;
+      updateTransform();
+      this.emit('update', totalTransform);
+    }
   };
 
   this.endTouchPoint = function (id) {
@@ -116,7 +118,7 @@ var ctx = touchcanvas.getContext('2d');
 // Automatically resize canvas to screen.
 makefullcanvas(touchcanvas);
 
-loadimages('demo.taataa.me_2013-04-13.jpg', function (err, img) {
+loadimages('tokyo_metro_map_en.png', function (err, img) {
 
   var model = new Model();
 
@@ -143,9 +145,9 @@ loadimages('demo.taataa.me_2013-04-13.jpg', function (err, img) {
     // or disappearing finger. We associate these with touchstart and
     // touchend/touchcancel events. When the ending happens, we calculate
     // the final state for the ongoing transformation and merge or commit it
-    // to the committed transformation. We set the ongoing transformation to
-    // identity transformation so that the total transformation is kept
-    // constant.
+    // to the committed transformation. Finally, we set the ongoing
+    // transformation to identity transformation so that the total
+    // transformation is kept constant.
     //
     // on touchstart
     //   Note, changedTouches include all new touches and nothing more [1].
@@ -168,7 +170,8 @@ loadimages('demo.taataa.me_2013-04-13.jpg', function (err, img) {
     //
     // model updates its readable transformation by each
     // touchstart and touchmove. Model sends 'update' event when this happens.
-    // model.getTransform returns the committed transform multiplied with the working transform.
+    // model.getTransform returns the committed transform multiplied
+    // with the working transform.
     //
     // [1] https://developer.mozilla.org/en-US/docs/Web/Events/touchstart
 
@@ -225,25 +228,28 @@ loadimages('demo.taataa.me_2013-04-13.jpg', function (err, img) {
     touchcanvas.addEventListener('mouseout', onMouseUp);
   }());
 
-  // Output: view update
-  // Store initial canvas size for initial size of pic
-  var init_width = touchcanvas.width;
-  var init_height = touchcanvas.height;
+  // Render the view each time the model changes.
+
+  var initImgWidth = img.width;
+  var initImgHeight = img.height;
+  var initCanvasWidth = touchcanvas.width;
+  var initCanvasHeight = touchcanvas.height;
+
+  var initDx = Math.floor(initCanvasWidth / 2 - initImgWidth / 2);
+  var initDy = Math.floor(initCanvasHeight / 2 - initImgHeight / 2);
+
   model.on('update', function (totalTransformation) {
     var tra = totalTransformation; // alias
 
-    // Clear
+    // Clear. Otherwise some parts of the previous render might remain visible.
     ctx.clearRect(0, 0, touchcanvas.width, touchcanvas.height);
-
-    var max_edge = Math.max(init_width, init_height);
-    var min_edge = Math.min(init_width, init_height);
 
     // Range image: apply transform to it
     ctx.setTransform(tra.s, tra.r, -tra.r, tra.s, tra.tx, tra.ty);
-    ctx.drawImage(img, 0, -(max_edge - min_edge) / 2, max_edge, max_edge);
+    ctx.drawImage(img, initDx, initDy);
     ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
     // Alternative: ctx.resetTransform();
-    // does not work on iOS
+    // The alternative does not work on iOS
   });
   // Init model to emit first update.
   model.init();
@@ -283,6 +289,48 @@ exports.estimateSR = require('./lib/estimateSR');
 exports.estimateTSR = require('./lib/estimateTSR');
 exports.version = require('./lib/version');
 
+exports.create = function (scale, rotation, tx, ty) {
+  // Create a nudged.Transform instance by using more meaningful parameters
+  // than directly calling 'new nudged.Transform(...)'
+  //
+  // Parameters:
+  //   scale
+  //     number, the scaling factor
+  //   rotation
+  //     number, rotation in radians from positive x axis towards pos. y axis.
+  //   tx
+  //     translation toward pos. x
+  //   ty
+  //     translation toward pos. y
+
+  if (typeof scale !== 'number') { scale = 1; }
+  if (typeof rotation !== 'number') { rotation = 0; }
+  if (typeof tx !== 'number') { tx = 0; }
+  if (typeof ty !== 'number') { ty = 0; }
+
+  var s = scale * Math.cos(rotation);
+  var r = scale * Math.sin(rotation);
+  return new exports.Transform(s, r, tx, ty);
+};
+
+exports.createFromArray = function (arr) {
+  // Create a nudged.Transform instance from an array that was
+  // previously created with nudged.Transform#toArray().
+  //
+  // Together with nudged.Transform#toArray(), this method makes an easy
+  // serialization and deserialization to and from JSON possible.
+  //
+  // Parameter:
+  //   arr
+  //     array with four elements
+
+  var s = arr[0];
+  var r = arr[1];
+  var tx = arr[2];
+  var ty = arr[3];
+  return new exports.Transform(s, r, tx, ty);
+};
+
 exports.estimate = function (type, domain, range, pivot) {
   // Parameter
   //   type
@@ -314,22 +362,6 @@ var Transform = function (s, r, tx, ty) {
     return (s === t.s && r === t.r && tx === t.tx && ty === t.ty);
   };
 
-  this.transform = function (p) {
-    // p
-    //   point [x, y] or array of points [[x1,y1], [x2, y2], ...]
-
-    if (typeof p[0] === 'number') {
-      // Single point
-      return [s * p[0] - r * p[1] + tx, r * p[0] + s * p[1] + ty];
-    } // else
-
-    var i, c = [];
-    for (i = 0; i < p.length; i += 1) {
-      c.push([s * p[i][0] - r * p[i][1] + tx, r * p[i][0] + s * p[i][1] + ty]);
-    }
-    return c;
-  };
-
   this.getMatrix = function () {
     // Get the transformation matrix in the format common to
     // many APIs, including:
@@ -354,8 +386,39 @@ var Transform = function (s, r, tx, ty) {
   };
 
   this.getTranslation = function () {
+    // Current translation as a point.
     return [tx, ty];
   };
+
+  this.toArray = function () {
+    // Return an array representation of the transformation.
+    //
+    // Together with nudged.createFromArray(...), this method makes an easy
+    // serialization and deserialization to and from JSON possible.
+    return [s, r, tx, ty];
+  };
+
+
+  // Methods that return new points
+
+  this.transform = function (p) {
+    // p
+    //   point [x, y] or array of points [[x1,y1], [x2, y2], ...]
+
+    if (typeof p[0] === 'number') {
+      // Single point
+      return [s * p[0] - r * p[1] + tx, r * p[0] + s * p[1] + ty];
+    } // else
+
+    var i, c = [];
+    for (i = 0; i < p.length; i += 1) {
+      c.push([s * p[i][0] - r * p[i][1] + tx, r * p[i][0] + s * p[i][1] + ty]);
+    }
+    return c;
+  };
+
+
+  // Methods that return new Transformations
 
   this.inverse = function () {
     // Return inversed transform instance
@@ -841,7 +904,7 @@ module.exports = function (domain, range) {
 };
 
 },{"./Transform":5}],13:[function(require,module,exports){
-module.exports = '1.0.0';
+module.exports = '1.2.0';
 
 },{}],14:[function(require,module,exports){
 
@@ -849,7 +912,9 @@ module.exports = '1.0.0';
  * Expose `Emitter`.
  */
 
-module.exports = Emitter;
+if (typeof module !== 'undefined') {
+  module.exports = Emitter;
+}
 
 /**
  * Initialize a new `Emitter`.
