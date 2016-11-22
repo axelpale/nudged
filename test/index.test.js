@@ -182,6 +182,17 @@ describe('nudged', function () {
     nudged.version.should.equal(pjson.version);
   });
 
+  describe('.create', function () {
+    it('should be able to create identity', function () {
+      var t = nudged.create(1, 0, 0, 0);
+      assertIdentity(t);
+    });
+
+    it('should default to identity', function () {
+      assertIdentity(nudged.create());
+    });
+  });
+
   describe('.estimate', function () {
     it('should estimate correct transformation type', function () {
       forSamples('sr', function (sam, samkey) {

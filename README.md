@@ -112,6 +112,32 @@ If we now apply the transformation to the domain, we see that the result is clos
 
 Nudged API provides 7 types of estimators, one for each combination of translation, scaling, and rotation. The ones without translation allow an optional fixed point.
 
+### nudged.create(scale, rotation, translationX, translationY)
+
+Create a transformation that scales, rotates, and translates as specified.
+
+**Parameters**
+- *scale*: a number; the scaling factor.
+- *rotation*: a number; the rotation in radians from positive x axis toward positive y axis.
+- *translationX*: a number; translation after rotation, toward positive x axis.
+- *translationY*: a number; translation after rotation, toward positive y axis.
+
+**Return** a new `nudged.Transform` instance.
+
+**Example**:
+
+    > var a = nudged.create(2, 0, 0, 0);
+    > a.transform([3, 1])
+    [6, 2]
+
+    > var b = nudged.create(1, Math.PI / 2, 0, 0);
+    > b.transform([3, 1])
+    [-1, 3]
+
+    > var c = nudged.create(1, 0, 20.2, 0);
+    > c.transform([3, 1])
+    [23.2, 1]
+
 
 ### nudged.estimate(type, domain, range, pivot?)
 
@@ -148,7 +174,7 @@ Contains the module version string identical to the version in *package.json*.
 
 ### nudged.Transform(s, r, tx, ty)
 
-A constructor for a non-reflective similarity transformation. You usually do not need to call it directly because `nudged.estimate(...)` creates and returns an instance for you. Nevertheless, if you need to create one:
+A constructor for a non-reflective similarity transformation. You usually do not need to call it directly because both `nudged.create(...)` and `nudged.estimate(...)` create and return instances for you. Nevertheless, if you need to create one:
 
     > var trans = new nudged.Transform(0.5, 0, 20, 0)
 
