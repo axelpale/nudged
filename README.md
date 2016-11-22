@@ -3,13 +3,13 @@
 [![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
 [![Build Status](https://img.shields.io/travis/axelpale/nudged/development.svg)](https://travis-ci.org/axelpale/nudged)
 
-**A JavaScript lib** to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. We have found it to be useful in **graphics, user interfaces, multi-touch recognition, and eye tracker calibration**. In general, you can apply *nudged* in any situation where you want to transform a number of points based on a few sample points and optionally one fixed pivot point. See the image below for visual explanation.
+**A JavaScript lib** to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. We have found it to be useful in **graphics, user interfaces, multi-touch recognition, and eye tracker calibration**. In general, you can apply *nudged* in any situation where you want to move a number of points based on a few sample points and optionally one fixed pivot point. See the image below for visual explanation.
 
 <img src="https://rawgit.com/axelpale/nudged/development/doc/figure-pointset.png" alt="Example transformation" width="500"/>
 
 _**Figure**: Left: You have a set of points. Center: you known where three of them should be moved. Right: With *nudged*, based on the initial position of the three points and their target positions, you can estimate a transformation that nicely transforms all the rest of the points._
 
-**Mathematically speaking**, *nudged* is a set of optimal least squares estimators for non-reflective similarity transformation matrices. Such transformations are [affine transformations](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has time complexity of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, *nudged* solves a 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in linear time. The algorithms and their efficiency are thoroughly described in a **M.Sc. thesis** [Advanced algorithms for manipulating 2D objects on touch screens](http://URN.fi/URN:NBN:fi:tty-201605264186).
+**Mathematically speaking**, *nudged* is a set of optimal least squares estimators for nonreflective similarity transformation matrices. Such transformations are [affine transformations](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has time complexity of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, *nudged* solves a 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in linear time. The algorithms and their efficiency are thoroughly described in a **M.Sc. thesis** [Advanced algorithms for manipulating 2D objects on touch screens](http://URN.fi/URN:NBN:fi:tty-201605264186).
 
 **The development has been supported** by [Infant Cognition Laboratory](http://www.uta.fi/med/icl/index.html) at [University of Tampere](http://www.uta.fi/en/) where it is used to correct eye tracking data.
 
@@ -107,37 +107,56 @@ If we now apply the transformation to the domain, we see that the result is clos
     > pivotTrans.transform(pivot)
     [-1,0]
 
+###
+
+
 
 ## API
 
-Nudged API provides 7 types of estimators, one for each combination of translation, scaling, and rotation. The ones without translation allow an optional fixed point.
+Nudged API provides a class for nonreflective similarity transformations and 7 types of estimators, one for each combination of translation, scaling, and rotation. The ones without translation allow an optional fixed point.
 
-### nudged.create(scale, rotation, translationX, translationY)
+### nudged.create(scale=1, rotation=0, translationX=0, translationY=0)
 
 Create a transformation that scales, rotates, and translates as specified.
 
-**Parameters**
+**Parameters**:
 - *scale*: a number; the scaling factor.
 - *rotation*: a number; the rotation in radians from positive x axis toward positive y axis.
 - *translationX*: a number; translation after rotation, toward positive x axis.
 - *translationY*: a number; translation after rotation, toward positive y axis.
 
+The parameters are optional and default to the identity transformation.
+
 **Return** a new `nudged.Transform` instance.
 
-**Example**:
+**Examples**:
 
-    > var a = nudged.create(2, 0, 0, 0);
-    > a.transform([3, 1])
+    > var t0 = nudged.create()
+    > t0.transform([3, 1])
+    [3, 1]
+
+    > var t1 = nudged.create(2)
+    > t1.transform([3, 1])
     [6, 2]
 
-    > var b = nudged.create(1, Math.PI / 2, 0, 0);
-    > b.transform([3, 1])
+    > var t2 = nudged.create(1, Math.PI / 2)
+    > t2.transform([3, 1])
     [-1, 3]
 
-    > var c = nudged.create(1, 0, 20.2, 0);
-    > c.transform([3, 1])
+    > var t3 = nudged.create(1, 0, 20.2, 0)
+    > t3.transform([3, 1])
     [23.2, 1]
 
+
+### nudged.createFromArray(arr)
+
+Create a `nudged.Transform` instance from an array created by nudged.Transform#toArray(). Together with `nudged.Transform#toArray()` this method makes an easy **serialization and deserialization** to and from JSON possible.
+
+    > var t1 = nudged.create(1, 2, 3, 4)
+    > var arr = trans.toArray()
+    > var t2 = nudged.createFromArray(arr)
+    > t1.equals(t2)
+    true
 
 ### nudged.estimate(type, domain, range, pivot?)
 
@@ -174,7 +193,7 @@ Contains the module version string identical to the version in *package.json*.
 
 ### nudged.Transform(s, r, tx, ty)
 
-A constructor for a non-reflective similarity transformation. You usually do not need to call it directly because both `nudged.create(...)` and `nudged.estimate(...)` create and return instances for you. Nevertheless, if you need to create one:
+A constructor for a nonreflective similarity transformation. You usually do not need to call it directly because both `nudged.create(...)` and `nudged.estimate(...)` create and return instances for you. Nevertheless, if you need to create one:
 
     > var trans = new nudged.Transform(0.5, 0, 20, 0)
 
@@ -210,21 +229,6 @@ Elements of the internal transformation matrix. Direct use of these properties i
 
 **Return** true if the parameters of the two transformations are equal and false otherwise.
 
-#### nudged.Transform#transform(points)
-
-Apply the transform to a point or an array of points.
-
-**Parameter** `points` is an array of points `[[x, y], ...]` or a single point `[x, y]`.
-
-**Return** an array of transformed points or single point if only a point was given. For example:
-
-    > trans.transform([1,1])
-    [2,2]
-    > trans.transform([[1,1]])
-    [[2,2]]
-    > trans.transform([[1,1], [2,3]])
-    [[2,2], [3,4]]
-
 #### nudged.Transform#getMatrix()
 
 Get the transformation matrix in a format compatible with [kld-affine](https://www.npmjs.com/package/kld-affine).
@@ -254,6 +258,27 @@ Get clockwise rotation from the positive x-axis.
 #### nudged.Transform#getTranslation()
 
 **Return** `[tx, ty]` where `tx` and `ty` denotes movement along x-axis and y-axis accordingly.
+
+#### nudged.Transform#toArray()
+
+Together with `nudged.createFromArray(...)` this method makes an easy serialization and deserialization to and from JSON possible.
+
+**Return** an array representation of the transformation: `[s, r, tx, ty]`. Note that `s` and `r` do not represent scaling and rotation but elements of the matrix.
+
+#### nudged.Transform#transform(points)
+
+Apply the transform to a point or an array of points.
+
+**Parameter** `points` is an array of points `[[x, y], ...]` or a single point `[x, y]`.
+
+**Return** an array of transformed points or single point if only a point was given. For example:
+
+    > trans.transform([1,1])
+    [2,2]
+    > trans.transform([[1,1]])
+    [[2,2]]
+    > trans.transform([[1,1], [2,3]])
+    [[2,2], [3,4]]
 
 #### nudged.Transform#inverse()
 

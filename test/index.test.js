@@ -12,6 +12,14 @@ var nudged = require('../index');
 var IDENTITY = nudged.Transform.IDENTITY;
 
 var samples = {
+  // Info about the properties
+  //   id: description
+  //   a: domain
+  //   b: range
+  //   fixed: a fixed pivot point used in applicable estimations
+  //   t: result of translation estimation
+  //   ts: result of translation scaling estimation
+  //   fsr: result of scaling rotation estimation with a specified fixed pivot.
   'z-00': {
     id: 'should allow arrays of length zero',
     a: [],
@@ -199,6 +207,15 @@ describe('nudged', function () {
         .rotateBy(3)
         .translateBy(1, 2);
       assertTransform(a, b);
+    });
+  });
+
+  describe('.createFromArray', function () {
+    it('should work with toArray', function () {
+      var t1 = nudged.create(0.4, 2.2, 10, 10);
+      var arr = t1.toArray();
+      var t2 = nudged.createFromArray(arr);
+      assertTransform(t1, t2);
     });
   });
 
