@@ -55,14 +55,14 @@ With [npm](https://www.npmjs.com/package/nudged):
 
 ## Usage
 
-<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-pointset.png" alt="The transformation" width="500"/>
-
-_**Figure**: Left: the domain. Center: the range. Right: the domain after transformation._
-
-Let `domain` and `range` be point sets before and after transformation as illustrated in the figure above:
+Let `domain` and `range` be point sets before and after transformation as illustrated in the figure below:
 
     > var domain = [[0,0], [2,0], [ 1,2]]
     > var range  = [[1,1], [1,3], [-1,2]]
+
+<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-pointset.png" alt="The transformation" width="500"/>
+
+_**Figure**: Left: the domain. Center: the range. Right: the domain after transformation._
 
 Compute an optimal transformation based on the points:
 
@@ -91,9 +91,12 @@ Inverse the transformation:
     > inv.transform([-1,3])
     [2,2]
 
+See [API](#api) for more.
+
+
 ### Using pivoted transformations
 
-You can think the pivot point as a pin. The pin keeps its location intact regardless of the transformation around it, as illustrated in the figure below.
+You can think the pivot point as a pin pushed through a paper. The pin keeps its location intact regardless of the transformation around it, as illustrated in the figure below.
 
 <img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-fixed.png" alt="A fixed point transformation" width="500"/>
 
@@ -119,11 +122,11 @@ If we now apply the transformation to the domain, we see that the result is clos
 
 Nudged API provides a class for nonreflective similarity transformations and 7 types of estimators, one for each combination of translation, scaling, and rotation. The ones without translation allow an optional fixed point.
 
-### nudged.create(scale=1, rotation=0, translationX=0, translationY=0)
+### nudged.create(scale, rotation, translationX, translationY)
 
 Create a transformation that scales, rotates, and translates as specified.
 
-**Parameters**:
+**Parameters:**
 - *scale*: a number; the scaling factor.
 - *rotation*: a number; the rotation in radians from positive x axis toward positive y axis.
 - *translationX*: a number; translation after rotation, toward positive x axis.
@@ -133,7 +136,7 @@ The parameters are optional and default to the identity transformation.
 
 **Return** a new `nudged.Transform` instance.
 
-**Examples**:
+**Examples:**
 
     > var t0 = nudged.create()
     > t0.transform([3, 1])
@@ -166,7 +169,7 @@ Create a `nudged.Transform` instance from an array created by nudged.Transform#t
 
 Compute an optimal affine transformation from the *domain* to *range* points. The *type* of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, in this order. The transformations without translation allow an optional fixed *pivot* point.
 
-**Parameters**
+**Parameters:**
 - *type*: string, freedom of the transformation. Types available: `'T'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
 - *domain*: array of [x,y] points
 - *range*: array of [x,y] points
@@ -212,13 +215,13 @@ The `nudged.Transform` instance is designed to be immutable.
 Note that `s` and `r` do **not** represent scaling and rotation but instead `s = scalingFactor * Math.cos(rotationRads)` and `r = scalingFactor * Math.sin(rotationRads)`. The parameters `tx` and `ty` represent horizontal and vertical translation after rotation.
 
 
-#### nudged.Transform.IDENTITY
+### nudged.Transform.IDENTITY
 
 A default instance of `nudged.Transform` that represents the identity transformation i.e. transformation without an effect. You can use it in building new transformations:
 
     > var trans = nudged.Transform.IDENTITY.scaleBy(0.6).rotateBy(0.3);
 
-#### nudged.Transform#s, #r, #tx, #ty
+### nudged.Transform#s, #r, #tx, #ty
 
 Elements of the internal transformation matrix. Direct use of these properties is not recommended. If you still need to access them:
 
@@ -227,13 +230,13 @@ Elements of the internal transformation matrix. Direct use of these properties i
     > trans.tx
     20
 
-#### nudged.Transform#equals(tr)
+### nudged.Transform#equals(tr)
 
 **Parameter** `tr` is an instance of `nudged.Transform`.
 
 **Return** true if the parameters of the two transformations are equal and false otherwise.
 
-#### nudged.Transform#getMatrix()
+### nudged.Transform#getMatrix()
 
 Get the transformation matrix in a format compatible with [kld-affine](https://www.npmjs.com/package/kld-affine).
 
@@ -249,27 +252,27 @@ The properties represent the following matrix:
     | b   d   f |
     | 0   0   1 |
 
-#### nudged.Transform#getRotation()
+### nudged.Transform#getRotation()
 
 Get clockwise rotation from the positive x-axis.
 
 **Return** rotation in radians.
 
-#### nudged.Transform#getScale()
+### nudged.Transform#getScale()
 
 **Return** scaling multiplier, e.g. `0.333` for a threefold shrink.
 
-#### nudged.Transform#getTranslation()
+### nudged.Transform#getTranslation()
 
 **Return** `[tx, ty]` where `tx` and `ty` denotes movement along x-axis and y-axis accordingly.
 
-#### nudged.Transform#toArray()
+### nudged.Transform#toArray()
 
 Together with `nudged.createFromArray(...)` this method makes an easy serialization and deserialization to and from JSON possible.
 
 **Return** an array representation of the transformation: `[s, r, tx, ty]`. Note that `s` and `r` do not represent scaling and rotation but elements of the matrix.
 
-#### nudged.Transform#transform(points)
+### nudged.Transform#transform(points)
 
 Apply the transform to a point or an array of points.
 
@@ -284,17 +287,17 @@ Apply the transform to a point or an array of points.
     > trans.transform([[1,1], [2,3]])
     [[2,2], [3,4]]
 
-#### nudged.Transform#inverse()
+### nudged.Transform#inverse()
 
 **Return** a new `nudged.Transform` instance that is the inverse of the original transformation.
 
 **Throw** an `Error` instance if the transformation is singular and cannot be inversed. This occurs if the range points are all the same which forces the scale to drop to zero.
 
-#### nudged.Transform#translateBy(dx, dy)
+### nudged.Transform#translateBy(dx, dy)
 
 **Return** a new `nudged.Transform` instance where the image of the original has been translated.
 
-#### nudged.Transform#scaleBy(multiplier, pivot?)
+### nudged.Transform#scaleBy(multiplier, pivot?)
 
 **Parameter** `multiplier` is a number. Optional parameter `pivot` is a point `[x, y]`.
 
@@ -302,7 +305,7 @@ Apply the transform to a point or an array of points.
 
 The scaling is done around an optional pivot point that defaults to [0,0].
 
-#### nudged.Transform#rotateBy(radians, pivot?)
+### nudged.Transform#rotateBy(radians, pivot?)
 
 **Parameter** `radians` is a number. Optional parameter `pivot` is a point `[x, y]`.
 
@@ -310,7 +313,7 @@ The scaling is done around an optional pivot point that defaults to [0,0].
 
 The rotation is done around an optional pivot point that defaults to [0,0].
 
-#### nudged.Transform#multiplyBy(tr)
+### nudged.Transform#multiplyBy(tr)
 
 **Parameter** `tr` is an instance of `nudged.Transform`.
 
