@@ -42,7 +42,7 @@ The [**editor demo**](https://rawgit.com/axelpale/nudged/development/examples/nu
 
 [<img src="https://rawgit.com/axelpale/nudged/development/examples/nudged-map/screenshot.png" alt="A screenshot of Nudged map viewer example" width="600"/>](https://rawgit.com/axelpale/nudged/development/examples/nudged-map/index.html)
 
-In this [map viewer demo](https://rawgit.com/axelpale/nudged/development/examples/nudged-map/index.html), nudged is used to recognize multi-touch gestures to scale, rotate, and translate a large image on HTML5 canvas.
+In this [map viewer demo](https://rawgit.com/axelpale/nudged/development/examples/nudged-map/index.html), nudged is used to recognize multi-touch gestures to scale, rotate, and translate [a large image](https://commons.wikimedia.org/wiki/File:Tokyo_metro_map.png) on HTML5 canvas.
 
 
 ## Install
