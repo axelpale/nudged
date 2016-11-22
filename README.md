@@ -1,11 +1,11 @@
 # nudged<sup>1.2.0</sup>
 
 [![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
-[![Build Status](https://img.shields.io/travis/axelpale/nudged/development.svg)](https://travis-ci.org/axelpale/nudged)
+[![Build Status](https://img.shields.io/travis/axelpale/nudged/master.svg)](https://travis-ci.org/axelpale/nudged)
 
 **A JavaScript lib** to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. We have found it to be useful in **graphics, user interfaces, multi-touch recognition, and eye tracker calibration**. In general, you can apply *nudged* in any situation where you want to move a number of points based on a few sample points and optionally one fixed pivot point. See the image below for visual explanation.
 
-<img src="https://rawgit.com/axelpale/nudged/development/doc/figure-pointset.png" alt="Example transformation" width="500"/>
+<img src="https://rawgit.com/axelpale/nudged/master/doc/figure-pointset.png" alt="Example transformation" width="500"/>
 
 _**Figure**: Left: You have a set of points. Center: you known where three of them should be moved. Right: With *nudged*, based on the initial position of the three points and their target positions, you can estimate a transformation that nicely transforms all the rest of the points._
 
@@ -23,26 +23,26 @@ To get a grip, play with the following demos.
 
 ### Multitouch transformation with N fingers
 
-[<img src="https://rawgit.com/axelpale/nudged/development/examples/nudged-gesture/screenshot.jpg" alt="Four hands transforming the image simultaneously" width="600"/>](https://rawgit.com/axelpale/nudged/development/examples/nudged-gesture/index.html)
+[<img src="https://rawgit.com/axelpale/nudged/master/examples/nudged-gesture/screenshot.jpg" alt="Four hands transforming the image simultaneously" width="600"/>](https://rawgit.com/axelpale/nudged/master/examples/nudged-gesture/index.html)
 
-The [**touch gesture demo**](https://rawgit.com/axelpale/nudged/development/examples/nudged-gesture/index.html) takes the common pinch-zoom and rotate gestures a step further. Many multitouch apps allow you to scale and rotate with two fingers. However, usually the additional fingers are ignored. But what if one wants to use, say, both hands and all the fingers on a huge touchscreen?
+The [**touch gesture demo**](https://rawgit.com/axelpale/nudged/master/examples/nudged-gesture/index.html) takes the common pinch-zoom and rotate gestures a step further. Many multitouch apps allow you to scale and rotate with two fingers. However, usually the additional fingers are ignored. But what if one wants to use, say, both hands and all the fingers on a huge touchscreen?
 
-For reference, the [**typical gesture demo**](https://rawgit.com/axelpale/nudged/development/examples/typical-gesture/index.html) implements similar demo with the popular [Hammer.js](http://hammerjs.github.io/) touch gesture library. As you can experience, only the first two pointers are regarded for scaling and rotation.
+For reference, the [**typical gesture demo**](https://rawgit.com/axelpale/nudged/master/examples/typical-gesture/index.html) implements similar demo with the popular [Hammer.js](http://hammerjs.github.io/) touch gesture library. As you can experience, only the first two pointers are regarded for scaling and rotation.
 
 
 
 ### Point set editor
 
-[<img src="https://rawgit.com/axelpale/nudged/development/examples/nudged-editor/screenshot.png" alt="Nudged editor screenshot" width="600"/>](https://rawgit.com/axelpale/nudged/development/examples/nudged-editor/index.html)
+[<img src="https://rawgit.com/axelpale/nudged/master/examples/nudged-editor/screenshot.png" alt="Nudged editor screenshot" width="600"/>](https://rawgit.com/axelpale/nudged/master/examples/nudged-editor/index.html)
 
-The [**editor demo**](https://rawgit.com/axelpale/nudged/development/examples/nudged-editor/index.html) allows you to add domain and range points on a surface and explore how the points affect the transformation.
+The [**editor demo**](https://rawgit.com/axelpale/nudged/master/examples/nudged-editor/index.html) allows you to add domain and range points on a surface and explore how the points affect the transformation.
 
 
 ### Tokyo metro map viewer
 
-[<img src="https://rawgit.com/axelpale/nudged/development/examples/nudged-map/screenshot.png" alt="A screenshot of Nudged map viewer example" width="600"/>](https://rawgit.com/axelpale/nudged/development/examples/nudged-map/index.html)
+[<img src="https://rawgit.com/axelpale/nudged/master/examples/nudged-map/screenshot.png" alt="A screenshot of Nudged map viewer example" width="600"/>](https://rawgit.com/axelpale/nudged/master/examples/nudged-map/index.html)
 
-In this [map viewer demo](https://rawgit.com/axelpale/nudged/development/examples/nudged-map/index.html), nudged is used to recognize multi-touch gestures to scale, rotate, and translate [a large image](https://commons.wikimedia.org/wiki/File:Tokyo_metro_map.png) on HTML5 canvas.
+In this [map viewer demo](https://rawgit.com/axelpale/nudged/master/examples/nudged-map/index.html), nudged is used to recognize multi-touch gestures to scale, rotate, and translate [a large image](https://commons.wikimedia.org/wiki/File:Tokyo_metro_map.png) on HTML5 canvas.
 
 
 ## Install
@@ -60,7 +60,7 @@ Let `domain` and `range` be point sets before and after transformation as illust
     > var domain = [[0,0], [2,0], [ 1,2]]
     > var range  = [[1,1], [1,3], [-1,2]]
 
-<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-pointset.png" alt="The transformation" width="500"/>
+<img src="https://rawgit.com/axelpale/nudged/master/doc/simple-example-pointset.png" alt="The transformation" width="500"/>
 
 _**Figure**: Left: the domain. Center: the range. Right: the domain after transformation._
 
@@ -98,7 +98,7 @@ See [API](#api) for more.
 
 You can think the pivot point as a pin pushed through a paper. The pin keeps its location intact regardless of the transformation around it, as illustrated in the figure below.
 
-<img src="https://rawgit.com/axelpale/nudged/development/doc/simple-example-fixed.png" alt="A fixed point transformation" width="500"/>
+<img src="https://rawgit.com/axelpale/nudged/master/doc/simple-example-fixed.png" alt="A fixed point transformation" width="500"/>
 
 _**Figure**: Left: a black pivot point and the domain. Center: the range. Right: the pivot and the domain after transformation._
 
