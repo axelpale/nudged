@@ -25,10 +25,7 @@
     "type": "git",
     "url": "git://github.com/axelpale/nudged.git"
   },
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/axelpale/nudged/blob/master/LICENSE"
-  },
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "jshint": "^2.8.0",
