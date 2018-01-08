@@ -409,8 +409,10 @@ describe('nudged', function () {
 
     it('should be multipliable', function () {
       var tt = t.multiplyBy(t);
+      var tt2 = t.multiplyRight(t);  // test alias
       // s: -4, r: 0, tx: -1, ty: -2
       tt.transform([1,-1]).should.deepEqual([-5, 2]);
+      tt2.transform([1,-1]).should.deepEqual([-5, 2]);
     });
 
     it('should inverse', function () {

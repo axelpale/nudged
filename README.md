@@ -318,7 +318,7 @@ The scaling is done around an optional pivot point that defaults to [0,0].
 
 The rotation is done around an optional pivot point that defaults to [0,0].
 
-### nudged.Transform#multiplyBy(tr)
+### nudged.Transform#multiplyBy(tr) alias #multiplyRight(tr)
 
 **Parameter** `tr` is an instance of `nudged.Transform`.
 
