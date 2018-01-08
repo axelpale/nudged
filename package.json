@@ -36,6 +36,7 @@
     "hammerjs": "^2.0.4",
     "component-emitter": "^1.2.0",
     "lodash": "^4.17.2"
+    "genversion": "^2.0.1",
   },
   "scripts": {
     "start": "npm run start:examples_server",
@@ -44,6 +45,7 @@
     "test:unit": "mocha test/index.test.js",
     "test:lint": "jshint index.js lib/*.js test/*.js",
 
+    "gv": "genversion lib/version.js",
     "test:nudged-editor": "jshint examples/nudged-editor/src/*.js",
     "build:nudged-editor": "npm run test:nudged-editor && browserify examples/nudged-editor/src/index.js -o examples/nudged-editor/app.js",
 
