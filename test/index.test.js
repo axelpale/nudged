@@ -234,6 +234,13 @@ describe('nudged', function () {
     });
   });
 
+  describe('.estimateI', function () {
+    it('should return identity', function () {
+      // Does not process arguments after the first
+      var t = nudged.estimate('I', ['a', 'b'], ['c', 'd', 'efoo']);
+      t.should.equal(nudged.Transform.IDENTITY);
+    });
+  });
 
   describe('.estimateTSR', function () {
     it('should estimate correctly', function () {

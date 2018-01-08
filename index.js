@@ -2,6 +2,7 @@
 
 */
 exports.Transform = require('./lib/Transform');
+exports.estimateI = require('./lib/estimateI');
 exports.estimateT = require('./lib/estimateT');
 exports.estimateS = require('./lib/estimateS');
 exports.estimateR = require('./lib/estimateR');
@@ -56,13 +57,15 @@ exports.createFromArray = function (arr) {
 exports.estimate = function (type, domain, range, pivot) {
   // Parameter
   //   type
-  //     string. One of the following: 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
+  //     string. One of the following:
+  //       'I', 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
   //   domain
   //     array of 2d arrays
   //   range
   //     array of 2d arrays
   //   pivot
   //     optional 2d array, does nothing for translation estimators
+  //
   var name = 'estimate' + type.toUpperCase();
   if (exports.hasOwnProperty(name)) {
     return exports[name](domain, range, pivot);

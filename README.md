@@ -167,10 +167,10 @@ Create a `nudged.Transform` instance from an array created by nudged.Transform#t
 
 ### nudged.estimate(type, domain, range, pivot?)
 
-Compute an optimal affine transformation from the *domain* to *range* points. The *type* of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, in this order. The transformations without translation allow an optional fixed *pivot* point.
+Compute an optimal affine transformation from the *domain* to *range* points. The *type* of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, in this order. A special type `I` returns always the identity transformation. Transformations without translation (`S`, `R`, `SR`) allow an optional fixed *pivot* point.
 
 **Parameters:**
-- *type*: string, freedom of the transformation. Types available: `'T'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
+- *type*: string, freedom of the transformation. Types available: `'I'`, `'T'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
 - *domain*: array of [x,y] points
 - *range*: array of [x,y] points
 - *pivot*: optional [x,y] point. Defaults to the origin [0,0] with types `'S'`, `'R'`, and `'SR'`.
@@ -181,6 +181,7 @@ The *domain* and *range* should have equal length. Different lengths are allowed
 
 You can also call the estimators directly:
 
+- `nudged.estimateI()`
 - `nudged.estimateT(domain, range)`
 - `nudged.estimateS(domain, range, pivot)`
 - `nudged.estimateR(domain, range, pivot)`
