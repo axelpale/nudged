@@ -423,6 +423,21 @@ describe('nudged', function () {
       t = nudged.estimateTSR([[1,1], [3,3]], [[2,2], [2,2]]);
       (function () { t.inverse(); }).should.throw(/Singular/);
     });
+
+    it('should have prebuilt instances', function () {
+      var I = nudged.Transform.IDENTITY;
+      var R90 = nudged.Transform.R90;
+      var R180 = nudged.Transform.R180;
+      var R270 = nudged.Transform.R270;
+      var X2 = nudged.Transform.X2;
+
+      I.transform([1, 1]).should.deepEqual([1, 1]);
+      R90.transform([1, 1]).should.deepEqual([-1, 1]);
+      R90.multiplyRight(R90).transform([1, 1]).should.deepEqual([-1, -1]);
+      R90.multiplyRight(R180).transform([1, 1]).should.deepEqual([1, -1]);
+      R270.transform([1, 1]).should.deepEqual([1, -1]);
+      X2.transform([1, -1]).should.deepEqual([2, -2]);
+    });
   });
 
 });
