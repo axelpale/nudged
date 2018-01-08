@@ -217,7 +217,7 @@ Note that `s` and `r` do **not** represent scaling and rotation but instead `s =
 
 ### nudged.Transform.IDENTITY
 
-A default instance of `nudged.Transform` that represents the identity transformation i.e. transformation without an effect. You can use it in building new transformations:
+A default instance of `nudged.Transform` that represents the identity transformation `Transform(1, 0, 0, 0)` i.e. transformation without an effect. You can use it in building new transformations:
 
     > var trans = nudged.Transform.IDENTITY.scaleBy(0.6).rotateBy(0.3);
 
