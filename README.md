@@ -190,6 +190,16 @@ You can also call the estimators directly:
 - `nudged.estimateSR(domain, range, pivot)`
 - `nudged.estimateTSR(domain, range)`
 
+**Example:**
+
+    > var domain = [[0,0], [2,0], [ 1,2]]
+    > var range  = [[1,1], [1,3], [-1,2]]
+    > var tr = nudged.estimate('SR', domain, range)
+    > tr.getScale()
+    1.242259
+    > tr.getRotation()
+    1.107148
+
 
 ### nudged.version
 
