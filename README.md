@@ -1,4 +1,4 @@
-# nudged<sup>1.2.0</sup>
+# nudged
 
 [![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
 [![Build Status](https://img.shields.io/travis/axelpale/nudged/master.svg)](https://travis-ci.org/axelpale/nudged)
@@ -369,6 +369,7 @@ Start local server to try out the examples:
 Release:
 
 - Bump version in package.json, `npm run gv`, and run tests.
+- Build examples `npm run build:examples`
 - Create release branch. See [tutorial](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
   - `$ git checkout -b release-7.7.7 development`
 - Update the [badge urls](http://shields.io/) in README.
