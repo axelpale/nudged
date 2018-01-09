@@ -8,11 +8,11 @@ module.exports = function (canvas) {
   //     HTML Canvas element
   //
   var resizeCanvas = function () {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  };
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+  }
   // resize the canvas to fill browser window dynamically
-  window.addEventListener('resize', resizeCanvas, false);
+  window.addEventListener('resize', resizeCanvas, false)
   // Initially resized to fullscreen.
-  resizeCanvas();
-};
+  resizeCanvas()
+}

@@ -1,0 +1,8 @@
+.travis.yml
+
+/doc
+/examples
+/test
+
+# OS X Related
+*.DS_Store

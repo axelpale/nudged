@@ -1,28 +1,27 @@
 /*
 
-A multitouch demonstration app for nudged.
-
-The Tokyo Metro Map image is published to Wikimedia Commons by Hisagi. See:
-https://commons.wikimedia.org/wiki/File:Tokyo_metro_map.png
+A multitouch demonstration app for nudged
 
 */
-var loadimages = require('loadimages');
-var makefullcanvas = require('./makefullcanvas');
-var Model = require('./Model');
+var loadimages = require('loadimages')
+var makefullcanvas = require('./makefullcanvas')
+var Model = require('./Model')
 
-var debugView = document.getElementById('debug');
-var touchcanvas = document.getElementById('touchcanvas');
-var ctx = touchcanvas.getContext('2d');
+// var debugView = document.getElementById('debug')
+var touchcanvas = document.getElementById('touchcanvas')
+var ctx = touchcanvas.getContext('2d')
 
 // Automatically resize canvas to screen.
-makefullcanvas(touchcanvas);
+makefullcanvas(touchcanvas)
 
-loadimages('tokyo_metro_map_en.png', function (err, img) {
+loadimages('blackletter.jpg', function (err, img) {
+  if (err) {
+    throw err
+  }
 
   var model = new Model();
 
-  (function defineHowToTransform() {
-
+  (function defineHowToTransform () {
     // ### Design ###
     //
     // One high-level gesture G can consist of many child gestures,
@@ -44,9 +43,9 @@ loadimages('tokyo_metro_map_en.png', function (err, img) {
     // or disappearing finger. We associate these with touchstart and
     // touchend/touchcancel events. When the ending happens, we calculate
     // the final state for the ongoing transformation and merge or commit it
-    // to the committed transformation. Finally, we set the ongoing
-    // transformation to identity transformation so that the total
-    // transformation is kept constant.
+    // to the committed transformation. We set the ongoing transformation to
+    // identity transformation so that the total transformation is kept
+    // constant.
     //
     // on touchstart
     //   Note, changedTouches include all new touches and nothing more [1].
@@ -69,87 +68,77 @@ loadimages('tokyo_metro_map_en.png', function (err, img) {
     //
     // model updates its readable transformation by each
     // touchstart and touchmove. Model sends 'update' event when this happens.
-    // model.getTransform returns the committed transform multiplied
-    // with the working transform.
+    // model.getTransform returns the committed transform multiplied with the working transform.
     //
     // [1] https://developer.mozilla.org/en-US/docs/Web/Events/touchstart
 
     var onTouchStart = function (ev) {
-      var cts, i;
-      cts = ev.changedTouches;
+      var cts, i
+      cts = ev.changedTouches
       for (i = 0; i < cts.length; i += 1) {
-        model.startTouchPoint(cts[i].identifier, cts[i].pageX, cts[i].pageY);
+        model.startTouchPoint(cts[i].identifier, cts[i].pageX, cts[i].pageY)
       }
-      ev.preventDefault();
-    };
+      ev.preventDefault()
+    }
     var onTouchMove = function (ev) {
-      var cts, i;
-      cts = ev.changedTouches;
+      var cts, i
+      cts = ev.changedTouches
       for (i = 0; i < cts.length; i += 1) {
-        model.moveTouchPoint(cts[i].identifier, cts[i].pageX, cts[i].pageY);
+        model.moveTouchPoint(cts[i].identifier, cts[i].pageX, cts[i].pageY)
       }
-      ev.preventDefault();
-    };
+      ev.preventDefault()
+    }
     var onTouchEndTouchCancel = function (ev) {
-      var cts, i;
-      cts = ev.changedTouches;
+      var cts, i
+      cts = ev.changedTouches
       for (i = 0; i < cts.length; i += 1) {
-        model.endTouchPoint(cts[i].identifier);
+        model.endTouchPoint(cts[i].identifier)
       }
-      ev.preventDefault();
-    };
+      ev.preventDefault()
+    }
 
-    touchcanvas.addEventListener('touchstart', onTouchStart);
-    touchcanvas.addEventListener('touchmove', onTouchMove);
-    touchcanvas.addEventListener('touchend', onTouchEndTouchCancel);
-    touchcanvas.addEventListener('touchcancel', onTouchEndTouchCancel);
+    touchcanvas.addEventListener('touchstart', onTouchStart)
+    touchcanvas.addEventListener('touchmove', onTouchMove)
+    touchcanvas.addEventListener('touchend', onTouchEndTouchCancel)
+    touchcanvas.addEventListener('touchcancel', onTouchEndTouchCancel)
 
     // Mouse support
 
     var onMouseDown = function (ev) {
-      model.startTouchPoint('mouse', ev.pageX, ev.pageY);
-      ev.preventDefault();
-    };
+      model.startTouchPoint('mouse', ev.pageX, ev.pageY)
+      ev.preventDefault()
+    }
 
     var onMouseMove = function (ev) {
-      model.moveTouchPoint('mouse', ev.pageX, ev.pageY);
-      ev.preventDefault();
-    };
+      model.moveTouchPoint('mouse', ev.pageX, ev.pageY)
+      ev.preventDefault()
+    }
 
     var onMouseUp = function (ev) {
-      model.endTouchPoint('mouse');
-      ev.preventDefault();
-    };
+      model.endTouchPoint('mouse')
+      ev.preventDefault()
+    }
 
-    touchcanvas.addEventListener('mousedown', onMouseDown);
-    touchcanvas.addEventListener('mousemove', onMouseMove);
-    touchcanvas.addEventListener('mouseup', onMouseUp);
-    touchcanvas.addEventListener('mouseout', onMouseUp);
-  }());
+    touchcanvas.addEventListener('mousedown', onMouseDown)
+    touchcanvas.addEventListener('mousemove', onMouseMove)
+    touchcanvas.addEventListener('mouseup', onMouseUp)
+    touchcanvas.addEventListener('mouseout', onMouseUp)
+  }())
 
-  // Render the view each time the model changes.
-
-  var initImgWidth = img.width;
-  var initImgHeight = img.height;
-  var initCanvasWidth = touchcanvas.width;
-  var initCanvasHeight = touchcanvas.height;
-
-  var initDx = Math.floor(initCanvasWidth / 2 - initImgWidth / 2);
-  var initDy = Math.floor(initCanvasHeight / 2 - initImgHeight / 2);
-
+  // Output: view update
   model.on('update', function (totalTransformation) {
-    var tra = totalTransformation; // alias
+    var tra = totalTransformation // alias
 
-    // Clear. Otherwise some parts of the previous render might remain visible.
-    ctx.clearRect(0, 0, touchcanvas.width, touchcanvas.height);
+    // Clear
+    ctx.clearRect(0, 0, touchcanvas.width, touchcanvas.height)
 
     // Range image: apply transform to it
-    ctx.setTransform(tra.s, tra.r, -tra.r, tra.s, tra.tx, tra.ty);
-    ctx.drawImage(img, initDx, initDy);
-    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+    ctx.setTransform(tra.s, tra.r, -tra.r, tra.s, tra.tx, tra.ty)
+    ctx.drawImage(img, 256, 256, 256, 256)
+    ctx.setTransform(1, 0, 0, 1, 0, 0) // Reset transform
     // Alternative: ctx.resetTransform();
-    // The alternative does not work on iOS
-  });
+    // does not work on iOS
+  })
   // Init model to emit first update.
-  model.init();
-});
+  model.init()
+})

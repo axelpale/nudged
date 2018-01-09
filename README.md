@@ -1,4 +1,4 @@
-# nudged<sup>1.2.0</sup>
+# nudged
 
 [![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
 [![Build Status](https://img.shields.io/travis/axelpale/nudged/master.svg)](https://travis-ci.org/axelpale/nudged)
@@ -167,10 +167,10 @@ Create a `nudged.Transform` instance from an array created by nudged.Transform#t
 
 ### nudged.estimate(type, domain, range, pivot?)
 
-Compute an optimal affine transformation from the *domain* to *range* points. The *type* of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, in this order. The transformations without translation allow an optional fixed *pivot* point.
+Compute an optimal affine transformation from the *domain* to *range* points. The *type* of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, in this order. A special type `I` returns always the identity transformation. Transformations without translation (`S`, `R`, `SR`) allow an optional fixed *pivot* point.
 
 **Parameters:**
-- *type*: string, freedom of the transformation. Types available: `'T'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
+- *type*: string, freedom of the transformation. Types available: `'I'`, `'T'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
 - *domain*: array of [x,y] points
 - *range*: array of [x,y] points
 - *pivot*: optional [x,y] point. Defaults to the origin [0,0] with types `'S'`, `'R'`, and `'SR'`.
@@ -181,6 +181,7 @@ The *domain* and *range* should have equal length. Different lengths are allowed
 
 You can also call the estimators directly:
 
+- `nudged.estimateI()`
 - `nudged.estimateT(domain, range)`
 - `nudged.estimateS(domain, range, pivot)`
 - `nudged.estimateR(domain, range, pivot)`
@@ -188,6 +189,16 @@ You can also call the estimators directly:
 - `nudged.estimateTR(domain, range)`
 - `nudged.estimateSR(domain, range, pivot)`
 - `nudged.estimateTSR(domain, range)`
+
+**Example:**
+
+    > var domain = [[0,0], [2,0], [ 1,2]]
+    > var range  = [[1,1], [1,3], [-1,2]]
+    > var tr = nudged.estimate('SR', domain, range)
+    > tr.getScale()
+    1.242259
+    > tr.getRotation()
+    1.107148
 
 
 ### nudged.version
@@ -214,12 +225,25 @@ The `nudged.Transform` instance is designed to be immutable.
 
 Note that `s` and `r` do **not** represent scaling and rotation but instead `s = scalingFactor * Math.cos(rotationRads)` and `r = scalingFactor * Math.sin(rotationRads)`. The parameters `tx` and `ty` represent horizontal and vertical translation after rotation.
 
-
 ### nudged.Transform.IDENTITY
 
-A default instance of `nudged.Transform` that represents the identity transformation i.e. transformation without an effect. You can use it in building new transformations:
+A default instance of `nudged.Transform` that represents the identity transformation `new Transform(1, 0, 0, 0)` i.e. transformation without an effect. You can use it in building new transformations:
 
     > var trans = nudged.Transform.IDENTITY.scaleBy(0.6).rotateBy(0.3);
+
+### nudged.Transform.R90 .R180 .R270 .X2
+
+Following prebuilt `Transform` instances are available:
+
+- `R90`: clockwise 90 degree rotation. Equal to `new Transform(0, 1, 0, 0)`.
+- `R180`: 180 degree rotation. Equal to `new Transform(-1, 0, 0, 0)`.
+- `R270`: counterclockwise 90 degree rotation. Equal to `new Transform(0, -1, 0, 0)`.
+- `X2`: scale up by the factor of two. Equal to `new Transform(2, 0, 0, 0)`.
+
+**Example:**
+
+    > nudged.Transform.X2.getScale()
+    2
 
 ### nudged.Transform#s, #r, #tx, #ty
 
@@ -318,7 +342,7 @@ The scaling is done around an optional pivot point that defaults to [0,0].
 
 The rotation is done around an optional pivot point that defaults to [0,0].
 
-### nudged.Transform#multiplyBy(tr)
+### nudged.Transform#multiplyBy(tr) alias #multiplyRight(tr)
 
 **Parameter** `tr` is an instance of `nudged.Transform`.
 
@@ -344,14 +368,15 @@ Start local server to try out the examples:
 
 Release:
 
-- Bump version and run tests.
+- Bump version in package.json, `npm run gv`, and run tests.
+- Build examples `npm run build:examples`
 - Create release branch. See [tutorial](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
   - `$ git checkout -b release-7.7.7 development`
 - Update the [badge urls](http://shields.io/) in README.
 - Update the rawgit urls in README:
   - Replace 'nudged/development' with 'nudged/master'
 - Commit: `$ git commit -a -m "Clean release 7.7.7"`
-- Merge (see the tut above):
+- Merge (see the tutorial link above):
   - `$ git checkout master`
   - `$ git merge release-7.7.7`
   - `$ git push`
