@@ -259,7 +259,19 @@ Elements of the internal transformation matrix. Direct use of these properties i
     > t.ty
     20
 
-### nudged.Transform#equals(tr)
+### nudged.Transform#almostEqual(tr, epsilon?)
+
+Compare equality of two transformations and allow small differences that likely occur due to floating point arithmetics.
+
+**Alias** `.almostEquals(tr)`
+
+**Parameter** `tr` is an instance of `nudged.Transform`. Optional parameter `epsilon` is a small number that defines largest allowed difference and defaults to `Transform.EPSILON`. The difference is computed as the sum of absolute differences of the properties s, r, tx, and ty.
+
+**Return** true if the parameters of the two transformations are equal or almost equal and false otherwise.
+
+### nudged.Transform#equal(tr)
+
+**Alias** `.equals(tr)`
 
 **Parameter** `tr` is an instance of `nudged.Transform`.
 
@@ -342,7 +354,9 @@ The scaling is done around an optional pivot point that defaults to [0,0].
 
 The rotation is done around an optional pivot point that defaults to [0,0].
 
-### nudged.Transform#multiplyBy(tr) alias #multiplyRight(tr)
+### nudged.Transform#multiplyBy(tr)
+
+**Alias** `.multiplyRight(tr)`
 
 **Parameter** `tr` is an instance of `nudged.Transform`.
 

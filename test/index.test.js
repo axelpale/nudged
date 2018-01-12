@@ -348,6 +348,21 @@ describe('nudged', function () {
       t = nudged.estimateTSR(domain, range)
     })
 
+    it('should equal to self', function () {
+      t.equal(t).should.equal(true)
+      t.equals(t).should.equal(true)
+    })
+
+    it('has almostEqual', function () {
+      var t1 = new nudged.Transform(nudged.Transform.EPSILON / 10, 0, 0, 0)
+      var t2 = new nudged.Transform(nudged.Transform.EPSILON / 5, 0, 0, 0)
+      t1.almostEqual(t2).should.equal(true)
+      t1.equal(t2).should.equal(false)
+
+      var t3 = new nudged.Transform(nudged.Transform.EPSILON * 10, 0, 0, 0)
+      t2.almostEquals(t3).should.equal(false)
+    })
+
     it('should allow single points', function () {
       t.transform([1, 0]).should.deepEqual([-1, 2])
       t.transform([[1, 0]]).should.deepEqual([[-1, 2]])
