@@ -54,6 +54,58 @@ exports.createFromArray = function (arr) {
   return new exports.Transform(s, r, tx, ty)
 }
 
+exports.createFromString = function (str) {
+  // Create a nudged.Transform instance from an string using the CSS syntax.
+  //
+  // Together with nudged.Transform#toArray(), this method makes an easy
+  // serialization and deserialization to and from JSON possible.
+  //
+  // Parameter:
+  //   str
+  //     string the transform description
+  let transform = exports.Transform.IDENTITY;
+
+  // Build the regexp parser for each directives
+  let regexpItems = [
+    /(translate)\(\s*([-+]?\d+(?:\.\d+)?)\s*,\s*([-+]?\d+(?:\.\d+)?)\s*\)/,
+    /(rotate)\(\s*([-+]?\d+(?:\.\d+)?\s*)\)/,
+    /(scale)\(\s*([-+]?\d+(?:\.\d+)?\s*)\)/,
+    /(?:\s+)/
+  ]
+  const regex = new RegExp(regexpItems.map(x => x.source).join('|'), 'y')
+
+  // Iterate on directives
+  let chunck;
+  while ((chunck = regex.exec(str) ) !== null) {
+    // Cleanup not matching groups
+    let founds = [...chunck];
+    founds = founds.filter(x => x !== undefined)
+
+    // Ignore whitespace group
+    if (founds.length === 1) {
+      continue;
+    }
+
+    founds.shift();
+    let directive = founds.shift();
+    switch(directive) {
+      case 'translate':
+        transform = transform.translateBy(parseFloat(founds.shift()), parseFloat(founds.shift()));
+        break;
+
+      case 'rotate':
+        transform = transform.rotateBy((Math.PI / 180) * parseFloat(founds.shift()));
+        break;
+
+      case 'scale':
+        transform = transform.scaleBy(parseFloat(founds.shift()));
+        break;
+    }
+  }
+
+  return transform;
+}
+
 exports.estimate = function (type, domain, range, pivot) {
   // Parameter
   //   type
