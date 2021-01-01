@@ -234,7 +234,30 @@ describe('nudged', function () {
     it('should return identity', function () {
       // Does not process arguments after the first
       var t = nudged.estimate('I', ['a', 'b'], ['c', 'd', 'efoo'])
-      t.should.equal(nudged.Transform.IDENTITY)
+      t.should.equal(IDENTITY)
+    })
+  })
+
+  describe('.estimateL', function () {
+    it('should estimate line translation correctly', function () {
+      var t = nudged.estimate('L', [], [])
+      t.should.equal(IDENTITY)
+
+      t = nudged.estimateL([[0, 0]], [[1, 0]], 0)
+      assertTransform(t, { s: 1, r: 0, tx: 1, ty: 0 })
+
+      t = nudged.estimateL([[0, 0]], [[1, 0]], Math.PI / 2)
+      assertTransform(t, IDENTITY)
+
+      // 5/8 turn, should be equivalent to 1/8 turn.
+      var t1 = nudged.estimateL([[-2, -2]], [[1, 5]], Math.PI / 4)
+      var t2 = nudged.estimateL([[-2, -2]], [[1, 5]], 5 * Math.PI / 4)
+      assertTransform(t1, t2)
+    })
+    it('should estimate with multiple points', function () {
+      // Points go up, but line goes 45 deg.
+      var t = nudged.estimate('L', [[1, 1], [2, 0]], [[1, 2], [2, 1]], Math.PI / 4)
+      assertTransform(t, { s: 1, r: 0, tx: 0.5, ty: 0.5 })
     })
   })
 
