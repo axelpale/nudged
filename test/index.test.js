@@ -164,11 +164,12 @@ var assertTransform = function (t1, t2, msg) {
   } else {
     msg = ' of ' + msg
   }
+  var tolerance = 0.00001
   try {
-    t1.s.should.equal(t2.s, 's' + msg)
-    t1.r.should.equal(t2.r, 'r' + msg)
-    t1.tx.should.equal(t2.tx, 'tx' + msg)
-    t1.ty.should.equal(t2.ty, 'ty' + msg)
+    t1.s.should.be.approximately(t2.s, tolerance, 's' + msg)
+    t1.r.should.be.approximately(t2.r, tolerance, 'r' + msg)
+    t1.tx.should.be.approximately(t2.tx, tolerance, 'tx' + msg)
+    t1.ty.should.be.approximately(t2.ty, tolerance, 'ty' + msg)
   } catch (assertionError) {
     console.log(t1)
     console.log(t2)
