@@ -3,6 +3,7 @@
 */
 exports.Transform = require('./lib/Transform')
 exports.estimateI = require('./lib/estimateI')
+exports.estimateL = require('./lib/estimateL')
 exports.estimateT = require('./lib/estimateT')
 exports.estimateS = require('./lib/estimateS')
 exports.estimateR = require('./lib/estimateR')
