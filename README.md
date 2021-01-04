@@ -172,7 +172,7 @@ Compute an optimal affine transformation from the *domain* to *range* points. Th
 - *type*: string, freedom of the transformation. Types available: `'I'`, `'L'`, `'T'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
 - *domain*: array of [x,y] points
 - *range*: array of [x,y] points
-- *param*: For types `'S'`, `'R'`, and `'SR'` this is an optional [x,y] pivot point that defaults to the origin [0,0]. For type `'L'` this is an angle in radians.
+- *param*: For types `'S'`, `'R'`, and `'SR'` this is an optional [x,y] pivot point that defaults to the origin [0,0]. For type `'L'` this is an angle in radians from positive x-axis towards positive y-axis.
 
 The *domain* and *range* should have equal length. Different lengths are allowed but additional points in the longer array are ignored.
 
