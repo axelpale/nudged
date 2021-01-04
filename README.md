@@ -14,7 +14,7 @@ _**Image**: Available types of transformation estimators. Each estimator has an 
 
 Available also [in Python](https://pypi.python.org/pypi/nudged).
 
-**Contents:**
+### Table of contents
 
 - [Installation](#installation)
 - [Usage](#usage)
