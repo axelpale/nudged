@@ -68,8 +68,12 @@ exports.estimate = function (type, domain, range, pivot) {
   //     optional 2d array, does nothing for translation estimators
   //
   var name = 'estimate' + type.toUpperCase()
-  if (exports.hasOwnProperty(name)) {
+  try {
     return exports[name](domain, range, pivot)
-  } // else
-  throw new Error('Unknown estimator type: ' + type)
+  } catch (e) {
+    if (typeof exports[name] !== 'function') {
+      throw new Error('Unknown estimator type: ' + type)
+    }
+    throw e
+  }
 }
