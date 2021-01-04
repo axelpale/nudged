@@ -380,27 +380,22 @@ Start local server to try out the examples:
 
     $ npm start
 
-Release:
+Git workflow:
 
+- Create a feature branch: `$ git branch feature-name`
+- When feature finished, merge:
+  - `$ git checkout master`
+  - `$ git merge feature-name`
+  - `$ git push`
+  - Delete the feature branch.
 - Bump version in package.json, `npm run gv`, and run tests.
 - Build examples `npm run build:examples`
-- Create release branch. See [tutorial](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
-  - `$ git checkout -b release-7.7.7 development`
-- Update the [badge urls](http://shields.io/) in README.
-- Update the rawgit urls in README:
-  - Replace 'nudged/development' with 'nudged/master'
-- Commit: `$ git commit -a -m "Clean release 7.7.7"`
-- Merge (see the tutorial link above):
-  - `$ git checkout master`
-  - `$ git merge release-7.7.7`
-  - `$ git push`
+- Commit: `$ git commit -a -m "Release 7.7.7"`
 - Create [tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging):
   - `$ git tag -a 7.7.7 -m "v7.7.7 Superb Name"`
   - `$ git push --tags`
 - Publish to npm:
   - `$ npm publish`
-- Return to development to avoid accidental master commits
-  - `$ git checkout development`
 
 
 ## Thanks
