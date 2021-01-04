@@ -174,10 +174,10 @@ Create a `nudged.Transform` instance from an array created by nudged.Transform#t
 
 ### nudged.estimate(type, domain, range, param?)
 
-Compute an optimal affine transformation from the *domain* to *range* points. The *type* of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, in this order. A special type `I` returns always the identity transformation. A special type `L` estimates translation along a line at given *angle*.  Transformations without translation (`S`, `R`, `SR`) allow an optional fixed *pivot* point.
+Compute an optimal affine transformation from the *domain* to *range* points. The *type* of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, in this order. A special type `I` returns always the identity transformation. A special type `L` estimates translation along a line at given *angle*.  Transformations without translation (`S`, `R`, `SR`) allow an optional fixed *pivot* point that acts as the center of rotation.
 
 **Parameters:**
-- *type*: string, freedom of the transformation. Types available: `'I'`, `'L'`, `'T'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
+- *type*: string, freedom of the transformation. Types available: `'I'`, `'T'`, `'L'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
 - *domain*: array of [x,y] points
 - *range*: array of [x,y] points
 - *param*: For types `'S'`, `'R'`, and `'SR'` this is an optional [x,y] pivot point that defaults to the origin [0,0]. For type `'L'` this is an angle in radians from positive x-axis towards positive y-axis.
