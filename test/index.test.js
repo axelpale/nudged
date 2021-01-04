@@ -476,5 +476,21 @@ describe('nudged', function () {
       R270.transform([1, 1]).should.deepEqual([1, -1])
       X2.transform([1, -1]).should.deepEqual([2, -2])
     })
+
+    it('should be able to convert to CSS string', function () {
+      var I = nudged.Transform.IDENTITY
+      I.toString().should.equal('matrix(' +
+        '1.00000000,0.00000000,' +
+        '0.00000000,1.00000000,' +
+        '0.00000000,0.00000000)')
+      I.translateBy(5, -5).toString().should.equal('matrix(' +
+        '1.00000000,0.00000000,' +
+        '0.00000000,1.00000000,' +
+        '5.00000000,-5.00000000)')
+      I.translateBy(0, 1e-10).toString().should.equal('matrix(' +
+        '1.00000000,0.00000000,' +
+        '0.00000000,1.00000000,' +
+        '0.00000000,0.00000000)')
+    })
   })
 })
