@@ -12,8 +12,6 @@ _**Image**: Available types of transformation estimators. Each estimator has an 
 
 **The development has been supported** by [Infant Cognition Laboratory](https://www.tuni.fi/en/research/infant-cognition) at [Tampere University](https://www.tuni.fi/en/) where *nudged* is used to correct eye tracking data. Yet, the main motivation for *nudged* comes from [Tapspace](https://github.com/taataa/tapspace), a zoomable user interface library where smooth and fast scaling by touch is crucial.
 
-Available also [in Python](https://pypi.python.org/pypi/nudged).
-
 ### Table of contents
 
 - [Installation](#installation)
@@ -32,6 +30,7 @@ With [npm](https://www.npmjs.com/package/nudged):
 
     $ npm install nudged
 
+Available also [in Python](https://pypi.python.org/pypi/nudged).
 
 ## Usage
 
