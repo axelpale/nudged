@@ -59,7 +59,7 @@ exports.estimate = function (type, domain, range, pivot) {
   // Parameter
   //   type
   //     string. One of the following:
-  //       'I', 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
+  //       'I', 'T', 'L', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
   //   domain
   //     array of 2d arrays
   //   range
