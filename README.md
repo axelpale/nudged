@@ -3,7 +3,7 @@
 [![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
 [![Build Status](https://img.shields.io/travis/axelpale/nudged/master.svg)](https://travis-ci.org/axelpale/nudged)
 
-*nudged* is **a JavaScript module** to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. It has already been applied to **user interfaces, multi-touch recognition, geography, and eye tracker calibration**.
+*Nudged* is **a JavaScript module** to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. It has already been applied to **user interfaces, multi-touch recognition, geography, and eye tracker calibration**.
 
 ### Table of contents
 
@@ -19,14 +19,14 @@
 
 ## Introduction
 
-In general, you can apply *nudged* in any situation where you want to capture a 2D transformation based on a movement of any number of control points. There are different  See the image below for available types of transforms *nudged* can estimate.
+In general, you can apply Nudged in any situation where you want to capture a 2D transformation based on a movement of any number of control points. There are different  See the image below for available types of transforms Nudged can estimate.
 
 <img src="doc/transformation-types.jpg" alt="Types of transformation estimators"/><br>
-_**Image**: Available types of transformation estimators. Each estimator has an abbreviated name, for example 'SR'. The black-white dots and connecting arrows represent movement of two control points. Given the control points, *nudged* estimates a transformation. The image pairs represent the effect of the resulting transformation. To emphasize the effect, the control points and the initial image positions are kept the same for each type._
+_**Image**: Available types of transformation estimators. Each estimator has an abbreviated name, for example 'SR'. The black-white dots and connecting arrows represent movement of two control points. Given the control points, Nudged estimates a transformation. The image pairs represent the effect of the resulting transformation. To emphasize the effect, the control points and the initial image positions are kept the same for each type._
 
-**Mathematically speaking**, *nudged* is a set of optimal least squares estimators for nonreflective similarity transformation matrices. Such transformations are [affine transformations](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has [time complexity](https://en.wikipedia.org/wiki/Time_complexity) of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, *nudged* solves a 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in [linear time](https://en.wikipedia.org/wiki/Time_complexity#Linear_time). The algorithms and their efficiency are thoroughly described in a **M.Sc. thesis** [Advanced algorithms for manipulating 2D objects on touch screens](http://URN.fi/URN:NBN:fi:tty-201605264186).
+**Mathematically speaking**, Nudged is a set of optimal [least squares estimators](https://en.wikipedia.org/wiki/Least_squares) for nonreflective similarity transformation matrices. Such transformations are [affine transformations](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has [time complexity](https://en.wikipedia.org/wiki/Time_complexity) of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, Nudged solves a 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in [linear time](https://en.wikipedia.org/wiki/Time_complexity#Linear_time). The algorithms and their efficiency are thoroughly described in a **M.Sc. thesis** [Advanced algorithms for manipulating 2D objects on touch screens](http://URN.fi/URN:NBN:fi:tty-201605264186).
 
-**The development has been supported** by [Infant Cognition Laboratory](https://www.tuni.fi/en/research/infant-cognition) at [Tampere University](https://www.tuni.fi/en/) where *nudged* is used to correct eye tracking data. Yet, the main motivation for *nudged* comes from [Tapspace](https://github.com/taataa/tapspace), a zoomable user interface library where smooth and fast scaling by touch is crucial.
+**The development has been supported** by [Infant Cognition Laboratory](https://www.tuni.fi/en/research/infant-cognition) at [Tampere University](https://www.tuni.fi/en/) where Nudged is used to correct eye tracking data. Yet, the main motivation for Nudged comes from [Tapspace](https://github.com/taataa/tapspace), a zoomable user interface library where smooth and fast scaling by touch is crucial.
 
 
 ## Installation
