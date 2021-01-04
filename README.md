@@ -127,7 +127,7 @@ In this [map viewer demo](https://rawgit.com/axelpale/nudged/master/examples/nud
 
 ## API
 
-Nudged API provides a class for nonreflective similarity transformations and 7 types of estimators, one for each combination of translation, scaling, and rotation. The ones without translation allow an optional fixed point.
+Nudged API provides a class `Transform` to represent a nonreflective similarity transformation matrix and multiple functions to estimate such transformations from sets of points.
 
 ### nudged.create(scale, rotation, translationX, translationY)
 
