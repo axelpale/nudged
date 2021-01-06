@@ -147,7 +147,7 @@ var samples = {
 
 var pickSamples = function (type) {
   return _.pick(samples, function (s) {
-    return s.hasOwnProperty(type)
+    return type in s
   })
 }
 
@@ -164,11 +164,12 @@ var assertTransform = function (t1, t2, msg) {
   } else {
     msg = ' of ' + msg
   }
+  var tolerance = 0.00001
   try {
-    t1.s.should.equal(t2.s, 's' + msg)
-    t1.r.should.equal(t2.r, 'r' + msg)
-    t1.tx.should.equal(t2.tx, 'tx' + msg)
-    t1.ty.should.equal(t2.ty, 'ty' + msg)
+    t1.s.should.be.approximately(t2.s, tolerance, 's' + msg)
+    t1.r.should.be.approximately(t2.r, tolerance, 'r' + msg)
+    t1.tx.should.be.approximately(t2.tx, tolerance, 'tx' + msg)
+    t1.ty.should.be.approximately(t2.ty, tolerance, 'ty' + msg)
   } catch (assertionError) {
     console.log(t1)
     console.log(t2)
@@ -233,7 +234,64 @@ describe('nudged', function () {
     it('should return identity', function () {
       // Does not process arguments after the first
       var t = nudged.estimate('I', ['a', 'b'], ['c', 'd', 'efoo'])
-      t.should.equal(nudged.Transform.IDENTITY)
+      t.should.equal(IDENTITY)
+    })
+  })
+
+  describe('.estimateL', function () {
+    it('should estimate line translation correctly', function () {
+      var t = nudged.estimate('L', [], [])
+      t.should.equal(IDENTITY)
+
+      t = nudged.estimateL([[0, 0]], [[1, 0]], 0)
+      assertTransform(t, { s: 1, r: 0, tx: 1, ty: 0 })
+
+      t = nudged.estimateL([[0, 0]], [[1, 0]], Math.PI / 2)
+      assertTransform(t, IDENTITY)
+
+      // 5/8 turn, should be equivalent to 1/8 turn.
+      var t1 = nudged.estimateL([[-2, -2]], [[1, 5]], Math.PI / 4)
+      var t2 = nudged.estimateL([[-2, -2]], [[1, 5]], 5 * Math.PI / 4)
+      assertTransform(t1, t2)
+    })
+    it('should estimate with multiple points', function () {
+      // Points go up, but line goes 45 deg.
+      var t = nudged.estimate('L', [[1, 1], [2, 0]], [[1, 2], [2, 1]], Math.PI / 4)
+      assertTransform(t, { s: 1, r: 0, tx: 0.5, ty: 0.5 })
+    })
+  })
+
+  describe('.estimateX', function () {
+    it('should estimate horizontal translation correctly', function () {
+      var t = nudged.estimate('X', [], [])
+      t.should.equal(IDENTITY)
+
+      t = nudged.estimateX([[0, 0]], [[1, 0]])
+      assertTransform(t, { s: 1, r: 0, tx: 1, ty: 0 })
+      t = nudged.estimateX([[0, 0]], [[0, 1]])
+      assertTransform(t, { s: 1, r: 0, tx: 0, ty: 0 })
+    })
+    it('should estimate with multiple points', function () {
+      // Points go +1 -1.
+      var t = nudged.estimate('X', [[1, 1], [2, 0]], [[2, 0], [3, -1]])
+      assertTransform(t, { s: 1, r: 0, tx: 1, ty: 0 })
+    })
+  })
+
+  describe('.estimateY', function () {
+    it('should estimate vertical translation correctly', function () {
+      var t = nudged.estimate('Y', [], [])
+      t.should.equal(IDENTITY)
+
+      t = nudged.estimateY([[0, 0]], [[1, 0]])
+      assertTransform(t, { s: 1, r: 0, tx: 0, ty: 0 })
+      t = nudged.estimateY([[0, 0]], [[0, 1]])
+      assertTransform(t, { s: 1, r: 0, tx: 0, ty: 1 })
+    })
+    it('should estimate with multiple points', function () {
+      // Points go +1 -1.
+      var t = nudged.estimate('Y', [[1, 1], [2, 0]], [[2, 0], [3, -1]])
+      assertTransform(t, { s: 1, r: 0, tx: 0, ty: -1 })
     })
   })
 
@@ -423,7 +481,7 @@ describe('nudged', function () {
 
     it('should be multipliable', function () {
       var tt = t.multiplyBy(t)
-      var tt2 = t.multiplyRight(t)  // test alias
+      var tt2 = t.multiplyRight(t) // test alias
       // s: -4, r: 0, tx: -1, ty: -2
       tt.transform([1, -1]).should.deepEqual([-5, 2])
       tt2.transform([1, -1]).should.deepEqual([-5, 2])
@@ -451,6 +509,22 @@ describe('nudged', function () {
       R90.multiplyRight(R180).transform([1, 1]).should.deepEqual([1, -1])
       R270.transform([1, 1]).should.deepEqual([1, -1])
       X2.transform([1, -1]).should.deepEqual([2, -2])
+    })
+
+    it('should be able to convert to CSS string', function () {
+      var I = nudged.Transform.IDENTITY
+      I.toString().should.equal('matrix(' +
+        '1.00000000,0.00000000,' +
+        '0.00000000,1.00000000,' +
+        '0.00000000,0.00000000)')
+      I.translateBy(5, -5).toString().should.equal('matrix(' +
+        '1.00000000,0.00000000,' +
+        '0.00000000,1.00000000,' +
+        '5.00000000,-5.00000000)')
+      I.translateBy(0, 1e-10).toString().should.equal('matrix(' +
+        '1.00000000,0.00000000,' +
+        '0.00000000,1.00000000,' +
+        '0.00000000,0.00000000)')
     })
   })
 })

@@ -1,8 +1,8 @@
-/*
-
-*/
 exports.Transform = require('./lib/Transform')
 exports.estimateI = require('./lib/estimateI')
+exports.estimateL = require('./lib/estimateL')
+exports.estimateX = require('./lib/estimateX')
+exports.estimateY = require('./lib/estimateY')
 exports.estimateT = require('./lib/estimateT')
 exports.estimateS = require('./lib/estimateS')
 exports.estimateR = require('./lib/estimateR')
@@ -58,17 +58,21 @@ exports.estimate = function (type, domain, range, pivot) {
   // Parameter
   //   type
   //     string. One of the following:
-  //       'I', 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
+  //       'I', 'L', 'X', 'Y', 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
   //   domain
   //     array of 2d arrays
   //   range
   //     array of 2d arrays
   //   pivot
-  //     optional 2d array, does nothing for translation estimators
+  //     An optional 2d array for 'S', 'R', and 'SR'. An angle for 'L'.
   //
   var name = 'estimate' + type.toUpperCase()
-  if (exports.hasOwnProperty(name)) {
+  try {
     return exports[name](domain, range, pivot)
-  } // else
-  throw new Error('Unknown estimator type: ' + type)
+  } catch (e) {
+    if (typeof exports[name] !== 'function') {
+      throw new Error('Unknown estimator type: ' + type)
+    }
+    throw e
+  }
 }
