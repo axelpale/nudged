@@ -20,7 +20,7 @@
 
 ## Introduction
 
-In general, you can apply Nudged in any situation where you want to capture a 2D transformation based on a movement of any number of control points. There are different  See the image below for available types of transforms Nudged can estimate.
+In general, you can apply Nudged in any situation where you want to capture a 2D transformation based on a movement of any number of control points. See the image below for available types of transforms Nudged can estimate.
 
 <img src="doc/transformation-types.jpg" alt="Types of transformation estimators"/><br>
 _**Image**: Available types of transformation estimators. Each estimator has an abbreviated name, for example 'SR'. The black-white dots and connecting arrows represent movement of two control points. Given the control points, Nudged estimates a transformation. The image pairs represent the effect of the resulting transformation. To emphasize the effect, the control points and the initial image positions are kept the same for each type._
