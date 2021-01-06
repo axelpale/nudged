@@ -13,7 +13,7 @@
 - [Example apps](#example-apps)
 - [API](#api)
 - [For developers](#for-developers)
-- [Thanks](#thanks)
+- [Acknowledgments](#acknowledgments)
 - [Versioning](#versioning)
 - [Licence](#licence)
 
@@ -406,12 +406,15 @@ Git workflow:
   - `$ npm publish`
 
 
-## Thanks
+## Acknowledgments
 
-- [Infant Cognition Laboratory at University of Tampere](http://www.uta.fi/med/icl/index.html) for funding.
-- [3D Media Group at Tampere University of Technology](http://www.tut.fi/en/about-tut/departments/signal-processing/research/3d-media/) for testing devices.
+We want to thank:
+
+- [Tampere University of Technology](https://www.tuni.fi/en) and [Adj. Prof. Ossi Nykänen](https://www.researchgate.net/scientific-contributions/Ossi-Nykaenen-69896506) for guidance on the [M.Sc. thesis on Nudged](http://URN.fi/URN:NBN:fi:tty-201605264186).
+- [Infant Cognition Laboratory at University of Tampere](https://www.tuni.fi/en/research/infant-cognition) and [Adj. Prof. Jukka Leppänen](https://scholar.google.fi/citations?user=dNRRUIsAAAAJ) for funding and support in research.
+- [3D Media Group at Tampere University of Technology](https://www.tuni.fi/en/research/3d-media-group), [M.Sc. Olli Suominen](https://tutcris.tut.fi/portal/en/persons/olli-suominen(8d7b7ce4-1468-4621-9a6e-d307f644c9bb).html), and [Assoc. Prof. Atanas Gotchev](https://tutcris.tut.fi/portal/en/persons/atanas-gotchev(3b4a825b-941b-484e-b046-cd09bde1cd31).html) for providing touch-screen devices for testing.
 - Tanja for math photos.
-- Vilkku, Xiao, and Krista for fingers.
+- Vilkku, Xiao, and Krista for finger photos.
 
 
 ## Versioning
