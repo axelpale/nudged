@@ -17,6 +17,7 @@
 - [Versioning](#versioning)
 - [Licence](#licence)
 
+
 ## Introduction
 
 In general, you can apply Nudged in any situation where you want to capture a 2D transformation based on a movement of any number of control points. There are different  See the image below for available types of transforms Nudged can estimate.
@@ -36,6 +37,7 @@ With [npm](https://www.npmjs.com/package/nudged):
     $ npm install nudged
 
 Available also [in Python](https://pypi.python.org/pypi/nudged).
+
 
 ## Usage
 
@@ -161,7 +163,6 @@ The parameters are optional and default to the identity transformation.
     > t3.transform([3, 1])
     [23.2, 1]
 
-
 ### nudged.createFromArray(arr)
 
 Create a `nudged.Transform` instance from an array created by nudged.Transform#toArray(). Together with `nudged.Transform#toArray()` this method makes an easy **serialization and deserialization** to and from JSON possible.
@@ -208,14 +209,12 @@ You can also call the estimators directly:
     > tr.getRotation()
     1.107148
 
-
 ### nudged.version
 
 Contains the module version string identical to the version in *package.json*.
 
     > nudged.version
     '1.2.3'
-
 
 ### nudged.Transform(s, r, tx, ty)
 
@@ -371,7 +370,6 @@ The rotation is done around an optional pivot point that defaults to [0,0].
 **Return** a new `nudged.Transform` instance where the original transformation matrix is multiplied from the right with the transformation matrix of `tr`.
 
 The resulting transformation is equal to first transforming with `tr` and then with the instance. More precisely, the image of the resulting transformation is the image of `tr` transformed by the instance.
-
 
 
 ## For developers
