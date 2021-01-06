@@ -261,6 +261,40 @@ describe('nudged', function () {
     })
   })
 
+  describe('.estimateX', function () {
+    it('should estimate horizontal translation correctly', function () {
+      var t = nudged.estimate('X', [], [])
+      t.should.equal(IDENTITY)
+
+      t = nudged.estimateX([[0, 0]], [[1, 0]])
+      assertTransform(t, { s: 1, r: 0, tx: 1, ty: 0 })
+      t = nudged.estimateX([[0, 0]], [[0, 1]])
+      assertTransform(t, { s: 1, r: 0, tx: 0, ty: 0 })
+    })
+    it('should estimate with multiple points', function () {
+      // Points go +1 -1.
+      var t = nudged.estimate('X', [[1, 1], [2, 0]], [[2, 0], [3, -1]])
+      assertTransform(t, { s: 1, r: 0, tx: 1, ty: 0 })
+    })
+  })
+
+  describe('.estimateY', function () {
+    it('should estimate vertical translation correctly', function () {
+      var t = nudged.estimate('Y', [], [])
+      t.should.equal(IDENTITY)
+
+      t = nudged.estimateY([[0, 0]], [[1, 0]])
+      assertTransform(t, { s: 1, r: 0, tx: 0, ty: 0 })
+      t = nudged.estimateY([[0, 0]], [[0, 1]])
+      assertTransform(t, { s: 1, r: 0, tx: 0, ty: 1 })
+    })
+    it('should estimate with multiple points', function () {
+      // Points go +1 -1.
+      var t = nudged.estimate('Y', [[1, 1], [2, 0]], [[2, 0], [3, -1]])
+      assertTransform(t, { s: 1, r: 0, tx: 0, ty: -1 })
+    })
+  })
+
   describe('.estimateTSR', function () {
     it('should estimate correctly', function () {
       forSamples('tsr', function (sam, samkey) {

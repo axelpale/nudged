@@ -175,22 +175,38 @@ Create a `nudged.Transform` instance from an array created by nudged.Transform#t
 
 ### nudged.estimate(type, domain, range, param?)
 
-Compute an optimal affine transformation from the *domain* to *range* points. The *type* of transformation is any combination of translation `T`, scaling `S`, and rotation `R`, in this order. A special type `I` returns always the identity transformation. A special type `L` estimates translation along a line at given *angle*.  Transformations without translation (`S`, `R`, `SR`) allow an optional fixed *pivot* point that acts as the center of rotation.
+Compute an optimal affine transformation from *domain* to *range* points. The *type* of transformation determines the freedom of the transformation to be estimated.
+
+**Available types**
+
+- `I`: Identity transform. Whatever the points, returns always the identity transformation.
+- `L`: Translation along line. Takes additional *angle* parameter in radians. Direction of the angle is from positive x-axis towards positive y-axis.
+- `X`: Horizontal translation. Equivalent to `L` with angle 0.
+- `Y`: Vertical translation. Equivalent to `L` with angle ±PI/2.
+- `T`: Free translation.
+- `S`: Scaling about a fixed *pivot* point.
+- `R`: Rotation around a fixed *pivot* point.
+- `TS`: Free translation with scaling.
+- `TR`: Free translation with rotation.
+- `SR`: Scaling and rotation around a fixed *pivot* point.
+- `TSR`: Free translation with both scaling and rotation.
 
 **Parameters:**
-- *type*: string, freedom of the transformation. Types available: `'I'`, `'T'`, `'L'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
-- *domain*: array of [x,y] points
-- *range*: array of [x,y] points
-- *param*: For types `'S'`, `'R'`, and `'SR'` this is an optional [x,y] pivot point that defaults to the origin [0,0]. For type `'L'` this is an angle in radians from positive x-axis towards positive y-axis.
+- *type*: string. The freedom of the transformation. Must be one of the following: `'I'`, `'L'`, `'X'`, `'Y'`, `'T'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
+- *domain*: array of [x,y] points. The source point set.
+- *range*: array of [x,y] points. The target point set.
+- *param*: For types `S`, `R`, and `SR` this is an optional `[x,y]` pivot point that defaults to the origin `[0,0]`. For type `L` this is an angle in radians so that angle PI/2 (90 deg) is towards positive y-axis.
 
 The *domain* and *range* should have equal length. Different lengths are allowed but additional points in the longer array are ignored.
 
 **Return** new `nudged.Transform(...)` instance.
 
-You can also call the estimators directly:
+You can also call the estimators directly for slightly enhanced performance:
 
 - `nudged.estimateI()`
 - `nudged.estimateL(domain, range, angle)`
+- `nudged.estimateX(domain, range)`
+- `nudged.estimateY(domain, range)`
 - `nudged.estimateT(domain, range)`
 - `nudged.estimateS(domain, range, pivot)`
 - `nudged.estimateR(domain, range, pivot)`
