@@ -2,24 +2,6 @@ exports.transform = require('./lib/transform')
 exports.estimate = require('./lib/estimate')
 exports.version = require('./lib/version')
 
-exports.createFromArray = function (arr) {
-  // Create a nudged.Transform instance from an array that was
-  // previously created with nudged.Transform#toArray().
-  //
-  // Together with nudged.Transform#toArray(), this method makes an easy
-  // serialization and deserialization to and from JSON possible.
-  //
-  // Parameter:
-  //   arr
-  //     array with four elements
-
-  var s = arr[0]
-  var r = arr[1]
-  var tx = arr[2]
-  var ty = arr[3]
-  return new exports.Transform(s, r, tx, ty)
-}
-
 exports.estimate = function (type, domain, range, pivot) {
   // Parameter
   //   type
