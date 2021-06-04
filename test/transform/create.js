@@ -12,4 +12,16 @@ module.exports = (ts) => {
 
     t.end()
   })
+
+  ts.test('detect invalid arguments', (t) => {
+    t.throws(() => {
+      unit.create()
+    }, Error)
+
+    t.throws(() => {
+      unit.create('1', '2', '3', '4')
+    }, Error)
+
+    t.end()
+  })
 }
