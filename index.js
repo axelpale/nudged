@@ -1,15 +1,5 @@
-exports.Transform = require('./lib/Transform')
-exports.estimateI = require('./lib/estimateI')
-exports.estimateL = require('./lib/estimateL')
-exports.estimateX = require('./lib/estimateX')
-exports.estimateY = require('./lib/estimateY')
-exports.estimateT = require('./lib/estimateT')
-exports.estimateS = require('./lib/estimateS')
-exports.estimateR = require('./lib/estimateR')
-exports.estimateTS = require('./lib/estimateTS')
-exports.estimateTR = require('./lib/estimateTR')
-exports.estimateSR = require('./lib/estimateSR')
-exports.estimateTSR = require('./lib/estimateTSR')
+exports.transform = require('./lib/transform')
+exports.estimate = require('./lib/estimate')
 exports.version = require('./lib/version')
 
 exports.create = function (scale, rotation, tx, ty) {
