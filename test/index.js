@@ -1,12 +1,12 @@
 const test = require('tape')
 
 // Units
-const transform = require('./transform')
 const version = require('./version')
+const transform = require('./transform')
 const estimators = require('./estimators')
 
 test('nudged', (t) => {
-  t.test('version', version)
-  t.test('transform', transform)
+  t.test('nudged.version', version)
+  t.test('nudged.transform', transform)
   t.test('nudged.estimators', estimators)
 })

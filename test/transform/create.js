@@ -2,7 +2,7 @@ const nudged = require('../../index')
 const unit = nudged.transform
 
 module.exports = (ts) => {
-  ts.test('happy', (t) => {
+  ts.test('case: happy', (t) => {
     t.deepEqual(unit.create(1, 2, 3, 4), {
       a: 1,
       b: 2,
@@ -13,7 +13,7 @@ module.exports = (ts) => {
     t.end()
   })
 
-  ts.test('detect invalid arguments', (t) => {
+  ts.test('case: detect invalid arguments', (t) => {
     t.throws(() => {
       unit.create()
     }, Error)
