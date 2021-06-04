@@ -1,5 +1,5 @@
 exports.transform = require('./lib/transform')
-exports.estimate = require('./lib/estimate')
+exports.estimators = require('./lib/estimators')
 exports.version = require('./lib/version')
 
 exports.estimate = function (type, domain, range, pivot) {
