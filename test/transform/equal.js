@@ -3,7 +3,7 @@ const equal = nudged.transform.equal
 const EPSILON = nudged.transform.EPSILON
 
 module.exports = (ts) => {
-  ts.test('case: exact match', (t) => {
+  ts.test('case: various matches', (t) => {
     const a = { a: 1, b: 2, x: 3, y: 4 }
     const b = { a: 1, b: 2, x: 3, y: 4 }
     const c = { a: 1, b: 0, x: 0, y: 0 }
