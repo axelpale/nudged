@@ -11,6 +11,7 @@ const getTranslation = require('./getTranslation.test')
 const inverse = require('./inverse.test')
 const multiply = require('./multiply.test')
 const toMatrix = require('./toMatrix.test')
+const validate = require('./validate.test')
 
 module.exports = (t) => {
   t.test('nudged.transform.almostEqual', almostEqual)
@@ -24,4 +25,5 @@ module.exports = (t) => {
   t.test('nudged.transform.getTranslation', getTranslation)
   t.test('nudged.transform.inverse', inverse)
   t.test('nudged.transform.toMatrix', toMatrix)
+  t.test('nudged.transform.validate', validate)
 }
