@@ -1,13 +1,13 @@
 // A unit for each method.
-const almostEqual = require('./almostEqual')
-const create = require('./create')
-const createFromArray = require('./createFromArray')
-const createFromPolar = require('./createFromPolar')
-const epsilon = require('./epsilon')
-const equal = require('./equal')
-const getRotation = require('./getRotation')
-const getScale = require('./getScale')
-const getTranslation = require('./getTranslation')
+const almostEqual = require('./almostEqual.test')
+const create = require('./create.test')
+const createFromArray = require('./createFromArray.test')
+const createFromPolar = require('./createFromPolar.test')
+const epsilon = require('./epsilon.test')
+const equal = require('./equal.test')
+const getRotation = require('./getRotation.test')
+const getScale = require('./getScale.test')
+const getTranslation = require('./getTranslation.test')
 
 module.exports = (t) => {
   t.test('nudged.transform.almostEqual', almostEqual)
