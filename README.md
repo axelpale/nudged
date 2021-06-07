@@ -390,6 +390,21 @@ The resulting transformation is equal to first transforming with `tr` and then w
 
 ## For developers
 
+Guidelines:
+
+- ES6
+- Standard style
+  - 2 space indent
+  - max 80 chars per line
+  - spaces around operators
+- Functional approach
+  - function libraries instead instead of classes and methods
+  - immutable and stateless data handling; no in-place manipulation
+- Minimal run-time type checking
+  - Nudged is designed to be a low-level module with high performance.
+  - Provide dedicated .validate function
+- Rich comments that answer the question why.
+
 Run lint & unit tests:
 
     $ npm run test
