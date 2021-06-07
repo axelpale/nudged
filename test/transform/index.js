@@ -2,9 +2,11 @@
 const create = require('./create')
 const createFromArray = require('./createFromArray')
 const createFromPolar = require('./createFromPolar')
+const epsilon = require('./epsilon')
 
 module.exports = (t) => {
   t.test('nudged.transform.create', create)
   t.test('nudged.transform.createFromArray', createFromArray)
   t.test('nudged.transform.createFromPolar', createFromPolar)
+  t.test('nudged.transform.EPSILON', epsilon)
 }
