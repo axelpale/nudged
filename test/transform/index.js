@@ -8,6 +8,7 @@ const equal = require('./equal.test')
 const getRotation = require('./getRotation.test')
 const getScale = require('./getScale.test')
 const getTranslation = require('./getTranslation.test')
+const inverse = require('./inverse.test')
 
 module.exports = (t) => {
   t.test('nudged.transform.almostEqual', almostEqual)
@@ -19,4 +20,5 @@ module.exports = (t) => {
   t.test('nudged.transform.getRotation', getRotation)
   t.test('nudged.transform.getScale', getScale)
   t.test('nudged.transform.getTranslation', getTranslation)
+  t.test('nudged.transform.inverse', inverse)
 }
