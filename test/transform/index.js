@@ -24,6 +24,7 @@ module.exports = (t) => {
   t.test('nudged.transform.getScale', getScale)
   t.test('nudged.transform.getTranslation', getTranslation)
   t.test('nudged.transform.inverse', inverse)
+  t.test('nudged.transform.multiply', multiply)
   t.test('nudged.transform.toMatrix', toMatrix)
   t.test('nudged.transform.validate', validate)
 }
