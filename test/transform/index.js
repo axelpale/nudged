@@ -6,6 +6,7 @@ const createFromPolar = require('./createFromPolar')
 const epsilon = require('./epsilon')
 const equal = require('./equal')
 const getRotation = require('./getRotation')
+const getScale = require('./getScale')
 
 module.exports = (t) => {
   t.test('nudged.transform.almostEqual', almostEqual)
@@ -15,4 +16,5 @@ module.exports = (t) => {
   t.test('nudged.transform.EPSILON', epsilon)
   t.test('nudged.transform.equal', equal)
   t.test('nudged.transform.getRotation', getRotation)
+  t.test('nudged.transform.getScale', getScale)
 }
