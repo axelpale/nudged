@@ -10,6 +10,7 @@ const getScale = require('./getScale.test')
 const getTranslation = require('./getTranslation.test')
 const inverse = require('./inverse.test')
 const multiply = require('./multiply.test')
+const mapVector = require('./mapVector.test')
 const toMatrix = require('./toMatrix.test')
 const validate = require('./validate.test')
 
@@ -25,6 +26,7 @@ module.exports = (t) => {
   t.test('nudged.transform.getTranslation', getTranslation)
   t.test('nudged.transform.inverse', inverse)
   t.test('nudged.transform.multiply', multiply)
+  t.test('nudged.transform.mapVector', mapVector)
   t.test('nudged.transform.toMatrix', toMatrix)
   t.test('nudged.transform.validate', validate)
 }
