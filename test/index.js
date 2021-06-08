@@ -5,9 +5,9 @@ const almostEqual = nudged.transform.almostEqual
 
 // Units
 
-const version = require('./version')
-const transform = require('./transform')
-const estimators = require('./estimators')
+const version = require('./version/index.test')
+const transform = require('./transform/index.test')
+const estimators = require('./estimators/index.test')
 
 // Custom assertations
 
