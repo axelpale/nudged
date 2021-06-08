@@ -14,13 +14,13 @@ module.exports = (ts) => {
     const double90 = multiply(ROT90, ROT90)
     t.almostEqual(
       getRotation(double90),
-      getRotation(ROT180),
+      getRotation(ROT180)
     )
 
     const triple90 = multiply(multiply(ROT90, ROT90), ROT90)
     t.notAlmostEqual(
       getRotation(triple90),
-      getRotation(ROT180),
+      getRotation(ROT180)
     )
 
     t.end()

@@ -4,7 +4,7 @@ const toMatrix = nudged.transform.toMatrix
 module.exports = (ts) => {
   ts.test('case: correct properties', (t) => {
     const tr = { a: 1, b: 2, x: 3, y: 4 }
-    
+
     t.deepEqual(toMatrix(tr), {
       a: 1,
       b: 2,

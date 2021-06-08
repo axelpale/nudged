@@ -177,8 +177,6 @@ module.exports = (t) => {
 //   should.ok(transform.equals(IDENTITY))
 // }
 
-
-
 // describe('.estimate', function () {
 //    it('should estimate correct transformation type', function () {
 //      forSamples('sr', function (sam, samkey) {

@@ -1,5 +1,4 @@
 const transform = require('../../index').transform
-const toString = transform.toString
 
 module.exports = (ts) => {
   ts.test('case: convert to CSS string', (t) => {
