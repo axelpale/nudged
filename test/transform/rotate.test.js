@@ -7,7 +7,7 @@ module.exports = (ts) => {
   ts.test('case: basic rotations', (t) => {
     const c1 = { x: 0, y: 0 }
     t.transformEqual(rotate(ROT180, c1, Math.PI), IDENTITY)
-    t.transformEqual(rotate({ a: 1, b: 0, x: 0, y: 0 }, c1, 0), IDENTITY)
+    t.transformEqual(rotate(IDENTITY, c1, 0), IDENTITY)
 
     const c2 = { x: 100, y: 100 }
     t.transformEqual(
