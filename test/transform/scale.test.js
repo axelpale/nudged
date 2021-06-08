@@ -5,7 +5,7 @@ const HALF = transform.HALF
 const X2 = transform.X2
 
 module.exports = (ts) => {
-  ts.test('case: basic rotations', (t) => {
+  ts.test('case: basic scalings', (t) => {
     const c1 = { x: 0, y: 0 }
     t.transformEqual(scale(IDENTITY, c1, 2), X2)
     t.transformEqual(scale(IDENTITY, c1, 0.5), HALF)
@@ -23,6 +23,18 @@ module.exports = (ts) => {
       { a: 0.5, b: 0, x: 100, y: 100 },
       'identical translation and scale center'
     )
+
+    t.end()
+  })
+
+  ts.test('case: prevent negative scale', (t) => {
+    t.throws(() => {
+      scale(IDENTITY, { x: 0, y: 0 }, 0)
+    }, Error, 'detect zero')
+
+    t.throws(() => {
+      scale(IDENTITY, { x: 0, y: 0 }, -1)
+    }, Error, 'detect negative')
 
     t.end()
   })
