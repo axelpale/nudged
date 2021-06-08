@@ -11,7 +11,7 @@ module.exports = (ts) => {
     )
 
     // rotation with translation
-    const tr = transform.translate(transform.ROT45, { dx: 10, dy: 10 })
+    const tr = transform.translateBy(transform.ROT45, { dx: 10, dy: 10 })
     t.deepEqual(
       mapVector(tr, vec),
       mapVector(transform.ROT45, vec),
