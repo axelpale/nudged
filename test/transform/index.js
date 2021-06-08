@@ -1,44 +1,29 @@
 // A unit for each method.
-const almostEqual = require('./almostEqual.test')
-const create = require('./create.test')
-const createFromArray = require('./createFromArray.test')
-const createFromPolar = require('./createFromPolar.test')
-const epsilon = require('./epsilon.test')
-const equal = require('./equal.test')
-const getRotation = require('./getRotation.test')
-const getScale = require('./getScale.test')
-const getTranslation = require('./getTranslation.test')
-const inverse = require('./inverse.test')
-const multiply = require('./multiply.test')
-const mapPoints = require('./mapPoints.test')
-const mapVector = require('./mapVector.test')
-const rotateBy = require('./rotateBy.test')
-const scaleBy = require('./scaleBy.test')
-const toArray = require('./toArray.test')
-const toMatrix = require('./toMatrix.test')
-const toString = require('./toString.test')
-const translateBy = require('./translateBy.test')
-const validate = require('./validate.test')
+const units = {
+  almostEqual: require('./almostEqual.test'),
+  create: require('./create.test'),
+  createFromArray: require('./createFromArray.test'),
+  createFromPolar: require('./createFromPolar.test'),
+  epsilon: require('./epsilon.test'),
+  equal: require('./equal.test'),
+  getRotation: require('./getRotation.test'),
+  getScale: require('./getScale.test'),
+  getTranslation: require('./getTranslation.test'),
+  inverse: require('./inverse.test'),
+  multiply: require('./multiply.test'),
+  mapPoints: require('./mapPoints.test'),
+  mapVector: require('./mapVector.test'),
+  rotateBy: require('./rotateBy.test'),
+  scaleBy: require('./scaleBy.test'),
+  toArray: require('./toArray.test'),
+  toMatrix: require('./toMatrix.test'),
+  toString: require('./toString.test'),
+  translateBy: require('./translateBy.test'),
+  validate: require('./validate.test')
+}
 
 module.exports = (t) => {
-  t.test('nudged.transform.almostEqual', almostEqual)
-  t.test('nudged.transform.create', create)
-  t.test('nudged.transform.createFromArray', createFromArray)
-  t.test('nudged.transform.createFromPolar', createFromPolar)
-  t.test('nudged.transform.EPSILON', epsilon)
-  t.test('nudged.transform.equal', equal)
-  t.test('nudged.transform.getRotation', getRotation)
-  t.test('nudged.transform.getScale', getScale)
-  t.test('nudged.transform.getTranslation', getTranslation)
-  t.test('nudged.transform.inverse', inverse)
-  t.test('nudged.transform.multiply', multiply)
-  t.test('nudged.transform.mapPoints', mapPoints)
-  t.test('nudged.transform.mapVector', mapVector)
-  t.test('nudged.transform.rotateBy', rotateBy)
-  t.test('nudged.transform.scaleBy', scaleBy)
-  t.test('nudged.transform.toArray', toArray)
-  t.test('nudged.transform.toMatrix', toMatrix)
-  t.test('nudged.transform.toString', toString)
-  t.test('nudged.transform.translateBy', translateBy)
-  t.test('nudged.transform.validate', validate)
+  Object.keys(units).forEach((unitName) => {
+    t.test('nudged.transform.' + unitName, units[unitName])
+  })
 }
