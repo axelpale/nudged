@@ -17,6 +17,7 @@ const scale = require('./scale.test')
 const toArray = require('./toArray.test')
 const toMatrix = require('./toMatrix.test')
 const toString = require('./toString.test')
+const translate = require('./translate.test')
 const validate = require('./validate.test')
 
 module.exports = (t) => {
@@ -38,5 +39,6 @@ module.exports = (t) => {
   t.test('nudged.transform.toArray', toArray)
   t.test('nudged.transform.toMatrix', toMatrix)
   t.test('nudged.transform.toString', toString)
+  t.test('nudged.transform.translate', translate)
   t.test('nudged.transform.validate', validate)
 }
