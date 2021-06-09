@@ -1,4 +1,5 @@
-exports.transform = require('./lib/transform')
 exports.estimators = require('./lib/estimators')
 exports.estimate = require('./lib/estimate')
+exports.point = require('./lib/point')
+exports.transform = require('./lib/transform')
 exports.version = require('./lib/version')
