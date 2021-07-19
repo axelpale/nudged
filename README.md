@@ -41,10 +41,10 @@ Available also [in Python](https://pypi.python.org/pypi/nudged).
 
 ## Usage
 
-Let `domain` and `range` be point sets before and after transformation as illustrated in the figure below:
+Let `domain` and `range` be sets of points `{ x, y }` before and after an unknown transformation as illustrated in the figure below:
 
-    > var domain = [[0,0], [2,0], [ 1,2]]
-    > var range  = [[1,1], [1,3], [-1,2]]
+    const domain = [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 2 }]
+    const range  = [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
 
 <img src="https://rawgit.com/axelpale/nudged/master/doc/simple-example-pointset.png" alt="The transformation" width="500"/>
 
@@ -52,54 +52,68 @@ _**Figure**: Left: the domain. Center: the range. Right: the domain after transf
 
 Compute an optimal transformation based on the points:
 
-    > var trans = nudged.estimate('TSR', domain, range)
+    const tran = nudged.estimate({
+      estimator: 'TSR',
+      domain: domain,
+      range: range
+    })
 
-Examine the transformation matrix:
+Examine the resulting transformation matrix:
 
-    > trans.getMatrix()
+    > tran
+    { a: 0, b: 1, x: 1, y: 1 }
+    > nudged.transform.toMatrix(tran)
     { a: 0, c: -1, e: 1,
       b: 1, d:  0, f: 1 }
-    > trans.getRotation()
+    > nudged.transform.getRotation(tran)
     1.5707... = π / 2
-    > trans.getScale()
+    > nudged.transform.getScale(tran)
     1.0
-    > trans.getTranslation()
-    [1, 1]
+    > nudged.transform.getTranslation(tran)
+    { x: 1, y: 1 }
 
-Apply the transformation to other points:
+Apply the transformation to a point:
 
-    > trans.transform([2,2])
-    [-1,3]
+    > nudged.point.transform({ x: 2, y: 2 }, tran)
+    { x: -1, y: 3 }
 
-Inverse the transformation:
+Invert the transformation:
 
-    > var inv = trans.inverse()
-    > inv.transform([-1,3])
-    [2,2]
+    > const inv = nudged.transform.inverse(tran)
+    > nudged.point.transform({ x: -1, y: 3 }, inv)
+    { x: 2, y: 2 }
 
 See [API](#api) for more.
 
-### Using pivoted transformations
+### Set a center point
 
-You can think the pivot point as a pin pushed through a paper. The pin keeps its location intact regardless of the transformation around it, as illustrated in the figure below.
+To estimate scalings and rotations around a fixed point, give an additional `center` parameter. Only the estimators `S`, `R`, and `SR` respect the `center` parameter.
+
+    const rotateAround = nudged.estimate({
+      estimator: 'R',
+      domain: domain,
+      range: range,
+      center: { x: -1 , y: 0 }
+    })
+
+You can think the center point as a nail that keeps a very elastic sheet of rubber fixed onto a table. The nail retains its location regardless of how the rubber sheet is transformed around it, as illustrated in the figure below.
 
 <img src="https://rawgit.com/axelpale/nudged/master/doc/simple-example-fixed.png" alt="A fixed point transformation" width="500"/>
 
 _**Figure**: Left: a black pivot point and the domain. Center: the range. Right: the pivot and the domain after transformation._
 
-In the following example we estimate an optimal scaling and rotation around point `[-1,0]`:
+To test the resulting transform, we can apply it to the center and observe that the point stays the same.
 
-    > var pivot = [-1,0]
-    > var domain = [[0,0], [2,0], [ 1,2]]
-    > var range  = [[1,1], [1,3], [-1,2]]
-    > var pivotTrans = nudged.estimate('SR', domain, range, pivot)
+    > nudged.point.transform(pivot, rotateAround)
+    { x: -1, y: 0 }
 
-If we now apply the transformation to the domain, we see that the result is close to the range. Also, if we apply it to the pivot, the point stays the same.
+To see how well the transform maps the domain to the range:
 
-    > pivotTrans.transform(domain)
-    [[-0.33, 0.77], [0.99, 2.33], [-1.22, 2.88]]
-    > pivotTrans.transform(pivot)
-    [-1,0]
+    > nudged.point.transformMany(domain, rotateAround)
+    [{ x: -0.33, y: 0.77 }, { x: 0.99, y: 2.33 }, { x: -1.22, y: 2.88 }]
+    ...versus...
+    > range
+    [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
 
 
 ## Example apps
