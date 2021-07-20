@@ -77,6 +77,10 @@ Apply the transformation to a point:
     > nudged.point.transform({ x: 2, y: 2 }, tran)
     { x: -1, y: 3 }
 
+Apply the transformation to an HTML image element
+
+    > img.style.transform = nudged.transform.toString(tran)
+
 Invert the transformation:
 
     > const inv = nudged.transform.inverse(tran)
