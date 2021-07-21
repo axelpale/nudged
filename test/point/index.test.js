@@ -5,7 +5,7 @@ const units = {
   fromArray: require('./fromArray.test'),
   // offset: require('./offset.test'),
   // polarOffset: require('./polarOffset.test'),
-  // toArray: require('./toArray.test'),
+  toArray: require('./toArray.test'),
   transform: require('./transform.test'),
   transformMany: require('./transformMany.test'),
   validate: require('./validate.test')
