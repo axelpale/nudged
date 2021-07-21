@@ -26,7 +26,6 @@
     "url": "git://github.com/axelpale/nudged.git"
   },
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
     "browserify": "^17.0.0",
     "component-emitter": "^1.2.0",
@@ -37,13 +36,14 @@
     "mocha": "^8.4.0",
     "should": "^13.2.3",
     "standard": "^16.0.3",
+    "tap-spec": "^5.0.0",
     "tape": "^5.2.2"
   },
   "scripts": {
     "start": "npm run start:examples_server",
     "start:examples_server": "python2.7 -m SimpleHTTPServer 8000",
     "test": "npm run test:lint && npm run test:unit",
-    "test:unit": "node test/index.test.js",
+    "test:unit": "node test/index.test.js | tap-spec",
     "test:lint": "standard index.js 'lib/**/*.js' 'test/**/*.js'",
     "test:lint:fix": "standard --fix index.js 'lib/**/*.js' 'test/**/*.js'",
     "gv": "genversion lib/version.js",
