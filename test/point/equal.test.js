@@ -14,7 +14,7 @@ module.exports = (ts) => {
     t.ok(point.equal(a, a), 'element-wise equal')
     t.notOk(point.equal(a, b), 'element-wise not equal')
 
-    t.notOk(equal(a, c), 'values differ slightly')
+    t.notOk(point.equal(a, c), 'values differ slightly')
 
     t.end()
   })
