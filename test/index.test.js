@@ -57,9 +57,9 @@ test.Test.prototype.transformEqual = function (actual, expected, message) {
 // Run test suite
 
 test('nudged', (t) => {
-  t.test('nudged.version', versionTest)
-  t.test('nudged.epsilon', epsilonTest)
-  t.test('nudged.point', pointTest)
-  t.test('nudged.transform', transformTest)
-  t.test('nudged.estimators', estimatorsTest)
+  t.test('version', versionTest)
+  t.test('epsilon', epsilonTest)
+  t.test('point', pointTest)
+  t.test('transform', transformTest)
+  t.test('estimators', estimatorsTest)
 })
