@@ -5,14 +5,15 @@ const almostEqual = nudged.transform.almostEqual
 
 // Units
 
-const version = require('./version/index.test')
-const transform = require('./transform/index.test')
-const estimators = require('./estimators/index.test')
+const versionTest = require('./version/index.test')
 const epsilonTest = require('./epsilon/index.test')
+const transformTest = require('./transform/index.test')
+const estimatorsTest = require('./estimators/index.test')
 
 // Custom assertations
 
 test.Test.prototype.almostEqual = function (actual, expected, message) {
+  // Test if a number is almost another number.
   const isAlmost = Math.abs(actual - expected) < EPSILON
   this._assert(isAlmost, {
     message: message || 'should be almost equal',
@@ -23,6 +24,7 @@ test.Test.prototype.almostEqual = function (actual, expected, message) {
 }
 
 test.Test.prototype.notAlmostEqual = function (actual, expected, message) {
+  // Test if a number is not almost another number.
   const isAlmost = Math.abs(actual - expected) < EPSILON
   this._assert(!isAlmost, {
     message: message || 'should not be almost equal',
@@ -33,6 +35,7 @@ test.Test.prototype.notAlmostEqual = function (actual, expected, message) {
 }
 
 test.Test.prototype.transformEqual = function (actual, expected, message) {
+  // Test if two transforms are almost the same.
   this._assert(almostEqual(actual, expected), {
     message: message || 'transform should have correct elements',
     operator: 'transformEqual',
@@ -44,8 +47,8 @@ test.Test.prototype.transformEqual = function (actual, expected, message) {
 // Run test suite
 
 test('nudged', (t) => {
-  t.test('nudged.version', version)
-  t.test('nudged.transform', transform)
-  t.test('nudged.estimators', estimators)
+  t.test('nudged.version', versionTest)
   t.test('nudged.epsilon', epsilonTest)
+  t.test('nudged.transform', transformTest)
+  t.test('nudged.estimators', estimatorsTest)
 })
