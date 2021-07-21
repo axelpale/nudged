@@ -2,7 +2,7 @@
 const units = {
   create: require('./create.test'),
   equal: require('./equal.test'),
-  // fromArray: require('./fromArray.test'),
+  fromArray: require('./fromArray.test'),
   // offset: require('./offset.test'),
   // polarOffset: require('./polarOffset.test'),
   // toArray: require('./toArray.test'),
