@@ -10,8 +10,6 @@ const units = {
   getTranslation: require('./getTranslation.test'),
   inverse: require('./inverse.test'),
   multiply: require('./multiply.test'),
-  mapPoints: require('./mapPoints.test'),
-  mapVector: require('./mapVector.test'),
   rotateBy: require('./rotateBy.test'),
   scaleBy: require('./scaleBy.test'),
   toArray: require('./toArray.test'),
