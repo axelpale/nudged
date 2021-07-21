@@ -1,5 +1,6 @@
 // A unit for each point method.
 const units = {
+  almostEqual: require('./almostEqual.test'),
   create: require('./create.test'),
   equal: require('./equal.test'),
   fromArray: require('./fromArray.test'),

@@ -1,7 +1,6 @@
 const test = require('tape')
 const nudged = require('../index')
 const EPSILON = nudged.epsilon
-const almostEqual = nudged.transform.almostEqual
 
 // Units
 
@@ -35,9 +34,19 @@ test.Test.prototype.notAlmostEqual = function (actual, expected, message) {
   })
 }
 
+test.Test.prototype.pointsAlmostEqual = function (actual, expected, message) {
+  // Test if two points are almost the same.
+  this._assert(nudged.point.almostEqual(actual, expected), {
+    message: message || 'transform should have correct elements',
+    operator: 'pointsAlmostEqual',
+    actual: actual,
+    expected: expected
+  })
+}
+
 test.Test.prototype.transformEqual = function (actual, expected, message) {
   // Test if two transforms are almost the same.
-  this._assert(almostEqual(actual, expected), {
+  this._assert(nudged.transform.almostEqual(actual, expected), {
     message: message || 'transform should have correct elements',
     operator: 'transformEqual',
     actual: actual,
