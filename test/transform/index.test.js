@@ -2,8 +2,8 @@
 const units = {
   almostEqual: require('./almostEqual.test'),
   create: require('./create.test'),
-  createFromArray: require('./createFromArray.test'),
-  createFromPolar: require('./createFromPolar.test'),
+  fromArray: require('./fromArray.test'),
+  fromPolar: require('./fromPolar.test'),
   equal: require('./equal.test'),
   getRotation: require('./getRotation.test'),
   getScale: require('./getScale.test'),
