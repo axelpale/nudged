@@ -8,7 +8,7 @@ const units = {
   // toArray: require('./toArray.test'),
   transform: require('./transform.test'),
   transformMany: require('./transformMany.test'),
-  // validate: require('./validate.test')
+  validate: require('./validate.test')
 }
 
 module.exports = (t) => {
