@@ -7,6 +7,7 @@ const almostEqual = nudged.transform.almostEqual
 
 const versionTest = require('./version/index.test')
 const epsilonTest = require('./epsilon/index.test')
+const pointTest = require('./point/index.test')
 const transformTest = require('./transform/index.test')
 const estimatorsTest = require('./estimators/index.test')
 
@@ -49,6 +50,7 @@ test.Test.prototype.transformEqual = function (actual, expected, message) {
 test('nudged', (t) => {
   t.test('nudged.version', versionTest)
   t.test('nudged.epsilon', epsilonTest)
+  t.test('nudged.point', pointTest)
   t.test('nudged.transform', transformTest)
   t.test('nudged.estimators', estimatorsTest)
 })
