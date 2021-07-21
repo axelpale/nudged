@@ -1,8 +1,8 @@
 // Sub-units for each estimator.
-const I = require('./I')
+const testI = require('./I.test')
 
 module.exports = (t) => {
-  t.test('nudged.estimators.I', I)
+  t.test('nudged.estimators.I', testI)
 }
 
 // var samples = {
