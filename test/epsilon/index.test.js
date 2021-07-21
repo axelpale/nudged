@@ -1,5 +1,5 @@
 const nudged = require('../../index')
-const EPS = nudged.transform.EPSILON
+const EPS = nudged.epsilon
 
 module.exports = (ts) => {
   ts.test('case: epsilon magnitude', (t) => {

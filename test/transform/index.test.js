@@ -4,7 +4,6 @@ const units = {
   create: require('./create.test'),
   createFromArray: require('./createFromArray.test'),
   createFromPolar: require('./createFromPolar.test'),
-  epsilon: require('./epsilon.test'),
   equal: require('./equal.test'),
   getRotation: require('./getRotation.test'),
   getScale: require('./getScale.test'),

@@ -1,6 +1,6 @@
 const test = require('tape')
 const nudged = require('../index')
-const EPSILON = nudged.transform.EPSILON
+const EPSILON = nudged.epsilon
 const almostEqual = nudged.transform.almostEqual
 
 // Units
@@ -8,6 +8,7 @@ const almostEqual = nudged.transform.almostEqual
 const version = require('./version/index.test')
 const transform = require('./transform/index.test')
 const estimators = require('./estimators/index.test')
+const epsilonTest = require('./epsilon/index.test')
 
 // Custom assertations
 
@@ -46,4 +47,5 @@ test('nudged', (t) => {
   t.test('nudged.version', version)
   t.test('nudged.transform', transform)
   t.test('nudged.estimators', estimators)
+  t.test('nudged.epsilon', epsilonTest)
 })

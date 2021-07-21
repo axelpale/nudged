@@ -1,6 +1,6 @@
 const nudged = require('../../index')
 const equal = nudged.transform.equal
-const EPSILON = nudged.transform.EPSILON
+const EPSILON = nudged.epsilon
 
 module.exports = (ts) => {
   ts.test('case: various matches', (t) => {
