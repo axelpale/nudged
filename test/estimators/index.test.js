@@ -1,9 +1,11 @@
 // Sub-units for each estimator.
 const testI = require('./I.test')
+const testL = require('./L.test')
 const testT = require('./T.test')
 
 module.exports = (t) => {
   t.test('estimators.I', testI)
+  t.test('estimators.L', testL)
   t.test('estimators.T', testT)
 }
 
