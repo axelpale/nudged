@@ -13,6 +13,7 @@ const units = {
   rotateBy: require('./rotateBy.test'),
   rotateTo: require('./rotateTo.test'),
   scaleBy: require('./scaleBy.test'),
+  scaleTo: require('./scaleTo.test'),
   toArray: require('./toArray.test'),
   toMatrix: require('./toMatrix.test'),
   toString: require('./toString.test'),
