@@ -2,6 +2,7 @@
 const units = {
   almostEqual: require('./almostEqual.test'),
   create: require('./create.test'),
+  distance: require('./distance.test'),
   equal: require('./equal.test'),
   fromArray: require('./fromArray.test'),
   offset: require('./offset.test'),
