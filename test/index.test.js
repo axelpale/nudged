@@ -9,6 +9,7 @@ const epsilonTest = require('./epsilon/index.test')
 const pointTest = require('./point/index.test')
 const transformTest = require('./transform/index.test')
 const estimatorsTest = require('./estimators/index.test')
+const analysisTest = require('./analysis/index.test')
 
 // Custom assertations
 
@@ -62,4 +63,5 @@ test('nudged', (t) => {
   t.test('point', pointTest)
   t.test('transform', transformTest)
   t.test('estimators', estimatorsTest)
+  t.test('analysis', analysisTest)
 })
