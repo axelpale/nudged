@@ -2,12 +2,14 @@
 const testI = require('./I.test')
 const testL = require('./L.test')
 const testX = require('./X.test')
+const testY = require('./Y.test')
 const testT = require('./T.test')
 
 module.exports = (t) => {
   t.test('estimators.I', testI)
   t.test('estimators.L', testL)
   t.test('estimators.X', testX)
+  t.test('estimators.Y', testY)
   t.test('estimators.T', testT)
 }
 
