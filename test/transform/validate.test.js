@@ -1,8 +1,9 @@
+const title = 'transform.validate: '
 const transform = require('../../index').transform
 const validate = transform.validate
 
 module.exports = (ts) => {
-  ts.test('case: various valid transforms', (t) => {
+  ts.test(title + 'various valid transforms', (t) => {
     t.true(validate({
       a: 1,
       b: 2,
@@ -18,7 +19,7 @@ module.exports = (ts) => {
     t.end()
   })
 
-  ts.test('case: various invalid transforms', (t) => {
+  ts.test(title + 'various invalid transforms', (t) => {
     t.false(validate({
       a: 0,
       b: 0,

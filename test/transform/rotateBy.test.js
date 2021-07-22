@@ -1,10 +1,11 @@
+const title = 'transform.rotateBy: '
 const transform = require('../../index').transform
 const rotateBy = transform.rotateBy
 const IDENTITY = transform.IDENTITY
 const ROT180 = transform.ROT180
 
 module.exports = (ts) => {
-  ts.test('case: basic rotations', (t) => {
+  ts.test(title + 'basic rotations', (t) => {
     const c1 = { x: 0, y: 0 }
     t.transformEqual(rotateBy(ROT180, c1, Math.PI), IDENTITY)
     t.transformEqual(rotateBy(IDENTITY, c1, 0), IDENTITY)

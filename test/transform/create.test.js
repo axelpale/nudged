@@ -1,8 +1,9 @@
+const title = 'transform.create: '
 const nudged = require('../../index')
 const unit = nudged.transform
 
 module.exports = (ts) => {
-  ts.test('case: happy', (t) => {
+  ts.test(title + 'happy', (t) => {
     t.deepEqual(unit.create(1, 2, 3, 4), {
       a: 1,
       b: 2,

@@ -1,3 +1,4 @@
+const title = 'transform.getRotation: '
 const nudged = require('../../index')
 const getRotation = nudged.transform.getRotation
 
@@ -7,7 +8,7 @@ const ROT90 = nudged.transform.ROT90
 const ROT180 = nudged.transform.ROT180
 
 module.exports = (ts) => {
-  ts.test('case: basic rotations', (t) => {
+  ts.test(title + 'basic rotations', (t) => {
     t.almostEqual(getRotation(ROT90), Math.PI / 2)
     t.almostEqual(getRotation(ROT45), Math.PI / 4)
 

@@ -1,7 +1,8 @@
+const title = 'transform.toString: '
 const transform = require('../../index').transform
 
 module.exports = (ts) => {
-  ts.test('case: convert to CSS string', (t) => {
+  ts.test(title + 'convert to CSS string', (t) => {
     t.equal(
       transform.toString({ a: 1, b: 0, x: 0, y: 0 }),
       'matrix(' +

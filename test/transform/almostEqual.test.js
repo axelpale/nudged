@@ -1,9 +1,10 @@
+const title = 'transform.almostEqual: '
 const nudged = require('../../index')
 const almostEqual = nudged.transform.almostEqual
 const EPSILON = nudged.epsilon
 
 module.exports = (ts) => {
-  ts.test('case: various matches', (t) => {
+  ts.test(title + 'various matches', (t) => {
     const a = { a: 1, b: 2, x: 3, y: 4 }
     const b = { a: 1, b: 2, x: 3, y: 4 }
     const c = { a: 1, b: 0, x: 0, y: 0 }

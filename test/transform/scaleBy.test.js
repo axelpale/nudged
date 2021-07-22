@@ -1,3 +1,4 @@
+const title = 'transform.scaleBy: '
 const transform = require('../../index').transform
 const scaleBy = transform.scaleBy
 const IDENTITY = transform.IDENTITY
@@ -5,7 +6,7 @@ const HALF = transform.HALF
 const X2 = transform.X2
 
 module.exports = (ts) => {
-  ts.test('case: basic scalings', (t) => {
+  ts.test(title + 'basic scalings', (t) => {
     const c1 = { x: 0, y: 0 }
     t.transformEqual(scaleBy(IDENTITY, c1, 2), X2)
     t.transformEqual(scaleBy(IDENTITY, c1, 0.5), HALF)
@@ -27,7 +28,7 @@ module.exports = (ts) => {
     t.end()
   })
 
-  ts.test('case: prevent negative scale', (t) => {
+  ts.test(title + 'prevent negative scale', (t) => {
     t.throws(() => {
       scaleBy(IDENTITY, { x: 0, y: 0 }, 0)
     }, Error, 'detect zero')

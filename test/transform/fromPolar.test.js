@@ -1,8 +1,9 @@
+const title = 'transform.fromPolar: '
 const nudged = require('../../index')
 const fromPolar = nudged.transform.fromPolar // unit
 
 module.exports = (ts) => {
-  ts.test('case: around twice', (t) => {
+  ts.test(title + 'around twice', (t) => {
     t.transformEqual(fromPolar(1, Math.PI * 4, 0, 0), {
       a: 1,
       b: 0,
@@ -13,7 +14,7 @@ module.exports = (ts) => {
     t.end()
   })
 
-  ts.test('case: zero scale', (t) => {
+  ts.test(title + 'zero scale', (t) => {
     // NOTE invalid affine transformation
     t.transformEqual(fromPolar(0, 0, 0, 0), {
       a: 0,
