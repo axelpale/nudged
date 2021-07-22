@@ -1,18 +1,3 @@
-//  describe('.estimateR', function () {
-//    it('should estimate correctly', function () {
-//      forSamples('r', function (sam, samkey) {
-//        var transform = nudged.estimateR(sam.a, sam.b)
-//        assertTransform(transform, sam.r, samkey)
-//      })
-//    })
-//    it('should estimate fixed situation correctly', function () {
-//      forSamples('fr', function (sam, samkey) {
-//        var t = nudged.estimate('R', sam.a, sam.b, sam.fixed)
-//        assertTransform(t, sam.fr, samkey)
-//      })
-//    })
-//  })
-
 const title = 'estimators.R: '
 const nudged = require('../../index')
 const estimateR = nudged.estimators.R
