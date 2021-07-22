@@ -3,7 +3,6 @@ const nudged = require('../../index')
 const estimateSR = nudged.estimators.SR
 const SINGULAR = nudged.transform.SINGULAR
 const IDENTITY = nudged.transform.IDENTITY
-const X2 = nudged.transform.X2
 
 module.exports = (ts) => {
   ts.test(title + 'basic usage with the general estimator', (t) => {
