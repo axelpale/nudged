@@ -3,7 +3,6 @@ const nudged = require('../../index')
 const estimateR = nudged.estimators.R
 const IDENTITY = nudged.transform.IDENTITY
 const ROT90 = nudged.transform.ROT90
-const ROT180 = nudged.transform.ROT180
 
 module.exports = (ts) => {
   ts.test(title + 'basic usage with the general estimator', (t) => {
@@ -23,7 +22,7 @@ module.exports = (ts) => {
     t.transformEqual(
       estimateR([], [], { x: 0, y: 0 }),
       IDENTITY,
-      'empty domain, range, and center'
+      'empty domain and range'
     )
 
     t.end()
