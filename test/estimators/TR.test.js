@@ -1,0 +1,93 @@
+//  describe('.estimateTR', function () {
+//    it('should estimate correctly', function () {
+//      forSamples('tr', function (sam, samkey) {
+//        var t = nudged.estimateTR(sam.a, sam.b)
+//        assertTransform(t, sam.tr, samkey)
+//      })
+//    })
+
+//    it('should not rotate when singular domain', function () {
+//      // This domain and range pair caused D to become almost zero
+//      // but not zero. After proper 'D < epsilon' instead of 'D === 0'
+//      // the issue should be repaired.
+//      var dom = [[0.21255673222390348, 0.20282314674735248]]
+//      var ran = [[0.20801815431164927, 0.19818456883509827]]
+//      var tr = nudged.estimateTR(dom, ran)
+//      tr.getScale().should.equal(1)
+//      tr.getRotation().should.equal(0)
+//    })
+//  })
+
+const title = 'estimators.TR: '
+const nudged = require('../../index')
+const estimateTR = nudged.estimators.TR
+const IDENTITY = nudged.transform.IDENTITY
+
+module.exports = (ts) => {
+  ts.test(title + 'basic usage with the general estimator', (t) => {
+    const tr = nudged.estimate({
+      estimator: 'TR',
+      domain: [{ x: 1, y: 0 }, { x: 3, y: 0 }],
+      range: [{ x: 4, y: 0 }, { x: 4, y: 2 }]
+    })
+    const expected = nudged.transform.fromPolar(1, Math.PI / 2, 4, -1)
+    t.transformEqual(tr, expected, 'allow TR group')
+
+    t.end()
+  })
+
+  ts.test(title + 'trivial point sets', (t) => {
+    t.transformEqual(
+      estimateTR([], []),
+      IDENTITY,
+      'empty domain and range'
+    )
+
+    t.transformEqual(
+      estimateTR(
+        [{ x: 0, y: 0 }],
+        [{ x: 0, y: 0 }]
+      ),
+      IDENTITY,
+      'domain and range equal'
+    )
+
+    t.end()
+  })
+
+  ts.test(title + 'only scale', (t) => {
+    t.transformEqual(
+      estimateTR(
+        [{ x: 1, y: 0 }, { x: -1, y: 0 }],
+        [{ x: 2, y: 0 }, { x: -2, y: 0 }]
+      ),
+      IDENTITY,
+      'scale x2'
+    )
+
+    t.end()
+  })
+
+  ts.test(title + 'multiple points', (t) => {
+    t.transformEqual(
+      estimateTR(
+        [{ x: 0, y: 0 }, { x: 4, y: 0 }],
+        [{ x: 4, y: 0 }, { x: 4, y: 2 }]
+      ),
+      { a: 0, b: 1, x: 4, y: -1 },
+      'positive 90 deg and match mean'
+    )
+
+    t.end()
+  })
+
+  // TODO a rotation that causes the determinant near zero but not zero
+
+  ts.test(title + 'detect missing params', (t) => {
+    t.throws(() => {
+      estimateTR([])
+    }, 'missing range')
+
+    t.end()
+  })
+}

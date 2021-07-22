@@ -6,6 +6,7 @@ const testY = require('./Y.test')
 const testT = require('./T.test')
 const testS = require('./S.test')
 const testR = require('./R.test')
+const testTR = require('./TR.test')
 const testSR = require('./SR.test')
 
 module.exports = (t) => {
@@ -16,6 +17,7 @@ module.exports = (t) => {
   t.test('estimators.T', testT)
   t.test('estimators.S', testS)
   t.test('estimators.R', testR)
+  t.test('estimators.TR', testTR)
   t.test('estimators.SR', testSR)
 }
 
