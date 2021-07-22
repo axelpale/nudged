@@ -16,6 +16,7 @@ const units = {
   toMatrix: require('./toMatrix.test'),
   toString: require('./toString.test'),
   translateBy: require('./translateBy.test'),
+  translateTo: require('./translateTo.test'),
   validate: require('./validate.test')
 }
 
