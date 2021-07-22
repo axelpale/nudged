@@ -1,0 +1,92 @@
+//  describe('.estimateR', function () {
+//    it('should estimate correctly', function () {
+//      forSamples('r', function (sam, samkey) {
+//        var transform = nudged.estimateR(sam.a, sam.b)
+//        assertTransform(transform, sam.r, samkey)
+//      })
+//    })
+//    it('should estimate fixed situation correctly', function () {
+//      forSamples('fr', function (sam, samkey) {
+//        var t = nudged.estimate('R', sam.a, sam.b, sam.fixed)
+//        assertTransform(t, sam.fr, samkey)
+//      })
+//    })
+//  })
+
+const title = 'estimators.R: '
+const nudged = require('../../index')
+const estimateR = nudged.estimators.R
+const IDENTITY = nudged.transform.IDENTITY
+const ROT90 = nudged.transform.ROT90
+const ROT180 = nudged.transform.ROT180
+
+module.exports = (ts) => {
+  ts.test(title + 'basic usage with the general estimator', (t) => {
+    const c = { x: 0, y: 0 }
+    const tr = nudged.estimate({
+      estimator: 'R',
+      domain: [{ x: 1, y: 0 }],
+      range: [{ x: 0, y: 1 }],
+      center: c
+    })
+    t.transformEqual(tr, ROT90, 'allow R group')
+
+    t.end()
+  })
+
+  ts.test(title + 'trivial point sets', (t) => {
+    t.transformEqual(
+      estimateR([], [], { x: 0, y: 0 }),
+      IDENTITY,
+      'empty domain, range, and center'
+    )
+
+    t.end()
+  })
+
+  ts.test(title + 'no rotation', (t) => {
+    t.transformEqual(
+      estimateR(
+        [{ x: 0, y: 0 }],
+        [{ x: 0, y: 0 }],
+        { x: 0, y: 0 }
+      ),
+      IDENTITY,
+      'domain, range, and center equal'
+    )
+
+    t.transformEqual(
+      estimateR(
+        [{ x: 2, y: 0 }],
+        [{ x: 4, y: 0 }],
+        { x: 0, y: 0 }
+      ),
+      IDENTITY,
+      'translation away from center'
+    )
+
+    t.end()
+  })
+
+  ts.test(title + 'multiple points', (t) => {
+    t.transformEqual(
+      estimateR(
+        [{ x: 0, y: 2 }, { x: 2, y: 0 }],
+        [{ x: 4, y: 2 }, { x: 2, y: 4 }],
+        { x: 2, y: 2 }
+      ),
+      { a: -1, b: 0, x: 4, y: 4 },
+      'positive half turn'
+    )
+
+    t.end()
+  })
+
+  ts.test(title + 'detect missing params', (t) => {
+    t.throws(() => {
+      estimateR([], [])
+    }, 'missing center')
+
+    t.end()
+  })
+}
