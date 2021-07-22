@@ -1,6 +1,8 @@
 // A unit for each method.
 const units = {
-  residuals: require('./residuals.test')
+  mse: require('./mse.test'),
+  residuals: require('./residuals.test'),
+  rss: require('./rss.test')
 }
 
 module.exports = (t) => {
