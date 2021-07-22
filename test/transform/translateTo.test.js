@@ -1,10 +1,11 @@
+const title = 'transform.translateTo: '
 const transform = require('../../index').transform
 const translateTo = transform.translateTo
 
 const IDENTITY = transform.IDENTITY
 
 module.exports = (ts) => {
-  ts.test('case: basic translations', (t) => {
+  ts.test(title + 'basic translations', (t) => {
     t.transformEqual(
       translateTo(IDENTITY, { x: 10, y: 10 }),
       { a: 1, b: 0, x: 10, y: 10 }

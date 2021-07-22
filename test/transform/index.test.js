@@ -23,6 +23,6 @@ const units = {
 
 module.exports = (t) => {
   Object.keys(units).forEach((unitName) => {
-    t.test('nudged.transform.' + unitName, units[unitName])
+    t.test('transform.' + unitName, units[unitName])
   })
 }
