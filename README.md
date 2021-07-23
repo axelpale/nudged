@@ -155,7 +155,7 @@ The [**editor demo**](https://rawgit.com/axelpale/nudged/master/examples/nudged-
 In this [map viewer demo](https://rawgit.com/axelpale/nudged/master/examples/nudged-map/index.html), nudged is used to recognize multi-touch gestures to scale, rotate, and translate [a large image](https://commons.wikimedia.org/wiki/File:Tokyo_metro_map.png) on HTML5 canvas.
 
 
-## API
+# API
 
 Nudged API is divided into following modules:
 
@@ -170,6 +170,53 @@ Nudged API is divided into following modules:
 - Other
   - `nudged.epsilon` – equality tolerance due to floating point arithmetic
   - `nudged.version` – the version of the package
+
+The code follows the functional, classless, immutable paradigm. All the functions take in only plain objects and values such as `{ x: 1, y: 2 }` and also return only plain objects and values. You can expect no side effects nor memories form previous calls.
+
+## nudged.point
+
+A set of operators for 2D point objects `{ x, y }`.
+
+### nudged.point.almostEqual(p, q[, tolerance])
+
+Test if two points are almost equal within the limit given by the optional tolerance parameter.
+
+Parameters:
+- p
+  - a point
+- q
+  - a point
+- tolerance
+  - optional number
+  - Defaults to nudged.epsilon.
+  - Set to 0 for strict comparison.
+
+Return:
+- boolean
+
+Example:
+
+    > nudged.point.almostEqual({ x: 0, y: 0 }, { x: 0, y: 1.23e-16 })
+    true
+    > nudged.point.almostEqual({ x: 0, y: 0 }, { x: 0, y: 0.1 })
+    false
+
+### nudged.point.create(x, y)
+
+Create a point object.
+
+Parameters
+- x
+  - a number
+- y
+  - a number
+
+Return
+- a point `{ x, y }`
+
+### nudged.point.distance(pa, pb)
+
+
 
 ### nudged.create(scale, rotation, translationX, translationY)
 
