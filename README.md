@@ -87,17 +87,33 @@ Invert the transformation:
     > nudged.point.transform({ x: -1, y: 3 }, inv)
     { x: 2, y: 2 }
 
+TODO: make the transform inexact to communicate the estimating nature of the result.
+To compare how well the transform fits the domain to the range:
+
+    > domain
+    [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 2 }]
+    > nudged.point.transformMany(domain, tran)
+    [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
+    > range
+    [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
+
+To get a numeric measure for the fit, you can compute the *mean squared error*. The smaller the error, the better the fit.
+
+    > nudged.analysis.mse(rotateAround, domain, range)
+    0
+
 See [API](#api) for more.
 
 ### Set a center point
 
 To estimate scalings and rotations around a fixed point, give an additional `center` parameter. Only the estimators `S`, `R`, and `SR` respect the `center` parameter.
 
+    const center = { x: -1 , y: 0 }
     const rotateAround = nudged.estimate({
       estimator: 'R',
       domain: domain,
       range: range,
-      center: { x: -1 , y: 0 }
+      center: center
     })
 
 You can think the center point as a nail that keeps a very elastic sheet of rubber fixed onto a table. The nail retains its location regardless of how the rubber sheet is transformed around it, as illustrated in the figure below.
@@ -108,16 +124,10 @@ _**Figure**: Left: a black pivot point and the domain. Center: the range. Right:
 
 To test the resulting transform, we can apply it to the center and observe that the point stays the same.
 
-    > nudged.point.transform(pivot, rotateAround)
+    > nudged.point.transform(center, rotateAround)
     { x: -1, y: 0 }
 
-To see how well the transform maps the domain to the range:
-
-    > nudged.point.transformMany(domain, rotateAround)
-    [{ x: -0.33, y: 0.77 }, { x: 0.99, y: 2.33 }, { x: -1.22, y: 2.88 }]
-    ...versus...
-    > range
-    [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
+See [API](#api) for more.
 
 
 ## Example apps
@@ -147,7 +157,19 @@ In this [map viewer demo](https://rawgit.com/axelpale/nudged/master/examples/nud
 
 ## API
 
-Nudged API provides a class `Transform` to represent a nonreflective similarity transformation matrix and multiple functions to estimate such transformations from sets of points.
+Nudged API is divided into following modules:
+
+- Geometries
+  - `nudged.point` – operators for a 2D point
+  - `nudged.transform` – operators for a nonreflective similarity transformation matrix
+- Estimators
+  - `nudged.estimate` - general estimator function
+  - `nudged.estimators` – specific estimator functions
+- Analysis
+  - `nudged.analysis` – estimation analysis tools
+- Other
+  - `nudged.epsilon` – equality tolerance due to floating point arithmetic
+  - `nudged.version` – the version of the package
 
 ### nudged.create(scale, rotation, translationX, translationY)
 
