@@ -184,11 +184,11 @@ A set of operators for 2D point objects `{ x, y }`.
 Test if two points are almost equal within the limit given by the optional tolerance parameter.
 
 Parameters:
-- p
+- `p`
   - a point
-- q
+- `q`
   - a point
-- tolerance
+- `tolerance`
   - optional number
   - Defaults to nudged.epsilon.
   - Set to 0 for strict comparison.
@@ -202,21 +202,47 @@ Example:
     true
     > nudged.point.almostEqual({ x: 0, y: 0 }, { x: 0, y: 0.1 })
     false
+    > nudged.point.almostEqual({ x: 0, y: 0 }, { x: 0, y: 0.1 }, 0.2)
+    true
 
 ### nudged.point.create(x, y)
 
 Create a point object.
 
-Parameters
-- x
+Parameters:
+- `x`
   - a number
-- y
+- `y`
   - a number
 
-Return
+Return:
 - a point `{ x, y }`
 
-### nudged.point.distance(pa, pb)
+### nudged.point.distance(p, q)
+
+The Euclidean distance between two points, also called the Euclidean norm alias L2-norm.
+
+Parameters:
+- p
+  - a point
+- q
+  - a point
+
+Return:
+- number, a distance from p to q (= distance from q to p)
+
+Example:
+
+    > nudged.point.distance({ x: 0, y: 0 }, { x: 3, y: 4 })
+    5
+
+
+
+
+
+
+
+
 
 
 
