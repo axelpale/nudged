@@ -4,3 +4,5 @@ exports.paramsTitle = /^param(?:eter)?s:?$/i
 exports.returnTitle = /^returns?:?$/i
 exports.parameter = /^(\s+)(.*)$/
 exports.returnValue = /^(\s+)(.*)$/
+exports.arrayLiteral = /\[([\w,: ]*)\]/
+exports.objectLiteral = /{([\w,: ]*)}/

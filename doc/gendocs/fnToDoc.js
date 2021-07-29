@@ -73,8 +73,9 @@ module.exports = (code, codeModule) => {
         return
       }
 
-      // Otherwise, just common docs
-      output += comment + '\n'
+      // Otherwise, just common docs.
+      const pretty = prettyText(comment)
+      output += pretty + '\n'
   }
 
   const handleParams = (comment) => {
@@ -105,12 +106,26 @@ module.exports = (code, codeModule) => {
     const retval = comment.match(expressions.returnValue)
     if (retval) {
       const text = retval[2] // second captured is the text after the indent
-      output += '- ' + text + '\n'
+      const pretty = prettyText(text)
+      output += '- ' + pretty + '\n'
     } else {
       // The empty line after return value docs
       output += '\n'
       substate = 'common'
     }
+  }
+
+  const prettyText = (text) => {
+    text = prettyObjectLiterals(text)
+    text = prettyArrayLiterals(text)
+    return text
+  }
+
+  const prettyArrayLiterals = (text) => {
+    return text.replace(expressions.arrayLiteral, '`[$1]`')
+  }
+  const prettyObjectLiterals = (text) => {
+    return text.replace(expressions.objectLiteral, '`{$1}`')
   }
 
   lines.forEach((line) => {
