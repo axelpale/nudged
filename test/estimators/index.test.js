@@ -344,7 +344,7 @@ module.exports = (t) => {
 
 //    it('should not rotate when singular domain', function () {
 //      // This domain and range pair caused D to become almost zero
-//      // but not zero. After proper 'D < epsilon' instead of 'D === 0'
+//      // but not zero. After proper 'D < tolerance' instead of 'D === 0'
 //      // the issue should be repaired.
 //      var dom = [[0.21255673222390348, 0.20282314674735248]]
 //      var ran = [[0.20801815431164927, 0.19818456883509827]]

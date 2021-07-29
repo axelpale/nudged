@@ -1,11 +1,11 @@
 const test = require('tape')
 const nudged = require('../index')
-const EPSILON = nudged.epsilon
+const TOLERANCE = nudged.tolerance
 
 // Units
 
 const versionTest = require('./version/index.test')
-const epsilonTest = require('./epsilon/index.test')
+const toleranceTest = require('./tolerance/index.test')
 const pointTest = require('./point/index.test')
 const transformTest = require('./transform/index.test')
 const estimatorsTest = require('./estimators/index.test')
@@ -15,7 +15,7 @@ const analysisTest = require('./analysis/index.test')
 
 test.Test.prototype.almostEqual = function (actual, expected, message) {
   // Test if a number is almost another number.
-  const isAlmost = Math.abs(actual - expected) < EPSILON
+  const isAlmost = Math.abs(actual - expected) < TOLERANCE
   this._assert(isAlmost, {
     message: message || 'should be almost equal',
     operator: 'almostEqual',
@@ -26,7 +26,7 @@ test.Test.prototype.almostEqual = function (actual, expected, message) {
 
 test.Test.prototype.notAlmostEqual = function (actual, expected, message) {
   // Test if a number is not almost another number.
-  const isAlmost = Math.abs(actual - expected) < EPSILON
+  const isAlmost = Math.abs(actual - expected) < TOLERANCE
   this._assert(!isAlmost, {
     message: message || 'should not be almost equal',
     operator: 'notAlmostEqual',
@@ -59,7 +59,7 @@ test.Test.prototype.transformEqual = function (actual, expected, message) {
 
 test('nudged', (t) => {
   t.test('version', versionTest)
-  t.test('epsilon', epsilonTest)
+  t.test('tolerance', toleranceTest)
   t.test('point', pointTest)
   t.test('transform', transformTest)
   t.test('estimators', estimatorsTest)

@@ -1,12 +1,12 @@
 const nudged = require('../../index')
 const point = nudged.point
-const EPSILON = nudged.epsilon
+const TOLERANCE = nudged.tolerance
 
 module.exports = (ts) => {
   ts.test('case: various matches', (t) => {
     const a = { x: 1, y: 2 }
     const b = { x: 3, y: 4 }
-    const c = { x: 1, y: 2 - EPSILON }
+    const c = { x: 1, y: 2 - TOLERANCE }
 
     t.notEqual(a, b, 'a is not b')
     t.notDeepEqual(a, b, 'a is not deeply equal to b')
