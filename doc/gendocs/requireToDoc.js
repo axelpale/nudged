@@ -64,11 +64,14 @@ module.exports = (mod) => {
     })
 
     if (isFnModule) {
+      // A function
       output += fnToDoc(filedata, {
         name: mod.name
       })
     } else {
+      // New index file
       output += mod.indexToDoc(filedata, {
+        doc: mod.doc,
         name: mod.name,
         path: filepath
       })

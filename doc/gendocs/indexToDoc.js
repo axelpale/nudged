@@ -7,6 +7,8 @@ module.exports = (code, codeModule) => {
   // Converts raw index code to Markdown API documentation.
   //
   // Parameters
+  //   doc
+  //     markdown from above
   //   code
   //     string
   //   codeModule
@@ -20,6 +22,7 @@ module.exports = (code, codeModule) => {
   let doc = '' // reusable doc aggregate
 
   output += '## ' + codeModule.name + '\n\n'
+  output += codeModule.doc + '\n\n'
 
   lines.forEach((line) => {
 
@@ -57,7 +60,7 @@ module.exports = (code, codeModule) => {
       const value = foundConstant[2]
 
       output += '### ' + codeModule.name + '.' + exportedName + '\n\n'
-      output += prettyText(doc)
+      output += prettyText(codeModule.doc + doc)
       // doc consumed
       doc = ''
 

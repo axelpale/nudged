@@ -6,6 +6,7 @@ const indexToDoc = require('./indexToDoc')
 // Code modules to document
 const modules = [
   {
+    doc: '', // initial docs for consistency
     name: 'nudged',
     path: path.resolve(__dirname, '../../lib')
   }
