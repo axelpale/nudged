@@ -7,6 +7,10 @@ const indexToDoc = require('./indexToDoc')
 // Code modules to document
 const modules = [
   {
+    name: 'nudged',
+    path: path.resolve(__dirname, '../../lib')
+  },
+  {
     name: 'nudged.point',
     path: path.resolve(__dirname, '../../lib/point')
   },
