@@ -90,24 +90,43 @@ module.exports = (code, codeModule) => {
 
   const handleParams = (comment) => {
     // Parameter listing after "Parameters"
-    const param = comment.match(expressions.parameter)
-    if (param) {
-      // Construct a list
-      const indent = param[1] // first captured is the white space prefix
-      const text = param[2] // second captured is the text after the indent
-      if (indent.length === 2) {
-        // Parameter name
-        output += '- `' + text + '`\n'
-      } else if (indent.length === 4) {
-        // Parameter description
-        output += '  - ' + text + '\n'
+    const paramName = comment.match(expressions.parameterName)
+    if (paramName) {
+      const indent = paramName[1] // first captured is the white space prefix
+      const name = paramName[2] // second captured is the parameter name
+      if (indent.length < 2) {
+        console.warn('Irregular indentation near "' + comment + '"')
+      } else {
+        const listIndent = indent.substring(0, indent.length - 2)
+        output += listIndent + '- `' + name + '`\n'
       }
       // Continue in params substate
       substate = 'params'
     } else {
-      // The empty line after parameter docs
-      output += '\n'
-      substate = 'common'
+      const paramDesc = comment.match(expressions.parameterDesc)
+      if (paramDesc) {
+        const indent = paramDesc[1]
+        const desc = paramDesc[2]
+        if (indent.length < 2) {
+          console.warn('Irregular indentation near "' + comment + '"')
+        } else {
+          // Parameter description
+          const listIndent = indent.substring(0, indent.length - 2)
+          const pretty = prettyText(desc)
+          // Detect line continuation string ..
+          if (pretty.startsWith('..')) {
+            output += listIndent + '  ' + pretty.substring(2) + '\n'
+          } else {
+            output += listIndent + '- ' + pretty + '\n'
+          }
+        }
+        // Continue in params substate
+        substate = 'params'
+      } else {
+        // The empty line after parameter docs
+        output += '\n'
+        substate = 'common'
+      }
     }
   }
 
