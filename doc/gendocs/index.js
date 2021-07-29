@@ -57,7 +57,10 @@ asyn.eachSeries(modules, (mod, next) => {
           return nextFile(readerr)
         }
 
-        markdown += fnToDoc(data, mod)
+        markdown += fnToDoc(data, {
+          name: path.basename(filename, '.js'),
+          moduleName: mod.name
+        })
 
         // Successfully converted file to docs
         return nextFile()

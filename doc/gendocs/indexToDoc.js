@@ -1,3 +1,5 @@
+const expressions = require('./expressions')
+
 module.exports = (code, codeModule) => {
   // Converts raw index code to Markdown API documentation.
   //
@@ -11,6 +13,14 @@ module.exports = (code, codeModule) => {
   //   string as Markdown
   //
   const lines = code.split(/\r?\n/)
+  let output = ''
 
-  return 'i'
+  lines.forEach((line) => {
+    const found = line.match(expressions.comment)
+    if (found) {
+      output += found[1] + '\n' // first captured string
+    }
+  })
+
+  return output
 }
