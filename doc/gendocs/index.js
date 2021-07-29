@@ -50,6 +50,9 @@ asyn.eachSeries(modules, (mod, next) => {
   }
   markdown += indexToDoc(indexdata, mod)
 
+  // TODO scrape submodules from the index and do the following
+  // in the indexToDoc
+
   // Read all the files in the dir
   fs.readdir(mod.path, (rerr, files) => {
     if (rerr) {
