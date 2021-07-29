@@ -10,11 +10,14 @@ const modules = [
     name: 'nudged.point',
     path: path.resolve(__dirname, '../../lib/point')
   },
-  {
-    name: 'nudged.transform',
-    path: path.resolve(__dirname, '../../lib/transform')
-  }
+  // {
+  //   name: 'nudged.transform',
+  //   path: path.resolve(__dirname, '../../lib/transform')
+  // }
 ]
+
+// Where to save the generated markdown file
+const saveTo = path.resolve(__dirname, '../API.md')
 
 // Gather the documentation to this string
 let markdown = ''
@@ -82,6 +85,15 @@ asyn.eachSeries(modules, (mod, next) => {
     return
   }
 
-  console.log(markdown)
-  console.log('API docs created successfully')
+  // Save
+  fs.writeFile(saveTo, markdown, (werr) => {
+    if (werr) {
+      console.error(werr)
+
+      return
+    }
+
+    console.log('API docs created successfully.')
+    console.log('See ' + saveTo)
+  })
 })
