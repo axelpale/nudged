@@ -69,7 +69,7 @@ module.exports = (code, codeModule) => {
 
       const beginReturn = comment.match(expressions.returnTitle)
       if (beginReturn) {
-        output += '<p style="display: inline">Returns:</p>\n\n'
+        output += '<p style="display: inline">Return:</p>\n\n'
 
         substate = 'return'
         return
