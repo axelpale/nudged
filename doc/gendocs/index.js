@@ -1,8 +1,10 @@
 const fs = require('fs')
 const path = require('path')
 const asyn = require('async')
-const codeToDoc = require('./codeToDoc')
+const fnToDoc = require('./fnToDoc')
+const indexToDoc = require('./indexToDoc')
 
+// Code modules to document
 const modules = [
   {
     name: 'nudged.point',
@@ -14,6 +16,7 @@ const modules = [
   }
 ]
 
+// Gather the documentation to this string
 let markdown = ''
 
 asyn.eachSeries(modules, (mod, next) => {
@@ -21,6 +24,16 @@ asyn.eachSeries(modules, (mod, next) => {
 
   // Write title
   markdown += '## ' + mod.name + '\n\n'
+
+  // Search for docs in module index
+  const indexpath = path.join(mod.path, 'index.js')
+  let indexdata
+  try {
+    indexdata = fs.readFileSync(indexpath, { encoding: 'utf-8' })
+  } catch (idxerr) {
+    return next(idxerr)
+  }
+  markdown += indexToDoc(indexdata, mod)
 
   // Read all the files in the dir
   fs.readdir(mod.path, (rerr, files) => {
@@ -44,7 +57,7 @@ asyn.eachSeries(modules, (mod, next) => {
           return nextFile(readerr)
         }
 
-        markdown += codeToDoc(data, mod)
+        markdown += fnToDoc(data, mod)
 
         // Successfully converted file to docs
         return nextFile()
