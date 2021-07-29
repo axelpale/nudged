@@ -18,7 +18,7 @@ module.exports = (code, codeModule) => {
   const lines = code.split(/\r?\n/)
   let output = ''
   let state = 'init' // init | fn | doc | dontcare
-  let substate = 'common' // common | params | return
+  let substate = 'common' // common | params | return | example
 
   const handleInit = (line) => {
     const foundFn = line.match(expressions.function)
@@ -46,6 +46,8 @@ module.exports = (code, codeModule) => {
         handleParams(comment)
       } else if (substate === 'return') {
         handleReturn(comment)
+      } else if (substate === 'example') {
+        handleExample(comment)
       }
 
       state = 'doc'
@@ -70,6 +72,14 @@ module.exports = (code, codeModule) => {
         output += '<p style="display: inline">Returns:</p>\n\n'
 
         substate = 'return'
+        return
+      }
+
+      const beginExample = comment.match(expressions.exampleTitle)
+      if (beginExample) {
+        output += 'Example:\n\n'
+
+        substate = 'example'
         return
       }
 
@@ -110,6 +120,19 @@ module.exports = (code, codeModule) => {
       output += '- ' + pretty + '\n'
     } else {
       // The empty line after return value docs
+      output += '\n'
+      substate = 'common'
+    }
+  }
+
+  const handleExample = (comment) => {
+    // Example code after "Example"
+    const code = comment.match(expressions.exampleCode)
+    if (code) {
+      const codeline = code[2] // second captured is the code after the indent
+      output += '    ' + codeline + '\n'
+    } else {
+      // The empty line after examples
       output += '\n'
       substate = 'common'
     }
