@@ -14,6 +14,14 @@ const modules = [
   //   name: 'nudged.transform',
   //   path: path.resolve(__dirname, '../../lib/transform')
   // }
+  {
+    name: 'nudged.estimators',
+    path: path.resolve(__dirname, '../../lib/estimators')
+  },
+  {
+    name: 'nudged.analysis',
+    path: path.resolve(__dirname, '../../lib/analysis')
+  },
 ]
 
 // Where to save the generated markdown file
