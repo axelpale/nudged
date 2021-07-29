@@ -27,6 +27,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "async": "^3.2.0",
     "browserify": "^17.0.0",
     "component-emitter": "^1.2.0",
     "genversion": "^3.0.0",
@@ -46,6 +47,7 @@
     "test:unit": "node test/index.test.js | tap-spec",
     "test:lint": "standard index.js 'lib/**/*.js' 'test/**/*.js'",
     "test:lint:fix": "standard --fix index.js 'lib/**/*.js' 'test/**/*.js'",
+    "build:docs": "node doc/gendocs/index.js",
     "gv": "genversion lib/version.js",
     "test:nudged-editor": "standard --fix 'examples/nudged-editor/lib/*.js'",
     "build:nudged-editor": "npm run test:nudged-editor && browserify examples/nudged-editor/lib/index.js -o examples/nudged-editor/dist/app.js",
