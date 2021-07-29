@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const asyn = require('async')
-const fnToDoc = require('./fnToDoc')
 const indexToDoc = require('./indexToDoc')
 
 // Code modules to document
@@ -9,23 +8,7 @@ const modules = [
   {
     name: 'nudged',
     path: path.resolve(__dirname, '../../lib')
-  },
-  {
-    name: 'nudged.point',
-    path: path.resolve(__dirname, '../../lib/point')
-  },
-  // {
-  //   name: 'nudged.transform',
-  //   path: path.resolve(__dirname, '../../lib/transform')
-  // }
-  {
-    name: 'nudged.estimators',
-    path: path.resolve(__dirname, '../../lib/estimators')
-  },
-  {
-    name: 'nudged.analysis',
-    path: path.resolve(__dirname, '../../lib/analysis')
-  },
+  }
 ]
 
 // Where to save the generated markdown file
@@ -37,61 +20,16 @@ let markdown = ''
 asyn.eachSeries(modules, (mod, next) => {
   // For each listed module
 
-  // Write title
-  markdown += '## ' + mod.name + '\n\n'
-
   // Search for docs in module index
-  const indexpath = path.join(mod.path, 'index.js')
-  let indexdata
   try {
-    indexdata = fs.readFileSync(indexpath, { encoding: 'utf-8' })
+    const indexpath = path.join(mod.path, 'index.js')
+    const indexdata = fs.readFileSync(indexpath, { encoding: 'utf-8' })
+    markdown += indexToDoc(indexdata, mod)
   } catch (idxerr) {
     return next(idxerr)
   }
-  markdown += indexToDoc(indexdata, mod)
 
-  // TODO scrape submodules from the index and do the following
-  // in the indexToDoc
-
-  // Read all the files in the dir
-  fs.readdir(mod.path, (rerr, files) => {
-    if (rerr) {
-      return next(rerr)
-    }
-
-    asyn.eachSeries(files, (filename, nextFile) => {
-      const filepath = path.join(mod.path, filename)
-      const filestat = fs.statSync(filepath)
-
-      if (filestat.isDirectory()) {
-        // Skip dirs
-        return nextFile()
-      }
-
-      // Read file contents
-      // NOTE might break for very large files.
-      fs.readFile(filepath, { encoding: 'utf-8' }, (readerr, data) => {
-        if (readerr) {
-          return nextFile(readerr)
-        }
-
-        markdown += fnToDoc(data, {
-          name: path.basename(filename, '.js'),
-          moduleName: mod.name
-        })
-
-        // Successfully converted file to docs
-        return nextFile()
-      })
-    }, (ferr) => {
-      // All module's files processed or error occurs.
-      if (ferr) {
-        return next(ferr)
-      }
-
-      return next()
-    })
-  })
+  return next()
 }, (err) => {
   // All modules processed or error occurs.
   if (err) {

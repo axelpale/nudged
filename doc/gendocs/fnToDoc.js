@@ -8,9 +8,7 @@ module.exports = (code, codeModule) => {
   //     string
   //   codeModule
   //     name
-  //       function name
-  //     moduleName
-  //       parent module name the fn belongs to
+  //       module name the fn
   //
   // Return
   //   string as Markdown
@@ -26,8 +24,8 @@ module.exports = (code, codeModule) => {
     if (foundFn) {
       // Title for the function
       const params = foundFn[1]
-      const fullname = codeModule.moduleName + '.' + codeModule.name
-      output += '### ' + fullname  + params + '\n\n'
+      const fullname = codeModule.name
+      output += '### ' + fullname + params + '\n\n'
 
       state = 'fn'
     }

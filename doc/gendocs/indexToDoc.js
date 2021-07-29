@@ -1,4 +1,6 @@
 const expressions = require('./expressions')
+const path = require('path')
+const requireToDoc = require('./requireToDoc')
 
 module.exports = (code, codeModule) => {
   // Converts raw index code to Markdown API documentation.
@@ -14,12 +16,56 @@ module.exports = (code, codeModule) => {
   //
   const lines = code.split(/\r?\n/)
   let output = ''
+  let doc = '' // reusable doc aggregate
+
+  output += '## ' + codeModule.name + '\n\n'
 
   lines.forEach((line) => {
+
     const found = line.match(expressions.comment)
     if (found) {
-      output += found[1] + '\n' // first captured string
+      const text = found[1] // first captured string
+      doc += text + '\n'
+
+      return
     }
+
+    const foundReq = line.match(expressions.exportsRequire)
+    if (foundReq) {
+      const moduleName = codeModule.name + '.' + foundReq[1]
+      const relativePath = foundReq[2]
+      const absPath = path.resolve(codeModule.path, relativePath)
+      const requireDoc = requireToDoc({
+        doc: doc,
+        name: moduleName,
+        path: absPath,
+        indexToDoc: module.exports // HACK prevent cyclic require
+      })
+
+      output += requireDoc
+      // doc consumed
+      doc = ''
+
+      return
+    }
+
+    // not a comment, not a require
+    const foundConstant = line.match(expressions.exportsConstant)
+    if (foundConstant) {
+      const exportedName = foundConstant[1]
+      const value = foundConstant[2]
+
+      output += '### ' + codeModule.name + '.' + exportedName + '\n\n'
+      output += doc
+      // doc consumed
+      doc = ''
+
+      return
+    }
+
+    // Empty line or something. Output doc this far.
+    output += doc
+    doc = ''
   })
 
   return output
