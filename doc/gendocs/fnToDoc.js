@@ -18,37 +18,109 @@ module.exports = (code, codeModule) => {
   const lines = code.split(/\r?\n/)
   let output = ''
   let state = 'init' // init | fn | doc | dontcare
+  let substate = 'common' // common | params | return
 
-  lines.forEach((line) => {
+  const handleInit = (line) => {
+    const foundFn = line.match(expressions.function)
 
-    if (state === 'init') {
-      const foundFn = line.match(expressions.function)
+    if (foundFn) {
+      // Title for the function
+      const params = foundFn[1]
+      const fullname = codeModule.moduleName + '.' + codeModule.name
+      output += '### ' + fullname  + params + '\n\n'
 
-      if (foundFn) {
-        // Title for the function
-        const params = foundFn[1]
-        const fullname = codeModule.moduleName + '.' + codeModule.name
-        output += '### ' + fullname  + params + '\n\n'
+      state = 'fn'
+    }
+  }
 
-        state = 'fn'
+  const handleDoc = (line) => {
+    // Expect docs
+    const foundCom = line.match(expressions.comment)
+
+    if (foundCom) {
+      const comment = foundCom[1] // first captured match
+
+      if (substate === 'common') {
+        handleCommon(comment)
+      } else if (substate === 'params') {
+        handleParams(comment)
+      } else if (substate === 'return') {
+        handleReturn(comment)
       }
 
+      state = 'doc'
+    } else {
+      // We are past the api doc comments
+      state = 'dontcare'
+    }
+  }
+
+  const handleCommon = (comment) => {
+    // Test if param docs
+      const beginParams = comment.match(expressions.paramsTitle)
+      if (beginParams) {
+        output += 'Parameters:\n'
+
+        substate = 'params'
+        return
+      }
+
+      const beginReturn = comment.match(expressions.returnTitle)
+      if (beginReturn) {
+        output += 'Returns:\n'
+
+        substate = 'return'
+        return
+      }
+
+      // Otherwise, just common docs
+      output += comment + '\n'
+  }
+
+  const handleParams = (comment) => {
+    // Parameter listing after "Parameters"
+    const param = comment.match(expressions.parameter)
+    if (param) {
+      // Construct a list
+      const indent = param[1] // first captured is the white space prefix
+      const text = param[2] // second captured is the text after the indent
+      if (indent.length === 2) {
+        // Parameter name
+        output += '- `' + text + '`\n'
+      } else if (indent.length === 4) {
+        // Parameter description
+        output += '  - ' + text + '\n'
+      }
+      // Continue in params substate
+      substate = 'params'
+    } else {
+      // The empty line after parameter docs
+      output += '\n'
+      substate = 'common'
+    }
+  }
+
+  const handleReturn = (comment) => {
+    // Return value docs after "Return"
+    const retval = comment.match(expressions.returnValue)
+    if (retval) {
+      const text = retval[2] // second captured is the text after the indent
+      output += '- ' + text + '\n'
+    } else {
+      // The empty line after return value docs
+      output += '\n'
+      substate = 'common'
+    }
+  }
+
+  lines.forEach((line) => {
+    if (state === 'init') {
+      handleInit(line)
       return // next
     }
 
     if (state === 'fn' || state === 'doc') {
-      // Expect docs
-      const foundCom = line.match(expressions.comment)
-
-      if (foundCom) {
-        output += foundCom[1] + '\n' // first captured string
-
-        state = 'doc'
-      } else {
-        // We are past the api doc comments
-        state = 'dontcare'
-      }
-
+      handleDoc(line)
       return // next
     }
   })
