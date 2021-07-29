@@ -1,6 +1,7 @@
 const expressions = require('./expressions')
 const path = require('path')
 const requireToDoc = require('./requireToDoc')
+const prettyText = require('./prettyText')
 
 module.exports = (code, codeModule) => {
   // Converts raw index code to Markdown API documentation.
@@ -56,7 +57,7 @@ module.exports = (code, codeModule) => {
       const value = foundConstant[2]
 
       output += '### ' + codeModule.name + '.' + exportedName + '\n\n'
-      output += doc
+      output += prettyText(doc)
       // doc consumed
       doc = ''
 
@@ -64,7 +65,7 @@ module.exports = (code, codeModule) => {
     }
 
     // Empty line or something. Output doc this far.
-    output += doc
+    output += prettyText(doc)
     doc = ''
   })
 

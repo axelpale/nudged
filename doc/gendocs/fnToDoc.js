@@ -1,4 +1,5 @@
 const expressions = require('./expressions')
+const prettyText = require('./prettyText')
 
 module.exports = (code, codeModule) => {
   // Converts raw code to Markdown API documentation.
@@ -153,19 +154,6 @@ module.exports = (code, codeModule) => {
       output += '\n'
       substate = 'common'
     }
-  }
-
-  const prettyText = (text) => {
-    text = prettyObjectLiterals(text)
-    text = prettyArrayLiterals(text)
-    return text
-  }
-
-  const prettyArrayLiterals = (text) => {
-    return text.replace(expressions.arrayLiteral, '`[$1]`')
-  }
-  const prettyObjectLiterals = (text) => {
-    return text.replace(expressions.objectLiteral, '`{$1}`')
   }
 
   lines.forEach((line) => {
