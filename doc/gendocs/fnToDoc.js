@@ -59,7 +59,7 @@ module.exports = (code, codeModule) => {
     // Test if param docs
       const beginParams = comment.match(expressions.paramsTitle)
       if (beginParams) {
-        output += 'Parameters:\n'
+        output += '<p style="display: inline">Parameters:</p>\n\n'
 
         substate = 'params'
         return
@@ -67,7 +67,7 @@ module.exports = (code, codeModule) => {
 
       const beginReturn = comment.match(expressions.returnTitle)
       if (beginReturn) {
-        output += 'Returns:\n'
+        output += '<p style="display: inline">Returns:</p>\n\n'
 
         substate = 'return'
         return
