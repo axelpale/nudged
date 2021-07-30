@@ -9,12 +9,18 @@
 - [nudged.version](#nudgedversion)
 
 
+The code follows the functional, classless, immutable paradigm.
+All the functions take in only plain objects and values such as
+`{ x: 1, y: 2 }` and also return only plain objects and values.
+You can expect no side effects nor memories form previous calls.
+
 <a name="nudgedestimate"></a>
 ### nudged.estimate(params)
 
 Estimate a transformation of the given type and constraints.
 Internally, calls the estimator of the given type.
-For maximal efficiency, use the estimator functions directly.
+For maximal efficiency, use the estimator functions directly
+via [nudged.estimators](#nudgedestimators).
 
 <p style="display: inline">Parameters:</p>
 
@@ -346,7 +352,7 @@ Thest if the coordinates of two points are strictly equal.
 <a name="nudgedpointfromArray"></a>
 ### nudged.point.fromArray(arrp)
 
-Create a [point](#nudgedpoint) `{ x, y }` from an array `[x, y]`.
+Create a [point](#nudgedpoint) `{ x, y }` from an array `[x, y].`
 
 <p style="display: inline">Parameters:</p>
 
@@ -809,15 +815,32 @@ Compatible with nudged.createFromArray(...)
 
 Get the similarity transformation matrix
 in the format common to other APIs, including:
-- kld-affine
-- MDN documentation in some parts
+
+- [DOMMatrix](https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix)
+- [WebKitCSSMatrix](https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix)
+- [kld-affine](https://github.com/thelonious/kld-affine)
+
+<p style="display: inline">Parameters:</p>
+
+- `tr`
+  - a [transform](#nudgedtransform)
 
 <p style="display: inline">Return:</p>
 
-- object o, having properties a, b, c, d, e, f:
-- [ a  -b   x ]   [ o.a  o.c  o.e ]
-- `[ b   a   y ]` = [ o.b  o.d  o.f ]
-- `[ 0   0   1 ]`   [  -    -    -  ]
+- an object `{ a, b, c, d, e, g }` that represents the matrix below.
+
+
+    ┌           ┐
+    │  a  c  e  │
+    │  b  d  f  │
+    │  0  0  1  │
+    └           ┘
+
+Example:
+
+    > nudged.transform.toMatrix(tr)
+    { a: 0.48, c: -0.52, e: 205.04,
+    b: 0.52, d: 0.48, f: 4.83 }
 
 <a name="nudgedtransformtoString"></a>
 ### nudged.transform.toString(tr)
@@ -956,7 +979,14 @@ much larger than 1 * 10^-16. Let say 1 * 10^-10 is a good one.
 
 ## nudged.version
 
-A string, the package version tag.
+Contains the module version string identical to
+the version in *package.json*.
+This feature is powered by
+[genversion](https://github.com/axelpale/genversion).
+
+    > nudged.version
+    '2.3.4'
+
 
 
 
