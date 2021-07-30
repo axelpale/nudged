@@ -1,4 +1,5 @@
 exports.comment = /^\s*\/\/ ?(.*)$/
+exports.exportsAlias = /^exports\.(\w+) = exports\.(\w+)$/
 exports.exportsConstant = /^exports\.(\w+) = ((?!require).*)$/
 exports.exportsRequire = /^exports\.(\w+) = require\('([\w\/\.]+)'\)$/
 exports.function = /^module\.exports = (?:function )?(\([\w, ]*\))(?: =>)? {$/

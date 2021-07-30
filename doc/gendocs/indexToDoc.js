@@ -53,7 +53,18 @@ module.exports = (code, codeModule) => {
       return
     }
 
-    // not a comment, not a require
+    const foundAlias = line.match(expressions.exportsAlias)
+    if (foundAlias) {
+      const exportedName = foundAlias[1]
+      const aliasOf = foundAlias[2]
+
+      output += '### ' + codeModule.name + '.' + exportedName + '\n\n'
+      output += 'Alias of `' + codeModule.name + '.' + aliasOf + '`.\n\n'
+
+      return
+    }
+
+    // not a comment, not a require, not an alias
     const foundConstant = line.match(expressions.exportsConstant)
     if (foundConstant) {
       const exportedName = foundConstant[1]
