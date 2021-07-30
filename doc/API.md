@@ -524,7 +524,15 @@ Singular transform, resembles multiplication by 0.
 
 ### nudged.transform.IDENTITY
 
-Identity transform, resembles multiplication by 1.
+Identity transform, resembles multiplication by 1 in the way that
+it does not have any effect. You can use it as a starting point
+to build other transformations.
+
+    const I = nudged.transform.IDENTITY
+    const center = `{ x: 320, y: 240 }`
+    const angle = Math.PI / 5
+    const rotation = nudged.transform.rotateBy(I, center, angle)
+
 
 ### nudged.transform.ROT45
 

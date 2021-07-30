@@ -274,12 +274,6 @@ The `nudged.Transform` instance is designed to be immutable.
 
 Note that `s` and `r` do **not** represent scaling and rotation but instead `s = scalingFactor * Math.cos(rotationRads)` and `r = scalingFactor * Math.sin(rotationRads)`. The parameters `tx` and `ty` represent horizontal and vertical translation after rotation.
 
-### nudged.Transform.IDENTITY
-
-A default instance of `nudged.Transform` that represents the identity transformation `new Transform(1, 0, 0, 0)` i.e. transformation without an effect. You can use it in building new transformations:
-
-    > var trans = nudged.Transform.IDENTITY.scaleBy(0.6).rotateBy(0.3);
-
 ### nudged.Transform.R90 .R180 .R270 .X2
 
 Following prebuilt `Transform` instances are available:
