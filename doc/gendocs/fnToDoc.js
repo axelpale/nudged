@@ -23,9 +23,11 @@ module.exports = (code, codeModule) => {
     const foundFn = line.match(expressions.function)
 
     if (foundFn) {
-      // Title for the function
+      // Title for the function with a hidden anchor without fn params.
       const params = foundFn[1]
       const fullname = codeModule.name
+      const navHash = fullname.replace(expressions.hashPath, '')
+      output += '<a name="' + navHash + '"></a>\n'
       output += '### ' + fullname + params + '\n\n'
 
       state = 'fn'

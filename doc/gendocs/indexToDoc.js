@@ -48,7 +48,7 @@ module.exports = (code, codeModule) => {
       })
 
       membersOutput += requireDoc
-      const hashName = '#' + moduleName
+      const hashName = '#' + moduleName.replace(expressions.hashPath, '')
       tocOutput += '- [' + moduleName + '](' + hashName + ')\n'
       // doc consumed
       doc = ''
@@ -64,7 +64,7 @@ module.exports = (code, codeModule) => {
 
       membersOutput += '### ' + fullname + '\n\n'
       membersOutput += 'Alias of `' + codeModule.name + '.' + aliasOf + '`.\n\n'
-      const hashName = '#' + fullname
+      const hashName = '#' + fullname.replace(expressions.hashPath, '')
       tocOutput += '- [' + fullname + '](' + hashName + ')\n'
 
       return
