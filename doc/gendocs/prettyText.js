@@ -12,11 +12,11 @@ const removeGenversion = (text) => {
   return text.replace(expressions.genversion, '')
 }
 
-const pointKeyword = /(a|optional) point(\W)?/g
-const transformKeyword = /a transform(\W)?/g
-const toleranceKeyword = /nudged\.tolerance(\W)?/g
+const pointKeyword = /(a|optional|of) point(s?)($|\W+)/g
+const transformKeyword = /a transform($|\W+)/g
+const toleranceKeyword = /nudged\.tolerance($|\W+)/g
 const routeKeywords = (text) => {
-  text = text.replace(pointKeyword, '$1 [point](#nudgedpoint)$2')
+  text = text.replace(pointKeyword, '$1 [point$2](#nudgedpoint)$3')
   text = text.replace(transformKeyword, 'a [transform](#nudgedtransform)$1')
   text = text.replace(toleranceKeyword, '[nudged.tolerance](#nudgedtolerance)$1')
   return text
