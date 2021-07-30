@@ -77,7 +77,7 @@ module.exports = (code, codeModule) => {
       const value = foundConstant[2]
 
       membersOutput += '### ' + codeModule.name + '.' + exportedName + '\n\n'
-      membersOutput += prettyText(codeModule.doc + doc)
+      membersOutput += prettyText(codeModule.doc + doc) + '\n'
       // doc consumed
       doc = ''
 
