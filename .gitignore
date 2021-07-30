@@ -30,4 +30,4 @@ package-lock.json
 *.DS_Store
 
 # Ignore sketchy generated docs for a while
-doc/API.md
+# doc/API.md
