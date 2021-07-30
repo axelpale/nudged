@@ -18,11 +18,12 @@ module.exports = (code, codeModule) => {
   //   string as Markdown
   //
   const lines = code.split(/\r?\n/)
-  let output = ''
   let doc = '' // reusable doc aggregate
 
-  output += '## ' + codeModule.name + '\n\n'
-  output += codeModule.doc + '\n\n'
+  const titleOutput = '## ' + codeModule.name + '\n\n'
+  const introOutput = codeModule.doc + '\n\n'
+  let tocOutput = ''
+  let membersOutput = ''
 
   lines.forEach((line) => {
 
@@ -46,7 +47,9 @@ module.exports = (code, codeModule) => {
         indexToDoc: module.exports // HACK prevent cyclic require
       })
 
-      output += requireDoc
+      membersOutput += requireDoc
+      const hashName = '#' + moduleName
+      tocOutput += '- [' + moduleName + '](' + hashName + ')\n'
       // doc consumed
       doc = ''
 
@@ -57,9 +60,12 @@ module.exports = (code, codeModule) => {
     if (foundAlias) {
       const exportedName = foundAlias[1]
       const aliasOf = foundAlias[2]
+      const fullname = codeModule.name + '.' + exportedName
 
-      output += '### ' + codeModule.name + '.' + exportedName + '\n\n'
-      output += 'Alias of `' + codeModule.name + '.' + aliasOf + '`.\n\n'
+      membersOutput += '### ' + fullname + '\n\n'
+      membersOutput += 'Alias of `' + codeModule.name + '.' + aliasOf + '`.\n\n'
+      const hashName = '#' + fullname
+      tocOutput += '- [' + fullname + '](' + hashName + ')\n'
 
       return
     }
@@ -70,18 +76,23 @@ module.exports = (code, codeModule) => {
       const exportedName = foundConstant[1]
       const value = foundConstant[2]
 
-      output += '### ' + codeModule.name + '.' + exportedName + '\n\n'
-      output += prettyText(codeModule.doc + doc)
+      membersOutput += '### ' + codeModule.name + '.' + exportedName + '\n\n'
+      membersOutput += prettyText(codeModule.doc + doc)
       // doc consumed
       doc = ''
 
       return
     }
 
-    // Empty line or something. Output doc this far.
-    output += prettyText(doc)
+    // Empty line or something. Output doc gathered this far.
+    membersOutput += prettyText(doc)
     doc = ''
   })
 
-  return output
+  return [
+    titleOutput,
+    tocOutput,
+    introOutput,
+    membersOutput
+  ].join('')
 }
