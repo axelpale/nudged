@@ -12,7 +12,7 @@
 <a name="nudgedestimate"></a>
 ### nudged.estimate(params)
 
-Estimate a [transform](#nudgedtransform)ation of the given type and constraints.
+Estimate a transformation of the given type and constraints.
 Internally, calls the estimator of the given type.
 For maximal efficiency, use the estimator functions directly.
 
@@ -24,10 +24,10 @@ For maximal efficiency, use the estimator functions directly.
     - One of the following:
       'I', 'L', 'X', 'Y', 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
   - `domain`
-    - required array of points `{ x, y }`.
+    - required array of [points](#nudgedpoint) `{ x, y }`.
     - The points before the transform.
   - `range`
-    - required array of points `{ x, y }`.
+    - required array of [points](#nudgedpoint) `{ x, y }`.
     - The points after the transform.
   - `center`
     - optional [point](#nudgedpoint).
@@ -80,9 +80,9 @@ Estimate translation along a line at the given angle.
 <p style="display: inline">Parameters:</p>
 
 - `domain`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `range`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `angle`
   - number, radians
 
@@ -98,9 +98,9 @@ Estimate horizontal translation that is a translation along x-axis.
 <p style="display: inline">Parameters:</p>
 
 - `domain`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `range`
-  - array of points
+  - array of [points](#nudgedpoint)
 
 <p style="display: inline">Return:</p>
 
@@ -114,9 +114,9 @@ Estimate vertical translation that is a translation along y-axis.
 <p style="display: inline">Parameters:</p>
 
 - `domain`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `range`
-  - array of points
+  - array of [points](#nudgedpoint)
 
 <p style="display: inline">Return:</p>
 
@@ -130,9 +130,9 @@ Estimate translation that maps domain points close to range points.
 <p style="display: inline">Parameters:</p>
 
 - `domain`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `range`
-  - array of points
+  - array of [points](#nudgedpoint)
 
 <p style="display: inline">Return:</p>
 
@@ -147,9 +147,9 @@ In other words, estimate a homothety.
 <p style="display: inline">Parameters:</p>
 
 - `domain`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `range`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `center`
   - a [point](#nudgedpoint), the center of scaling
 
@@ -165,9 +165,9 @@ Estimate rotation around a fixed center point
 <p style="display: inline">Parameters:</p>
 
 - `domain`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `range`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `center`
   - point, a fixed center to rotate around
 
@@ -183,9 +183,9 @@ Estimate translation with scaling.
 <p style="display: inline">Parameters:</p>
 
 - `domain`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `range`
-  - array of points
+  - array of [points](#nudgedpoint)
 
 <p style="display: inline">Return:</p>
 
@@ -199,9 +199,9 @@ Estimate translation with rotation.
 <p style="display: inline">Parameters:</p>
 
 - `domain`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `range`
-  - array of points
+  - array of [points](#nudgedpoint)
 
 <p style="display: inline">Return:</p>
 
@@ -219,9 +219,9 @@ Example use cases:
 <p style="display: inline">Parameters:</p>
 
 - `domain`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `range`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `center`
   - a [point](#nudgedpoint) that must remain constant in the tranformation.
 
@@ -239,9 +239,9 @@ positive scaling, and rotation are allowed.
 <p style="display: inline">Parameters:</p>
 
 - `domain`
-  - array of points
+  - array of [points](#nudgedpoint)
 - `range`
-  - array of points
+  - array of [points](#nudgedpoint)
 
 <p style="display: inline">Return:</p>
 
@@ -439,18 +439,18 @@ Example:
 <a name="nudgedpointtransformMany"></a>
 ### nudged.point.transformMany(points, tr)
 
-Transform an array of points
+Transform an array of [points](#nudgedpoint)
 
 <p style="display: inline">Parameters:</p>
 
 - `points`
-  - an array of points
+  - an array of [points](#nudgedpoint)
 - `tr`
   - a [transform](#nudgedtransform)
 
 <p style="display: inline">Return:</p>
 
-- an array of points, transformed
+- an array of [points](#nudgedpoint), transformed
 
 <a name="nudgedpointvalidate"></a>
 ### nudged.point.validate(p)
@@ -500,7 +500,7 @@ Example:
 
 
 A transform is a plain object with the structure `{ a, b, x, y }`.
-It represents a [transform](#nudgedtransform)ation matrix, and to be exact,
+It represents a transformation matrix, and to be exact,
 an affine non-reflective similarity transformation matrix.
 Such transformation matrices are a compact way to represent
 translation, rotation, and scaling in a single 3x3 matrix.
@@ -895,9 +895,9 @@ the range points and transformed domain points.
 - `tr`
   - an estimated transform
 - `domain`
-  - an array of points. The domain used in the estimation.
+  - an array of [points](#nudgedpoint). The domain used in the estimation.
 - `range`
-  - an array of points. The range used in the estimation.
+  - an array of [points](#nudgedpoint). The range used in the estimation.
 
 <p style="display: inline">Return:</p>
 
@@ -914,9 +914,9 @@ between the range points and transformed domain points.
 - `tr`
   - an estimated transform
 - `domain`
-  - an array of points. The domain used in the estimation.
+  - an array of [points](#nudgedpoint). The domain used in the estimation.
 - `range`
-  - an array of points. The range used in the estimation.
+  - an array of [points](#nudgedpoint). The range used in the estimation.
 
 <p style="display: inline">Return:</p>
 
@@ -934,9 +934,9 @@ the range points and transformed domain points.
 - `tr`
   - an estimated transform
 - `domain`
-  - an array of points. The domain used in the estimation.
+  - an array of [points](#nudgedpoint). The domain used in the estimation.
 - `range`
-  - an array of points. The range used in the estimation.
+  - an array of [points](#nudgedpoint). The range used in the estimation.
 
 <p style="display: inline">Return:</p>
 
