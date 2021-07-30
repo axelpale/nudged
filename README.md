@@ -13,7 +13,6 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Example apps](#example-apps)
-- [API](#api)
 - [API Docs](doc/API.md)
 - [For developers](#for-developers)
 - [Acknowledgments](#acknowledgments)
