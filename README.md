@@ -159,92 +159,10 @@ In this [map viewer demo](https://rawgit.com/axelpale/nudged/master/examples/nud
 
 # API
 
-Nudged API is divided into following modules:
+See the [API documentation](doc/API.md).
 
-- Geometries
-  - `nudged.point` – operators for a 2D point
-  - `nudged.transform` – operators for a nonreflective similarity transformation matrix
-- Estimators
-  - `nudged.estimate` - general estimator function
-  - `nudged.estimators` – specific estimator functions
-- Analysis
-  - `nudged.analysis` – estimation analysis tools
-- Other
-  - `nudged.epsilon` – equality tolerance due to floating point arithmetic
-  - `nudged.version` – the version of the package
-
-The code follows the functional, classless, immutable paradigm. All the functions take in only plain objects and values such as `{ x: 1, y: 2 }` and also return only plain objects and values. You can expect no side effects nor memories form previous calls.
-
-## nudged.point
-
-A set of operators for 2D point objects `{ x, y }`.
-
-### nudged.point.almostEqual(p, q[, tolerance])
-
-Test if two points are almost equal within the limit given by the optional tolerance parameter.
-
-Parameters:
-- `p`
-  - a point
-- `q`
-  - a point
-- `tolerance`
-  - optional number
-  - Defaults to nudged.epsilon.
-  - Set to 0 for strict comparison.
-
-Return:
-- boolean
-
-Example:
-
-    > nudged.point.almostEqual({ x: 0, y: 0 }, { x: 0, y: 1.23e-16 })
-    true
-    > nudged.point.almostEqual({ x: 0, y: 0 }, { x: 0, y: 0.1 })
-    false
-    > nudged.point.almostEqual({ x: 0, y: 0 }, { x: 0, y: 0.1 }, 0.2)
-    true
-
-### nudged.point.create(x, y)
-
-Create a point object.
-
-Parameters:
-- `x`
-  - a number
-- `y`
-  - a number
-
-Return:
-- a point `{ x, y }`
-
-### nudged.point.distance(p, q)
-
-The Euclidean distance between two points, also called the Euclidean norm alias L2-norm.
-
-Parameters:
-- p
-  - a point
-- q
-  - a point
-
-Return:
-- number, a distance from p to q (= distance from q to p)
-
-Example:
-
-    > nudged.point.distance({ x: 0, y: 0 }, { x: 3, y: 4 })
-    5
-
-
-
-
-
-
-
-
-
-
+TODO process the following API docs to the source code because
+they have lots of examples not yet in the code.
 
 ### nudged.create(scale, rotation, translationX, translationY)
 
@@ -340,13 +258,6 @@ You can also call the estimators directly for slightly enhanced performance:
     > tr.getRotation()
     1.107148
 
-### nudged.version
-
-Contains the module version string identical to the version in *package.json*.
-
-    > nudged.version
-    '1.2.3'
-
 ### nudged.Transform(s, r, tx, ty)
 
 A constructor for a nonreflective similarity transformation. You usually do not need to call it directly because both `nudged.create(...)` and `nudged.estimate(...)` create and return instances for you. Nevertheless, if you need to create one:
@@ -414,22 +325,6 @@ Compare equality of two transformations and allow small differences that likely 
 **Parameter** `tr` is an instance of `nudged.Transform`.
 
 **Return** true if the parameters of the two transformations are equal and false otherwise.
-
-### nudged.Transform#getMatrix()
-
-Get the transformation matrix in a format compatible with [kld-affine](https://www.npmjs.com/package/kld-affine).
-
-**Return** an object with properties `a`, `b`, `c`, `d`, `e`, and `f`.
-
-    > trans.getMatrix()
-    { a: 0.48, c: -0.52, e: 205.04,
-      b: 0.52, d: 0.48, f: 4.83 }
-
-The properties represent the following matrix:
-
-    | a   c   e |
-    | b   d   f |
-    | 0   0   1 |
 
 ### nudged.Transform#getRotation()
 
