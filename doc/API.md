@@ -12,7 +12,7 @@
 <a name="nudgedestimate"></a>
 ### nudged.estimate(params)
 
-Estimate a transformation of the given type and constraints.
+Estimate a [transform](#nudgedtransform)ation of the given type and constraints.
 Internally, calls the estimator of the given type.
 For maximal efficiency, use the estimator functions directly.
 
@@ -30,7 +30,7 @@ For maximal efficiency, use the estimator functions directly.
     - required array of points `{ x, y }`.
     - The points after the transform.
   - `center`
-    - optional point.
+    - optional [point](#nudgedpoint).
     - Used as the center by the estimators 'S', 'R', and 'SR'.
     - If an estimator other than these is selected,
       the center has no effect to the estimation.
@@ -42,7 +42,7 @@ For maximal efficiency, use the estimator functions directly.
 
 <p style="display: inline">Return:</p>
 
-- a transform object
+- a [transform](#nudgedtransform) object
 
 ## nudged.estimators
 
@@ -88,7 +88,7 @@ Estimate translation along a line at the given angle.
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedestimatorsX"></a>
 ### nudged.estimators.X(domain, range)
@@ -104,7 +104,7 @@ Estimate horizontal translation that is a translation along x-axis.
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedestimatorsY"></a>
 ### nudged.estimators.Y(domain, range)
@@ -120,7 +120,7 @@ Estimate vertical translation that is a translation along y-axis.
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedestimatorsT"></a>
 ### nudged.estimators.T(domain, range)
@@ -136,7 +136,7 @@ Estimate translation that maps domain points close to range points.
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedestimatorsS"></a>
 ### nudged.estimators.S(domain, range, center)
@@ -151,11 +151,11 @@ In other words, estimate a homothety.
 - `range`
   - array of points
 - `center`
-  - a point, the center of scaling
+  - a [point](#nudgedpoint), the center of scaling
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedestimatorsR"></a>
 ### nudged.estimators.R(domain, range, center)
@@ -173,7 +173,7 @@ Estimate rotation around a fixed center point
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedestimatorsTS"></a>
 ### nudged.estimators.TS(domain, range)
@@ -189,7 +189,7 @@ Estimate translation with scaling.
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedestimatorsTR"></a>
 ### nudged.estimators.TR(domain, range)
@@ -205,7 +205,7 @@ Estimate translation with rotation.
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedestimatorsSR"></a>
 ### nudged.estimators.SR(domain, range, center)
@@ -223,11 +223,11 @@ Example use cases:
 - `range`
   - array of points
 - `center`
-  - a point that must remain constant in the tranformation.
+  - a [point](#nudgedpoint) that must remain constant in the tranformation.
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedestimatorsTSR"></a>
 ### nudged.estimators.TSR(domain, range)
@@ -245,7 +245,7 @@ positive scaling, and rotation are allowed.
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 ## nudged.point
 
@@ -273,12 +273,12 @@ given by the optional tolerance parameter.
 <p style="display: inline">Parameters:</p>
 
 - `p`
-  - a point
+  - a [point](#nudgedpoint)
 - `q`
-  - a point
+  - a [point](#nudgedpoint)
 - `tolerance`
   - Optional number
-  - Defaults to nudged.tolerance.
+  - Defaults to [nudged.tolerance](#nudgedtolerance).
   - Set to `0` for strict comparison.
 
 <p style="display: inline">Return:</p>
@@ -297,7 +297,7 @@ Example:
 <a name="nudgedpointcreate"></a>
 ### nudged.point.create(x, y)
 
-Create a point object.
+Create a [point](#nudgedpoint) object.
 
 <p style="display: inline">Parameters:</p>
 
@@ -308,7 +308,7 @@ Create a point object.
 
 <p style="display: inline">Return:</p>
 
-- a point `{ x, y }`
+- a [point](#nudgedpoint) `{ x, y }`
 
 <a name="nudgedpointdistance"></a>
 ### nudged.point.distance(p, q)
@@ -319,9 +319,9 @@ Also called the Euclidean norm alias L2-norm.
 <p style="display: inline">Parameters:</p>
 
 - `p`
-  - a point
+  - a [point](#nudgedpoint)
 - `q`
-  - a point
+  - a [point](#nudgedpoint)
 
 <p style="display: inline">Return:</p>
 
@@ -335,9 +335,9 @@ Thest if the coordinates of two points are strictly equal.
 <p style="display: inline">Parameters:</p>
 
 - `p`
-  - a point
+  - a [point](#nudgedpoint)
 - `q`
-  - a point
+  - a [point](#nudgedpoint)
 
 <p style="display: inline">Return:</p>
 
@@ -346,7 +346,7 @@ Thest if the coordinates of two points are strictly equal.
 <a name="nudgedpointfromArray"></a>
 ### nudged.point.fromArray(arrp)
 
-Create a point `{ x, y }` from an array `[x, y]`.
+Create a [point](#nudgedpoint) `{ x, y }` from an array `[x, y]`.
 
 <p style="display: inline">Parameters:</p>
 
@@ -355,17 +355,17 @@ Create a point `{ x, y }` from an array `[x, y]`.
 
 <p style="display: inline">Return:</p>
 
-- a point
+- a [point](#nudgedpoint)
 
 <a name="nudgedpointoffset"></a>
 ### nudged.point.offset(p, dx, dy)
 
-Offset a point by scalars dx dy.
+Offset a [point](#nudgedpoint) by scalars dx dy.
 
 <p style="display: inline">Parameters:</p>
 
 - `p`
-  - a point
+  - a [point](#nudgedpoint)
 - `dx`
   - a horizontal offset
 - `dy`
@@ -373,17 +373,17 @@ Offset a point by scalars dx dy.
 
 <p style="display: inline">Return:</p>
 
-- a point, translated by the vector `{ x: dx, y: dy }`
+- a [point](#nudgedpoint), translated by the vector `{ x: dx, y: dy }`
 
 <a name="nudgedpointpolarOffset"></a>
 ### nudged.point.polarOffset(p, distance, angle)
 
-Create a point away from p at the given distance and angle.
+Create a [point](#nudgedpoint) away from p at the given distance and angle.
 
 <p style="display: inline">Parameters:</p>
 
 - `p`
-  - a point
+  - a [point](#nudgedpoint)
 - `distance`
   - a number
 - `angle`
@@ -392,7 +392,7 @@ Create a point away from p at the given distance and angle.
 
 <p style="display: inline">Return:</p>
 
-- a point
+- a [point](#nudgedpoint)
 
 Example:
 
@@ -402,12 +402,12 @@ Example:
 <a name="nudgedpointtoArray"></a>
 ### nudged.point.toArray(p)
 
-Represent a point `{ x, y }` in two-element array `[x, y]`
+Represent a [point](#nudgedpoint) `{ x, y }` in two-element array `[x, y]`
 
 <p style="display: inline">Parameters:</p>
 
 - `p`
-  - a point
+  - a [point](#nudgedpoint)
 
 <p style="display: inline">Return:</p>
 
@@ -416,19 +416,19 @@ Represent a point `{ x, y }` in two-element array `[x, y]`
 <a name="nudgedpointtransform"></a>
 ### nudged.point.transform(p, tr)
 
-Transform a point. The point is first scaled and rotated
+Transform a [point](#nudgedpoint). The point is first scaled and rotated
 around origin and then translated.
 
 <p style="display: inline">Parameters:</p>
 
 - `p`
-  - a point `{ x, y }`
+  - a [point](#nudgedpoint) `{ x, y }`
 - `tr`
-  - a transfrom
+  - a [transform](#nudgedtransform)
 
 <p style="display: inline">Return:</p>
 
-- the transformed point
+- a [point](#nudgedpoint), the transformed point
 
 Example:
 
@@ -446,7 +446,7 @@ Transform an array of points
 - `points`
   - an array of points
 - `tr`
-  - a transform
+  - a [transform](#nudgedtransform)
 
 <p style="display: inline">Return:</p>
 
@@ -460,7 +460,7 @@ Check if the point is a valid point object.
 <p style="display: inline">Parameters:</p>
 
 - `p`
-  - a point
+  - a [point](#nudgedpoint)
 
 <p style="display: inline">Return:</p>
 
@@ -500,7 +500,7 @@ Example:
 
 
 A transform is a plain object with the structure `{ a, b, x, y }`.
-It represents a transformation matrix, and to be exact,
+It represents a [transform](#nudgedtransform)ation matrix, and to be exact,
 an affine non-reflective similarity transformation matrix.
 Such transformation matrices are a compact way to represent
 translation, rotation, and scaling in a single 3x3 matrix.
@@ -515,27 +515,35 @@ The matrix that the transform represents has the following elements:
 ### nudged.transform.SINGULAR
 
 Singular transform, resembles multiplication by 0.
+
 ### nudged.transform.IDENTITY
 
 Identity transform, resembles multiplication by 1.
+
 ### nudged.transform.ROT45
 
 Rotate around `{ x: 0, y: 0 }` by 45 degrees.
+
 ### nudged.transform.ROT90
 
 Rotate around `{ x: 0, y: 0 }` by 90 degrees.
+
 ### nudged.transform.ROT180
 
 Rotate around `{ x: 0, y: 0 }` by 180 degrees.
+
 ### nudged.transform.ROT270
 
 Rotate around `{ x: 0, y: 0 }` by 270 degrees (= 3/4 turn = 3π/2).
+
 ### nudged.transform.HALF
 
 Scale towards `{ x: 0, y: 0 }` by the factor of 0.5.
+
 ### nudged.transform.X2
 
 Scale away from `{ x: 0, y: 0 }` by the factor of 2.
+
 <a name="nudgedtransformalmostEqual"></a>
 ### nudged.transform.almostEqual(tr, ts, tolerance)
 
@@ -547,11 +555,11 @@ that values a, b, x, and y equally.
 <p style="display: inline">Parameters:</p>
 
 - `tr`
-  - a transform
+  - a [transform](#nudgedtransform)
 - `ts`
-  - a transform
+  - a [transform](#nudgedtransform)
 - `tolerance`
-  - optional number, default to nudged.tolerance.
+  - optional number, default to [nudged.tolerance](#nudgedtolerance).
   - Set to `0` for strict comparison.
 
 <a name="nudgedtransformcompose"></a>
@@ -564,18 +572,18 @@ In other words, transform the image of ts by tr.
 <p style="display: inline">Parameters:</p>
 
 - `tr`
-  - a transform
+  - a [transform](#nudgedtransform)
 - `ts`
-  - a transform
+  - a [transform](#nudgedtransform)
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedtransformcreate"></a>
 ### nudged.transform.create(a, b, x, y)
 
-Create a transform object.
+Create a [transform](#nudgedtransform) object.
 
 <p style="display: inline">Parameters:</p>
 
@@ -594,7 +602,7 @@ Create a transform object.
 
 <p style="display: inline">Return:</p>
 
-- a transform object
+- a [transform](#nudgedtransform) object
 
 <a name="nudgedtransformequal"></a>
 ### nudged.transform.equal(tr, ts)
@@ -604,9 +612,9 @@ Are transforms equal?
 <p style="display: inline">Parameters:</p>
 
 - `tr`
-  - a transform
+  - a [transform](#nudgedtransform)
 - `ts`
-  - a transform
+  - a [transform](#nudgedtransform)
 
 <p style="display: inline">Return:</p>
 
@@ -631,7 +639,7 @@ rotation angle, and translation.
 
 <p style="display: inline">Return:</p>
 
-- a transform object
+- a [transform](#nudgedtransform) object
 
 Precondition
   scale must be positive
@@ -639,8 +647,8 @@ Precondition
 <a name="nudgedtransformfromArray"></a>
 ### nudged.transform.fromArray(arrtr)
 
-Convert a transform represented as an 4-element array (as in Nudged v1)
-to a transform object `{ a, b, x, y }` (as in nudged v2).
+Convert a [transform](#nudgedtransform) represented as an 4-element array (as in Nudged v1)
+to a [transform](#nudgedtransform) object `{ a, b, x, y }` (as in nudged v2).
 
 <p style="display: inline">Parameters:</p>
 
@@ -649,7 +657,7 @@ to a transform object `{ a, b, x, y }` (as in nudged v2).
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedtransformgetRotation"></a>
 ### nudged.transform.getRotation(tr)
@@ -659,7 +667,7 @@ Get rotation of the transform in radians.
 <p style="display: inline">Parameters:</p>
 
 - `tr`
-  - a transform
+  - a [transform](#nudgedtransform)
 
 <p style="display: inline">Return:</p>
 
@@ -673,7 +681,7 @@ Get the scale multiplier of the transformation.
 <p style="display: inline">Parameters:</p>
 
 - `tr`
-  - a transform
+  - a [transform](#nudgedtransform)
 
 <p style="display: inline">Return:</p>
 
@@ -682,16 +690,16 @@ Get the scale multiplier of the transformation.
 <a name="nudgedtransformgetTranslation"></a>
 ### nudged.transform.getTranslation(tr)
 
-Get translation as a point `{ x, y }`.
+Get translation as a [point](#nudgedpoint) `{ x, y }`.
 
 <p style="display: inline">Parameters:</p>
 
 - `tr`
-  - a transform
+  - a [transform](#nudgedtransform)
 
 <p style="display: inline">Return:</p>
 
-- a point
+- a [point](#nudgedpoint)
 
 ### nudged.transform.multiply
 
@@ -706,14 +714,14 @@ so that TX = XT = I, where T is the given transform.
 <p style="display: inline">Parameters:</p>
 
 - `tr`
-  - a transform to be inverted
+  - a [transform](#nudgedtransform) to be inverted
 
 Throws
   if the given transformation is singular and cannot be inverted
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedtransformrotateBy"></a>
 ### nudged.transform.rotateBy(tr, center, radians)
@@ -723,15 +731,15 @@ so that the given center point stays fixed.
 
 Parameter
   tr
-    a transform
+    a [transform](#nudgedtransform)
   center
-    a point
+    a [point](#nudgedpoint)
   radians
     a number, angle
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedtransformrotateTo"></a>
 ### nudged.transform.rotateTo(tr, center, radians)
@@ -741,15 +749,15 @@ so that the given center point stays fixed.
 
 Parameter
   tr
-    a transform
+    a [transform](#nudgedtransform)
   center
-    a point
+    a [point](#nudgedpoint)
   radians
     a number, angle to rotate to
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedtransformscaleBy"></a>
 ### nudged.transform.scaleBy(tr, center, multiplier)
@@ -760,15 +768,15 @@ The operation is also called homothety.
 
 Parameter
   tr
-    a transform
+    a [transform](#nudgedtransform)
   center
-    a point
+    a [point](#nudgedpoint)
   multiplier
     a number
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedtransformscaleTo"></a>
 ### nudged.transform.scaleTo(tr, center, scale)
@@ -779,15 +787,15 @@ Scale the transform tr so that
 
 Parameter
   tr
-    a transform
+    a [transform](#nudgedtransform)
   center
-    a point
+    a [point](#nudgedpoint)
   scale
     a number
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedtransformtoArray"></a>
 ### nudged.transform.toArray(tr)
@@ -839,13 +847,13 @@ Scale and rotation are kept intact.
 <p style="display: inline">Parameters:</p>
 
 - `tr`
-  - a transform
+  - a [transform](#nudgedtransform)
 - `vec`
   - a vector `{ x, y }`
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedtransformtranslateTo"></a>
 ### nudged.transform.translateTo(tr, point)
@@ -856,13 +864,13 @@ to the given point. The rotation and scale are kept intact.
 <p style="display: inline">Parameters:</p>
 
 - `tr`
-  - a transform
+  - a [transform](#nudgedtransform)
 - `point`
-  - a point `{ x, y }`
+  - a [point](#nudgedpoint) `{ x, y }`
 
 <p style="display: inline">Return:</p>
 
-- a transform
+- a [transform](#nudgedtransform)
 
 <a name="nudgedtransformvalidate"></a>
 ### nudged.transform.validate(tr)
@@ -943,7 +951,7 @@ JavaScript floating point numbers have 52 bits in mantissa (IEEE-754).
 That is about 16 base10 digits. Therefore the tolerance should be
 much larger than 1 * 10^-16. Let say 1 * 10^-10 is a good one.
 
-    > nudged.tolerance
+    > [nudged.tolerance](#nudgedtolerance)
     0.0000000001
 
 ## nudged.version
