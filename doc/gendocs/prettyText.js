@@ -1,7 +1,7 @@
 const expressions = require('./expressions')
 
 const prettyArrayLiterals = (text) => {
-  return text.replace(expressions.arrayLiteral, '`[$1]`')
+  return text.replace(expressions.arrayLiteral, '`[$1]$2`')
 }
 
 const prettyObjectLiterals = (text) => {

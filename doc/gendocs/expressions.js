@@ -12,5 +12,5 @@ exports.parameterName = /^(\s+)(\w*)$/
 exports.parameterDesc = /^(\s+)(.*)$/
 exports.returnValue = /^(\s+)(.*)$/
 exports.exampleCode = /^(\s+)(.*)$/
-exports.arrayLiteral = /\[([\w,: ]*)\]/
+exports.arrayLiteral = /\[([\w,: ]*)\]($|[^(]+)/
 exports.objectLiteral = /{([\w,: ]*)}/
