@@ -570,10 +570,13 @@ A prebuilt transform. Scales away from `{ x: 0, y: 0 }` by the factor of 2.
 <a name="nudgedtransformalmostEqual"></a>
 ### nudged.transform.almostEqual(tr, ts, tolerance)
 
-Are two transforms almost equal? Return true if a matrix norm
-of the difference is smaller than the tolerance.
-For the difference metric, we use a modified L1 norm
-that values a, b, x, and y equally.
+Are two transforms almost equal?
+Due to the limitations of floating point precision,
+most operations have a bit of numerical error in their results.
+Therefore two matrices that should be equivalent according to the math,
+might not have strictly equivalent elements.
+For these situations, use transform.almostEqual instead of
+the strict [transform.equal](#nudgedtransformequal).
 
 <p style="display: inline">Parameters:</p>
 
@@ -584,6 +587,14 @@ that values a, b, x, and y equally.
 - `tolerance`
   - optional number, default to [nudged.tolerance](#nudgedtolerance).
   - Set to `0` for strict comparison.
+
+<p style="display: inline">Return:</p>
+
+- a boolean. True if the transforms are equal or almost equal.
+
+For the difference metric, we use a modified L1 norm
+that values a, b, x, and y equally. If the sum of the differences
+is smaller or equal to the tolerance, consider the transforms equal.
 
 <a name="nudgedtransformcompose"></a>
 ### nudged.transform.compose(tr, ts)
@@ -631,6 +642,8 @@ Create a [transform](#nudgedtransform) object.
 ### nudged.transform.equal(tr, ts)
 
 Are transforms equal?
+Tests that the elements of the transforms are strictly equal.
+For loose equality see [almostEqual](#nudgedtransformalmostequal).
 
 <p style="display: inline">Parameters:</p>
 
