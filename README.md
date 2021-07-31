@@ -274,20 +274,6 @@ The `nudged.Transform` instance is designed to be immutable.
 
 Note that `s` and `r` do **not** represent scaling and rotation but instead `s = scalingFactor * Math.cos(rotationRads)` and `r = scalingFactor * Math.sin(rotationRads)`. The parameters `tx` and `ty` represent horizontal and vertical translation after rotation.
 
-### nudged.Transform.R90 .R180 .R270 .X2
-
-Following prebuilt `Transform` instances are available:
-
-- `R90`: clockwise 90 degree rotation. Equal to `new Transform(0, 1, 0, 0)`.
-- `R180`: 180 degree rotation. Equal to `new Transform(-1, 0, 0, 0)`.
-- `R270`: counterclockwise 90 degree rotation. Equal to `new Transform(0, -1, 0, 0)`.
-- `X2`: scale up by the factor of two. Equal to `new Transform(2, 0, 0, 0)`.
-
-**Example:**
-
-    > nudged.Transform.X2.getScale()
-    2
-
 ### nudged.Transform#s, #r, #tx, #ty
 
 Elements of the internal transformation matrix. Direct use of these properties is not recommended.

@@ -536,27 +536,36 @@ to build other transformations.
 
 ### nudged.transform.ROT45
 
-Rotate around `{ x: 0, y: 0 }` by 45 degrees.
+A prebuilt transform. Rotates around `{ x: 0, y: 0 }` by 45 degrees.
+
+Example:
+
+    > const R = nudged.transform.ROT45
+    > nudged.transform.getRotation(R) * 360 / (2 * Math.PI)
+    45
+    > nudged.point.transform({ x: 1, y: 0 }, R)
+    { x: 0.7071..., y: 0.7071... }
+
 
 ### nudged.transform.ROT90
 
-Rotate around `{ x: 0, y: 0 }` by 90 degrees.
+A prebuilt transform. Rotates around `{ x: 0, y: 0 }` by 90 degrees.
 
 ### nudged.transform.ROT180
 
-Rotate around `{ x: 0, y: 0 }` by 180 degrees.
+A prebuilt transform. Rotates around `{ x: 0, y: 0 }` by 180 degrees.
 
 ### nudged.transform.ROT270
 
-Rotate around `{ x: 0, y: 0 }` by 270 degrees (= 3/4 turn = 3π/2).
+A prebuilt transform. Rotates around `{ x: 0, y: 0 }` by 270 degrees (= 3/4 turn = 3π/2).
 
 ### nudged.transform.HALF
 
-Scale towards `{ x: 0, y: 0 }` by the factor of 0.5.
+A prebuilt transform. Scales towards `{ x: 0, y: 0 }` by the factor of 0.5.
 
 ### nudged.transform.X2
 
-Scale away from `{ x: 0, y: 0 }` by the factor of 2.
+A prebuilt transform. Scales away from `{ x: 0, y: 0 }` by the factor of 2.
 
 <a name="nudgedtransformalmostEqual"></a>
 ### nudged.transform.almostEqual(tr, ts, tolerance)
