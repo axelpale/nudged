@@ -248,36 +248,6 @@ You can also call the estimators directly for slightly enhanced performance:
     > tr.getRotation()
     1.107148
 
-### nudged.Transform(s, r, tx, ty)
-
-A constructor for a nonreflective similarity transformation. You usually do not need to call it directly because both `nudged.create(...)` and `nudged.estimate(...)` create and return instances for you. Nevertheless, if you need to create one:
-
-    > var trans = new nudged.Transform(0.5, 0, 20, 0)
-
-The `nudged.Transform` instance is designed to be immutable.
-
-**Parameters** `s`, `r`, `tx`, and `ty` define the elements of an [augmented transformation matrix](https://en.wikipedia.org/wiki/Affine_transformation#Augmented_matrix) in the following manner:
-
-    | s  -r  tx |
-    | r   s  ty |
-    | 0   0   1 |
-
-Note that `s` and `r` do **not** represent scaling and rotation but instead `s = scalingFactor * Math.cos(rotationRads)` and `r = scalingFactor * Math.sin(rotationRads)`. The parameters `tx` and `ty` represent horizontal and vertical translation after rotation.
-
-### nudged.Transform#s, #r, #tx, #ty
-
-Elements of the internal transformation matrix. Direct use of these properties is not recommended.
-
-    > var t = nudged.create(2, Math.PI / 2, 10, 20)
-    > t.s
-    1.2246e-16
-    > t.r
-    2
-    > t.tx
-    10
-    > t.ty
-    20
-
 ### nudged.Transform#getRotation()
 
 Get clockwise rotation from the positive x-axis.
