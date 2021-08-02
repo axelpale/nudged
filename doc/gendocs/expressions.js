@@ -1,4 +1,6 @@
+exports.codeBlock = /^\s{4}/
 exports.comment = /^\s*\/\/ ?(.*)$/
+exports.empty = /^\s*$/
 exports.exportsAlias = /^exports\.(\w+) = exports\.(\w+)$/
 exports.exportsConstant = /^exports\.(\w+) = ((?!require).*)$/
 exports.exportsRequire = /^exports\.(\w+) = require\('([\w\/\.]+)'\)$/

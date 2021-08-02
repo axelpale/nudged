@@ -66,7 +66,7 @@ via [nudged.estimators](#nudgedestimators).
 
 
 A collection of estimator functions.
-Call these directly instead of the general nudged.estimate
+Call these directly instead of the general [nudged.estimate](#nudgedestimate)
 for a bit more efficiency by saving one function call.
 <a name="nudgedestimatorsI"></a>
 ### nudged.estimators.I()
@@ -529,7 +529,7 @@ it does not have any effect. You can use it as a starting point
 to build other transformations.
 
     const I = nudged.transform.IDENTITY
-    const center = `{ x: 320, y: 240 }`
+    const center = { x: 320, y: 240 }
     const angle = Math.PI / 5
     const rotation = nudged.transform.rotateBy(I, center, angle)
 
@@ -1004,7 +1004,7 @@ JavaScript floating point numbers have 52 bits in mantissa (IEEE-754).
 That is about 16 base10 digits. Therefore the tolerance should be
 much larger than 1 * 10^-16. Let say 1 * 10^-10 is a good one.
 
-    > [nudged.tolerance](#nudgedtolerance)
+    > nudged.tolerance
     0.0000000001
 
 ## nudged.version
