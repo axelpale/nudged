@@ -196,16 +196,6 @@ The parameters are optional and default to the identity transformation.
     > t3.transform([3, 1])
     [23.2, 1]
 
-### nudged.createFromArray(arr)
-
-Create a `nudged.Transform` instance from an array created by nudged.Transform#toArray(). Together with `nudged.Transform#toArray()` this method makes an easy **serialization and deserialization** to and from JSON possible.
-
-    > var t1 = nudged.create(1, 2, 3, 4)
-    > var arr = trans.toArray()
-    > var t2 = nudged.createFromArray(arr)
-    > t1.equals(t2)
-    true
-
 ### nudged.estimate(type, domain, range, param?)
 
 Compute an optimal affine transformation from *domain* to *range* points. The *type* of transformation determines the freedom of the transformation to be estimated.

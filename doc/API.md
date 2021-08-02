@@ -696,6 +696,11 @@ Compatible with [nudged.transform.toArray](#nudgedtransformtoArray).
 
 - a [transform](#nudgedtransform)
 
+Example:
+
+    > nudged.transform.fromArray([1, 2, 3, 4])
+    { a: 1, b: 2, x: 3, y: 4 }
+
 <a name="nudgedtransformgetRotation"></a>
 ### nudged.transform.getRotation(tr)
 
