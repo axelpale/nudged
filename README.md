@@ -25,7 +25,7 @@
 In general, you can apply Nudged in any situation where you want to capture a 2D transformation based on a movement of any number of control points. See the image below for the available transformations Nudged can estimate.
 
 <img src="doc/transformation-types.jpg" alt="Types of transformation estimators"/><br>
-_**Image**: Available transformation estimators. Each estimator has an abbreviated name, for example 'SR', according to the free parameters to estimate. The black-white dots and connecting arrows represent movement of two control points. Given the control points, Nudged estimates a transformation. The pairs of photos represent the effect of the resulting transformation. For easy comparison, the control points and the initial image positions are kept the same for each type._
+_**Image**: Available transformation estimators. Each estimator has an abbreviated name, for example 'SR', according to the free parameters to estimate. The black-white dots and connecting arrows represent movement of two control points. Given the control points, Nudged estimates a transformation. The pairs of photos represent the effect of the resulting transformation. For easy visual comparison, the control points and the initial image positions are kept the same for each estimator._
 
 **Mathematically speaking**, Nudged is a set of optimal [least squares estimators](https://en.wikipedia.org/wiki/Least_squares) for the group of nonreflective similarity transformation matrices, also called [Helmert transformations](https://en.wikipedia.org/wiki/Helmert_transformation). Such transformations are [affine transformations](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has [time complexity](https://en.wikipedia.org/wiki/Time_complexity) of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, Nudged solves a 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in [linear time](https://en.wikipedia.org/wiki/Time_complexity#Linear_time). The algorithms and their efficiency are thoroughly described in a **M.Sc. thesis** [Advanced algorithms for manipulating 2D objects on touch screens](http://URN.fi/URN:NBN:fi:tty-201605264186).
 
@@ -43,14 +43,14 @@ Available also [in Python](https://pypi.python.org/pypi/nudged).
 
 ## Usage
 
-Let `domain` and `range` be sets of points `{ x, y }` before and after an unknown transformation as illustrated in the figure below:
+Let `domain` and `range` be sets of points `{ x, y }` before and after an unknown transformation as illustrated in the figure below.
 
     const domain = [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 2 }]
     const range  = [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
 
-<img src="https://rawgit.com/axelpale/nudged/master/doc/simple-example-pointset.png" alt="The transformation" width="500"/>
+<img src="doc/img/nudged-diagram-6-2.png" alt="The domain and the range" />
 
-_**Figure**: Left: the domain. Center: the range. Right: the domain after transformation._
+_**Figure**: The domain (o circles) and the range (x crosses)._
 
 Compute an optimal transformation based on the points:
 
@@ -60,57 +60,34 @@ Compute an optimal transformation based on the points:
       range: range
     })
 
-Examine the resulting transformation matrix:
+The result is a *transform* object:
 
     > tran
     { a: 0, b: 1, x: 1, y: 1 }
-    > nudged.transform.toMatrix(tran)
-    { a: 0, c: -1, e: 1,
-      b: 1, d:  0, f: 1 }
-    > nudged.transform.getRotation(tran)
-    1.5707... = π / 2
-    > nudged.transform.getScale(tran)
-    1.0
-    > nudged.transform.getTranslation(tran)
-    { x: 1, y: 1 }
 
-Apply the transformation to a point:
+You can apply the transformation to a point:
 
     > nudged.point.transform({ x: 2, y: 2 }, tran)
     { x: -1, y: 3 }
 
-Apply the transformation to an HTML image element
+You can apply the transformation to an HTML image element:
 
     > img.style.transform = nudged.transform.toString(tran)
 
-Invert the transformation:
+The [nudged.transform](doc/API.md#nudgedtransform) module provides
+lots of tools to process transform objects.
+For example, to make a transformation that maps the range back to the domain
+instead of another way around, invert the transform with [transform.inverse](doc/API.md#nudgedtransforminverse):
 
     > const inv = nudged.transform.inverse(tran)
     > nudged.point.transform({ x: -1, y: 3 }, inv)
     { x: 2, y: 2 }
 
-TODO: make the transform inexact to communicate the estimating nature of the result.
-To compare how well the transform fits the domain to the range:
-
-    > domain
-    [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 2 }]
-    > nudged.point.transformMany(domain, tran)
-    [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
-    > range
-    [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
-
-To get a numeric measure for the fit, you can compute the *mean squared error*. The smaller the error, the better the fit.
-
-    > nudged.analysis.mse(rotateAround, domain, range)
-    0
-
-See [API](#api) for more.
-
 ### Set a center point
 
 To estimate scalings and rotations around a fixed point, give an additional `center` parameter. Only the estimators `S`, `R`, and `SR` respect the `center` parameter.
 
-    const center = { x: -1 , y: 0 }
+    const center = { x: 4 , y: 0 }
     const rotateAround = nudged.estimate({
       estimator: 'R',
       domain: domain,
@@ -118,19 +95,85 @@ To estimate scalings and rotations around a fixed point, give an additional `cen
       center: center
     })
 
-You can think the center point as a nail that keeps a very elastic sheet of rubber fixed onto a table. The nail retains its location regardless of how the rubber sheet is transformed around it, as illustrated in the figure below.
+You can think the center point as a nail that keeps a very elastic sheet of rubber fixed onto a table. The nail retains its location regardless of how the rubber sheet is transformed around it.
 
-<img src="https://rawgit.com/axelpale/nudged/master/doc/simple-example-fixed.png" alt="A fixed point transformation" width="500"/>
+<img src="doc/img/nudged-diagram-center-point.png" alt="A rotation around a fixed center point" />
 
-_**Figure**: Left: a black pivot point and the domain. Center: the range. Right: the pivot and the domain after transformation._
+_**Figure**: Rotation around a center point (⊕) maps the domain (o) as close to the range (x) as possible. Here the mapped image (●) cannot match the range exactly due to the restriction set by the center point. The + denotes the point `{ x: 0, y: 0 }`._
 
 To test the resulting transform, we can apply it to the center and observe that the point stays the same.
 
     > nudged.point.transform(center, rotateAround)
     { x: -1, y: 0 }
 
-See [API](#api) for more.
+To estimate scalings in respect of a center point, as illustrated below, set `estimators: 'S'` and `center`. The operation is also called a [homothety](https://en.wikipedia.org/wiki/Homothety).
 
+<img src="doc/img/nudged-diagram-scaling-about-center.png" alt="Scaling about a center point (⊕)" />
+
+_**Figure**: Scaling the domain (o) by the factor of 0.5 about a center point (⊕). The resulting image (●) has all distances halved. The + denotes the point `{ x: 0, y: 0 }`._
+
+### Analyze the transform
+
+To examine properties of the resulting transformation matrix:
+
+    > nudged.transform.getRotation(tran)
+    1.5707... = π / 2
+    > nudged.transform.getScale(tran)
+    1.0
+    > nudged.transform.getTranslation(tran)
+    { x: 1, y: 1 }
+    > nudged.transform.toMatrix(tran)
+    { a: 0, c: -1, e: 1,
+      b: 1, d:  0, f: 1 }
+
+To compare how well the transform fits the domain to the range, you can compute
+the *mean squared error*, *MSE*. The smaller the error, the better the fit:
+
+    > nudged.analysis.mse(tran, domain, range)
+    0
+
+The MSE of 0 means that the estimate maps domain on the range perfectly.
+We can demonstrate this by transforming the domain points and
+comparing the result to the range:
+
+    > nudged.point.transformMany(domain, tran)
+    [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
+    > range
+    [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
+
+See [nudged.analysis](doc/API.md#nudgedanalysis) for more.
+
+### Build transforms
+
+In addition to estimation, you can create transforms by other means. For example, let us create a 0.5x scaling about `{ x: 5, y: 4 }`:
+
+    > const t = nudged.transform.scaling({ x: 5, y: 4 }, 0.5)
+    > t
+    { a: 0.5, b: 0, x: 2.5, y: 2 }
+
+<img src="doc/img/nudged-diagram-scaling-about-center-3.png" alt="Scaling about a center point (⊕)" />
+
+_**Figure**: Scaling the domain (o) by the factor of 0.5 about the center point (⊕). The resulting image (●) has all distances halved. The + denotes the point `{ x: 0, y: 0 }`._
+
+Then let us create a transform `that` that develops `t`
+by adding a negative rotation of 45 degrees (π/4) around `{ x: 0, y: 0 }`:
+
+    > const that = nudged.transform.rotateBy(t, { x: 0, y: 0 }, -Math.PI / 4)
+    > that
+    { a: 0.353..., b: -0.353..., x: 3.181..., y: -0.353... }
+
+Let us apply the resulting transform to the domain points:
+
+    > nudged.point.transformMany(domain, that)
+    [
+      { x: 3.181..., y: -0.353... },
+      { x: 3.889..., y: -1.060... },
+      { x: 4.242..., y: 0.000... }
+    ]
+
+TODO mention prebuilt transforms
+
+See [API](#api) for more.
 
 ## Example apps
 
