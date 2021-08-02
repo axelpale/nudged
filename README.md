@@ -262,12 +262,6 @@ Get clockwise rotation from the positive x-axis.
 
 **Return** `[tx, ty]` where `tx` and `ty` denotes movement along x-axis and y-axis accordingly.
 
-### nudged.Transform#toArray()
-
-Together with `nudged.createFromArray(...)` this method makes an easy serialization and deserialization to and from JSON possible.
-
-**Return** an array representation of the transformation: `[s, r, tx, ty]`. Note that `s` and `r` do not represent scaling and rotation but elements of the matrix.
-
 
 ## For developers
 

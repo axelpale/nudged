@@ -869,9 +869,17 @@ Scale the transform tr so that
 <a name="nudgedtransformtoArray"></a>
 ### nudged.transform.toArray(tr)
 
-Return an array representation of the transformation.
+Represent the transform as a 4-element array.
+This the array is compatible with [nudged.transform.fromArray](#nudgedtransformfromArray).
 
-Compatible with nudged.createFromArray(...)
+<p style="display: inline">Parameters:</p>
+
+- `tr`
+  - a [transform](#nudgedtransform)
+
+<p style="display: inline">Return:</p>
+
+- an array `[a, b, x, y]`
 
 <a name="nudgedtransformtoMatrix"></a>
 ### nudged.transform.toMatrix(tr)
