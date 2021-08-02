@@ -765,13 +765,14 @@ Throws
 Rotate image of the transform by the given radians
 so that the given center point stays fixed.
 
-Parameter
-  tr
-    a [transform](#nudgedtransform)
-  center
-    a [point](#nudgedpoint)
-  radians
-    a number, angle
+<p style="display: inline">Parameters:</p>
+
+- `tr`
+  - a [transform](#nudgedtransform)
+- `center`
+  - a [point](#nudgedpoint)
+- `radians`
+  - a number, angle
 
 <p style="display: inline">Return:</p>
 
@@ -783,13 +784,14 @@ Parameter
 Rotate image of the transform to the given angle
 so that the given center point stays fixed.
 
-Parameter
-  tr
-    a [transform](#nudgedtransform)
-  center
-    a [point](#nudgedpoint)
-  radians
-    a number, angle to rotate to
+<p style="display: inline">Parameters:</p>
+
+- `tr`
+  - a [transform](#nudgedtransform)
+- `center`
+  - a [point](#nudgedpoint)
+- `radians`
+  - a number, angle to rotate to
 
 <p style="display: inline">Return:</p>
 
@@ -802,13 +804,14 @@ Scale image of the transform by the given multiplier
 so that the given center point stays fixed.
 The operation is also called homothety.
 
-Parameter
-  tr
-    a [transform](#nudgedtransform)
-  center
-    a [point](#nudgedpoint)
-  multiplier
-    a number
+<p style="display: inline">Parameters:</p>
+
+- `tr`
+  - a [transform](#nudgedtransform)
+- `center`
+  - a [point](#nudgedpoint)
+- `multiplier`
+  - a number
 
 <p style="display: inline">Return:</p>
 
@@ -821,13 +824,14 @@ Scale the transform tr so that
 1) its scale multiplier becomes equal with the given scale.
 2) its image stays fixed at the given center point
 
-Parameter
-  tr
-    a [transform](#nudgedtransform)
-  center
-    a [point](#nudgedpoint)
-  scale
-    a number
+<p style="display: inline">Parameters:</p>
+
+- `tr`
+  - a [transform](#nudgedtransform)
+- `center`
+  - a [point](#nudgedpoint)
+- `scale`
+  - a number
 
 <p style="display: inline">Return:</p>
 
