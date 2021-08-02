@@ -21,7 +21,7 @@ module.exports = (code, codeModule) => {
   let doc = '' // reusable doc aggregate
 
   const titleOutput = '## ' + codeModule.name + '\n\n'
-  const introOutput = codeModule.doc + '\n\n'
+  let introOutput = codeModule.doc
   let tocOutput = ''
   let membersOutput = ''
 
@@ -88,14 +88,17 @@ module.exports = (code, codeModule) => {
     }
 
     // Empty line or something. Output doc gathered this far.
-    membersOutput += prettyText(doc)
+
+    introOutput += prettyText(doc)
     doc = ''
   })
 
   return [
     titleOutput,
-    tocOutput,
-    introOutput,
+    introOutput.trim(),
+    '\n\n',
+    tocOutput.trim(),
+    '\n\n',
     membersOutput
   ].join('')
 }

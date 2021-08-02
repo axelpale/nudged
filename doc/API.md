@@ -1,5 +1,10 @@
 ## nudged
 
+The code follows the functional, classless, immutable paradigm.
+All the functions take in only plain objects and values such as
+`{ x: 1, y: 2 }` and also return only plain objects and values.
+You can expect no side effects nor memories form previous calls.
+
 - [nudged.estimate](#nudgedestimate)
 - [nudged.estimators](#nudgedestimators)
 - [nudged.point](#nudgedpoint)
@@ -7,12 +12,6 @@
 - [nudged.analysis](#nudgedanalysis)
 - [nudged.tolerance](#nudgedtolerance)
 - [nudged.version](#nudgedversion)
-
-
-The code follows the functional, classless, immutable paradigm.
-All the functions take in only plain objects and values such as
-`{ x: 1, y: 2 }` and also return only plain objects and values.
-You can expect no side effects nor memories form previous calls.
 
 <a name="nudgedestimate"></a>
 ### nudged.estimate(params)
@@ -52,6 +51,10 @@ via [nudged.estimators](#nudgedestimators).
 
 ## nudged.estimators
 
+A collection of estimator functions.
+Call these directly instead of the general [nudged.estimate](#nudgedestimate)
+for a bit more efficiency by saving one function call.
+
 - [nudged.estimators.I](#nudgedestimatorsI)
 - [nudged.estimators.L](#nudgedestimatorsL)
 - [nudged.estimators.X](#nudgedestimatorsX)
@@ -64,10 +67,6 @@ via [nudged.estimators](#nudgedestimators).
 - [nudged.estimators.SR](#nudgedestimatorsSR)
 - [nudged.estimators.TSR](#nudgedestimatorsTSR)
 
-
-A collection of estimator functions.
-Call these directly instead of the general [nudged.estimate](#nudgedestimate)
-for a bit more efficiency by saving one function call.
 <a name="nudgedestimatorsI"></a>
 ### nudged.estimators.I()
 
@@ -255,6 +254,8 @@ positive scaling, and rotation are allowed.
 
 ## nudged.point
 
+A set of operators for 2D point objects ``{ x, y }``.
+
 - [nudged.point.almostEqual](#nudgedpointalmostEqual)
 - [nudged.point.create](#nudgedpointcreate)
 - [nudged.point.distance](#nudgedpointdistance)
@@ -266,9 +267,6 @@ positive scaling, and rotation are allowed.
 - [nudged.point.transform](#nudgedpointtransform)
 - [nudged.point.transformMany](#nudgedpointtransformMany)
 - [nudged.point.validate](#nudgedpointvalidate)
-
-
-A set of operators for 2D point objects ``{ x, y }``.
 
 <a name="nudgedpointalmostEqual"></a>
 ### nudged.point.almostEqual(p, q, tolerance)
@@ -481,6 +479,21 @@ Example:
 
 ## nudged.transform
 
+A transform is a plain object with the structure `{ a, b, x, y }`.
+It defines a transformation matrix, and to be exact, an
+[augmented affine](https://en.wikipedia.org/wiki/Affine_transformation#Augmented_matrix)
+[non-reflective similarity](https://en.wikipedia.org/wiki/Similarity_(geometry))
+transformation matrix.
+Such transformation matrices are a compact way to represent
+translation, rotation, and scaling in a single 3x3 matrix.
+The matrix that the transform represents has the following elements:
+
+    ┌           ┐
+    │  a -b  x  │
+    │  b  a  y  │
+    │  0  0  1  │
+    └           ┘
+
 - [nudged.transform.SINGULAR](#nudgedtransformSINGULAR)
 - [nudged.transform.IDENTITY](#nudgedtransformIDENTITY)
 - [nudged.transform.ROT45](#nudgedtransformROT45)
@@ -510,23 +523,6 @@ Example:
 - [nudged.transform.translateBy](#nudgedtransformtranslateBy)
 - [nudged.transform.translateTo](#nudgedtransformtranslateTo)
 - [nudged.transform.validate](#nudgedtransformvalidate)
-
-
-
-A transform is a plain object with the structure `{ a, b, x, y }`.
-It defines a transformation matrix, and to be exact, an
-[augmented affine](https://en.wikipedia.org/wiki/Affine_transformation#Augmented_matrix)
-[non-reflective similarity](https://en.wikipedia.org/wiki/Similarity_(geometry))
-transformation matrix.
-Such transformation matrices are a compact way to represent
-translation, rotation, and scaling in a single 3x3 matrix.
-The matrix that the transform represents has the following elements:
-
-    ┌           ┐
-    │  a -b  x  │
-    │  b  a  y  │
-    │  0  0  1  │
-    └           ┘
 
 ### nudged.transform.SINGULAR
 
@@ -951,10 +947,11 @@ to the given point. The rotation and scale are kept intact.
 Check if tr is valid, non-singular affine transformation.
 ## nudged.analysis
 
+Tools to measure how well the estimated transformations fit the data.
+
 - [nudged.analysis.mse](#nudgedanalysismse)
 - [nudged.analysis.residuals](#nudgedanalysisresiduals)
 - [nudged.analysis.rss](#nudgedanalysisrss)
-
 
 <a name="nudgedanalysismse"></a>
 ### nudged.analysis.mse(tr, domain, range)
@@ -1017,8 +1014,6 @@ the range points and transformed domain points.
 
 ## nudged.tolerance
 
-
-
 Default tolerance to use when coping with floating point arithmetics.
 JavaScript floating point numbers have 52 bits in mantissa (IEEE-754).
 That is about 16 base10 digits. Therefore the tolerance should be
@@ -1026,6 +1021,8 @@ much larger than 1 * 10^-16. Let say 1 * 10^-10 is a good one.
 
     > nudged.tolerance
     0.0000000001
+
+
 
 ## nudged.version
 
@@ -1036,7 +1033,6 @@ This feature is powered by
 
     > nudged.version
     '2.3.4'
-
 
 
 
