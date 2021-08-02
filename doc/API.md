@@ -610,9 +610,11 @@ is smaller or equal to the tolerance, consider the transforms equal.
 <a name="nudgedtransformcompose"></a>
 ### nudged.transform.compose(tr, ts)
 
-Multiply transformation matrix tr from
-the right with the given transformation matrix ts.
-In other words, transform the image of ts by tr.
+Multiply the transform tr from
+the right with the given transform ts.
+In other words, the resulting transform is equivalent to
+first transforming with ts and then with tr.
+To put it short, transform the *image* of ts by tr.
 
 <p style="display: inline">Parameters:</p>
 

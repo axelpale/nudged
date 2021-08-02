@@ -309,16 +309,6 @@ The scaling is done around an optional pivot point that defaults to [0,0].
 
 The rotation is done around an optional pivot point that defaults to [0,0].
 
-### nudged.Transform#multiplyBy(tr)
-
-**Alias** `.multiplyRight(tr)`
-
-**Parameter** `tr` is an instance of `nudged.Transform`.
-
-**Return** a new `nudged.Transform` instance where the original transformation matrix is multiplied from the right with the transformation matrix of `tr`.
-
-The resulting transformation is equal to first transforming with `tr` and then with the instance. More precisely, the image of the resulting transformation is the image of `tr` transformed by the instance.
-
 
 ## For developers
 
