@@ -679,7 +679,7 @@ For loose equality see [almostEqual](#nudgedtransformalmostequal).
 <a name="nudgedtransformfromPolar"></a>
 ### nudged.transform.fromPolar(scale, rotation, tx, ty)
 
-Create a nudged.transform object by using scale magnitude,
+Create a [nudged.transform](#nudgedtransform) object by using scale magnitude,
 rotation angle, and translation.
 
 <p style="display: inline">Parameters:</p>

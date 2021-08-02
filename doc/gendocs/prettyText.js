@@ -14,8 +14,8 @@ const removeGenversion = (text) => {
 
 const pointKeyword = /(a|optional|of) point(s?)($|\W+)/g
 const transformKeyword = /a transform($|\W+)/g
-const moduleKeyword = /nudged\.(\w+)($|\.$|\.\W+)/g
-const memberKeyword = /nudged\.(\w+)\.(\w+)($|\W+)/g
+const moduleKeyword = /nudged\.(\w+)($|\.$|\.\W+| )/g
+const memberKeyword = /nudged\.(\w+)\.(\w+)($|\W+| )/g
 const routeKeywords = (text) => {
   text = text.replace(pointKeyword, '$1 [point$2](#nudgedpoint)$3')
   text = text.replace(transformKeyword, 'a [transform](#nudgedtransform)$1')
