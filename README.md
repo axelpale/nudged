@@ -268,47 +268,6 @@ Together with `nudged.createFromArray(...)` this method makes an easy serializat
 
 **Return** an array representation of the transformation: `[s, r, tx, ty]`. Note that `s` and `r` do not represent scaling and rotation but elements of the matrix.
 
-### nudged.Transform#transform(points)
-
-Apply the transform to a point or an array of points.
-
-**Parameter** `points` is an array of points `[[x, y], ...]` or a single point `[x, y]`.
-
-**Return** an array of transformed points or single point if only a point was given. For example:
-
-    > trans.transform([1,1])
-    [2,2]
-    > trans.transform([[1,1]])
-    [[2,2]]
-    > trans.transform([[1,1], [2,3]])
-    [[2,2], [3,4]]
-
-### nudged.Transform#inverse()
-
-**Return** a new `nudged.Transform` instance that is the inverse of the original transformation.
-
-**Throw** an `Error` instance if the transformation is singular and cannot be inversed. This occurs if the range points are all the same which forces the scale to drop to zero.
-
-### nudged.Transform#translateBy(dx, dy)
-
-**Return** a new `nudged.Transform` instance where the image of the original has been translated.
-
-### nudged.Transform#scaleBy(multiplier, pivot?)
-
-**Parameter** `multiplier` is a number. Optional parameter `pivot` is a point `[x, y]`.
-
-**Return** a new `nudged.Transform` instance where the image of the original has been scaled.
-
-The scaling is done around an optional pivot point that defaults to [0,0].
-
-### nudged.Transform#rotateBy(radians, pivot?)
-
-**Parameter** `radians` is a number. Optional parameter `pivot` is a point `[x, y]`.
-
-**Return** a new `nudged.Transform` instance where the image of the original has been rotated.
-
-The rotation is done around an optional pivot point that defaults to [0,0].
-
 
 ## For developers
 

@@ -461,6 +461,13 @@ Transform an array of [points](#nudgedpoint)
 
 - an array of [points](#nudgedpoint), transformed
 
+Example:
+
+    > const tr = nudged.transform.ROT90
+    > const ps = [{ x: 1, y: 0}, { x: 0, y: 1 }]
+    > nudged.point.transformMany(ps, tr)
+    [{ x: 0, y: 1 }, { x: -1, y: 0 }]
+
 <a name="nudgedpointvalidate"></a>
 ### nudged.point.validate(p)
 
@@ -772,7 +779,9 @@ so that TX = XT = I, where T is the given transform.
   - a [transform](#nudgedtransform) to be inverted
 
 Throws
-  if the given transformation is singular and cannot be inverted
+  if the given transformation is singular and cannot be inverted.
+  This can occur for example in situations
+  where the scale of the transform has dropped to zero.
 
 <p style="display: inline">Return:</p>
 
@@ -821,7 +830,8 @@ so that the given center point stays fixed.
 
 Scale image of the transform by the given multiplier
 so that the given center point stays fixed.
-The operation is also called homothety.
+The operation is also called
+[homothety](https://en.wikipedia.org/wiki/Homothety).
 
 <p style="display: inline">Parameters:</p>
 
@@ -916,9 +926,10 @@ See also: https://stackoverflow.com/q/1685680/638546
 
 Modify transformation so that its image
 is translated by the given vector.
-In other words it transforms points
-further by the given vector.
 Scale and rotation are kept intact.
+In other words the resulting transform
+first applies the given tr and
+applies an additional translation defined by the given vector.
 
 <p style="display: inline">Parameters:</p>
 
