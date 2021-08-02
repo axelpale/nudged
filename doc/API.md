@@ -725,6 +725,8 @@ Example:
 ### nudged.transform.getRotation(tr)
 
 Get rotation of the transform in radians.
+The rotation is measured from the positive x-axis towards
+the positive y-axis.
 
 <p style="display: inline">Parameters:</p>
 
@@ -734,6 +736,12 @@ Get rotation of the transform in radians.
 <p style="display: inline">Return:</p>
 
 - a number, an angle in radians
+
+Example:
+
+    > const t = nudged.transform.ROT180
+    > nudged.transform.getRotation(t)
+    3.1415...
 
 <a name="nudgedtransformgetScale"></a>
 ### nudged.transform.getScale(tr)
@@ -749,10 +757,17 @@ Get the scale multiplier of the transformation.
 
 - a number, the scaling factor
 
+Example:
+
+    > const t = nudged.transform.HALF
+    > nudged.transform.getScale(t)
+    0.5
+
 <a name="nudgedtransformgetTranslation"></a>
 ### nudged.transform.getTranslation(tr)
 
-Get translation as a [point](#nudgedpoint) `{ x, y }`.
+Get the translating component of the given transform
+as a vector `{ x, y }`.
 
 <p style="display: inline">Parameters:</p>
 
@@ -762,6 +777,12 @@ Get translation as a [point](#nudgedpoint) `{ x, y }`.
 <p style="display: inline">Return:</p>
 
 - a [point](#nudgedpoint)
+
+Example:
+
+    > const t = nudged.transform.ROT45
+    > nudged.transform.getTranslation(t)
+    { x: 0, y: 0 }
 
 ### nudged.transform.multiply
 

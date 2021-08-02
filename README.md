@@ -248,19 +248,6 @@ You can also call the estimators directly for slightly enhanced performance:
     > tr.getRotation()
     1.107148
 
-### nudged.Transform#getRotation()
-
-Get clockwise rotation from the positive x-axis.
-
-**Return** rotation in radians.
-
-### nudged.Transform#getScale()
-
-**Return** scaling multiplier, e.g. `0.333` for a threefold shrink.
-
-### nudged.Transform#getTranslation()
-
-**Return** `[tx, ty]` where `tx` and `ty` denotes movement along x-axis and y-axis accordingly.
 
 
 ## For developers
@@ -268,7 +255,7 @@ Get clockwise rotation from the positive x-axis.
 Guidelines:
 
 - ES6
-- Standard style
+- [Standard style](https://standardjs.com/)
   - 2 space indent
   - max 80 chars per line
   - spaces around operators
