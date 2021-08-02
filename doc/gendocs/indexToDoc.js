@@ -7,12 +7,18 @@ module.exports = (code, codeModule) => {
   // Converts raw index code to Markdown API documentation.
   //
   // Parameters
-  //   doc
-  //     markdown from above
   //   code
   //     string
   //   codeModule
-  //     object with module name and path
+  //     object with properties
+  //       doc
+  //         markdown from above
+  //       name
+  //         module name
+  //       path
+  //         path to code file
+  //       title
+  //         optional title to use instead of the module name
   //
   // Return
   //   string as Markdown
@@ -20,10 +26,16 @@ module.exports = (code, codeModule) => {
   const lines = code.split(/\r?\n/)
   let doc = '' // reusable doc aggregate
 
-  const titleOutput = '## ' + codeModule.name + '\n\n'
+  let titleOutput = ''
   let introOutput = codeModule.doc
   let tocOutput = ''
   let membersOutput = ''
+
+  if (codeModule.title) {
+    titleOutput = '## ' + codeModule.title + '\n\n'
+  } else {
+    titleOutput = '## ' + codeModule.name + '\n\n'
+  }
 
   lines.forEach((line) => {
 

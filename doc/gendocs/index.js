@@ -7,6 +7,7 @@ const indexToDoc = require('./indexToDoc')
 const modules = [
   {
     doc: '', // initial docs for consistency
+    title: 'Nudged API Documentation',
     name: 'nudged',
     path: path.resolve(__dirname, '../../lib')
   }
