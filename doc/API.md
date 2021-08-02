@@ -481,6 +481,14 @@ Example:
 
 ## nudged.transform
 
+- [nudged.transform.SINGULAR](#nudgedtransformSINGULAR)
+- [nudged.transform.IDENTITY](#nudgedtransformIDENTITY)
+- [nudged.transform.ROT45](#nudgedtransformROT45)
+- [nudged.transform.ROT90](#nudgedtransformROT90)
+- [nudged.transform.ROT180](#nudgedtransformROT180)
+- [nudged.transform.ROT270](#nudgedtransformROT270)
+- [nudged.transform.HALF](#nudgedtransformHALF)
+- [nudged.transform.X2](#nudgedtransformX2)
 - [nudged.transform.almostEqual](#nudgedtransformalmostEqual)
 - [nudged.transform.compose](#nudgedtransformcompose)
 - [nudged.transform.create](#nudgedtransformcreate)

@@ -75,9 +75,12 @@ module.exports = (code, codeModule) => {
     if (foundConstant) {
       const exportedName = foundConstant[1]
       const value = foundConstant[2]
+      const fullname = codeModule.name + '.' + exportedName
 
-      membersOutput += '### ' + codeModule.name + '.' + exportedName + '\n\n'
+      membersOutput += '### ' + fullname + '\n\n'
       membersOutput += prettyText(codeModule.doc + doc) + '\n'
+      const hashName = '#' + fullname.replace(expressions.hashPath, '')
+      tocOutput += '- [' + fullname + '](' + hashName + ')\n'
       // doc consumed
       doc = ''
 
