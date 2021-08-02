@@ -172,7 +172,8 @@ Estimate translation that maps domain points close to range points.
 ### nudged.estimators.S(domain, range, center)
 
 Estimate a scaling around the given center.
-In other words, estimate a homothety.
+In other words, estimate
+a [homothety](https://en.wikipedia.org/wiki/Homothety).
 
 <p style="display: inline">Parameters:</p>
 
