@@ -683,8 +683,9 @@ Precondition
 <a name="nudgedtransformfromArray"></a>
 ### nudged.transform.fromArray(arrtr)
 
-Convert a [transform](#nudgedtransform) represented as an 4-element array (as in Nudged v1)
-to a [transform](#nudgedtransform) object `{ a, b, x, y }` (as in nudged v2).
+Convert a [transform](#nudgedtransform) represented as an 4-element array
+to a [transform](#nudgedtransform) object `{ a, b, x, y }`.
+Compatible with [nudged.transform.toArray](#nudgedtransformtoArray).
 
 <p style="display: inline">Parameters:</p>
 
