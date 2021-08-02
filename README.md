@@ -157,65 +157,9 @@ The [**editor demo**](https://rawgit.com/axelpale/nudged/master/examples/nudged-
 In this [map viewer demo](https://rawgit.com/axelpale/nudged/master/examples/nudged-map/index.html), nudged is used to recognize multi-touch gestures to scale, rotate, and translate [a large image](https://commons.wikimedia.org/wiki/File:Tokyo_metro_map.png) on HTML5 canvas.
 
 
-# API
+## API
 
 See the [API documentation](doc/API.md).
-
-TODO process the following API docs to the source code because
-they have lots of examples not yet in the code.
-
-### nudged.estimate(type, domain, range, param?)
-
-Compute an optimal affine transformation from *domain* to *range* points. The *type* of transformation determines the freedom of the transformation to be estimated.
-
-**Available types**
-
-- `I`: Identity transform. Whatever the points, returns always the identity transformation.
-- `L`: Translation along line. Takes additional *angle* parameter in radians. Direction of the angle is from positive x-axis towards positive y-axis.
-- `X`: Horizontal translation. Equivalent to `L` with angle 0.
-- `Y`: Vertical translation. Equivalent to `L` with angle ±PI/2.
-- `T`: Free translation.
-- `S`: Scaling about a fixed *pivot* point.
-- `R`: Rotation around a fixed *pivot* point.
-- `TS`: Free translation with scaling.
-- `TR`: Free translation with rotation.
-- `SR`: Scaling and rotation around a fixed *pivot* point.
-- `TSR`: Free translation with both scaling and rotation.
-
-**Parameters:**
-- *type*: string. The freedom of the transformation. Must be one of the following: `'I'`, `'L'`, `'X'`, `'Y'`, `'T'`, `'S'`, `'R'`, `'TS'`, `'TR'`, `'SR'`, `'TSR'`
-- *domain*: array of [x,y] points. The source point set.
-- *range*: array of [x,y] points. The target point set.
-- *param*: For types `S`, `R`, and `SR` this is an optional `[x,y]` pivot point that defaults to the origin `[0,0]`. For type `L` this is an angle in radians so that angle PI/2 (90 deg) is towards positive y-axis.
-
-The *domain* and *range* should have equal length. Different lengths are allowed but additional points in the longer array are ignored.
-
-**Return** new `nudged.Transform(...)` instance.
-
-You can also call the estimators directly for slightly enhanced performance:
-
-- `nudged.estimateI()`
-- `nudged.estimateL(domain, range, angle)`
-- `nudged.estimateX(domain, range)`
-- `nudged.estimateY(domain, range)`
-- `nudged.estimateT(domain, range)`
-- `nudged.estimateS(domain, range, pivot)`
-- `nudged.estimateR(domain, range, pivot)`
-- `nudged.estimateTS(domain, range)`
-- `nudged.estimateTR(domain, range)`
-- `nudged.estimateSR(domain, range, pivot)`
-- `nudged.estimateTSR(domain, range)`
-
-**Example:**
-
-    > var domain = [[0,0], [2,0], [ 1,2]]
-    > var range  = [[1,1], [1,3], [-1,2]]
-    > var tr = nudged.estimate('SR', domain, range)
-    > tr.getScale()
-    1.242259
-    > tr.getRotation()
-    1.107148
-
 
 
 ## For developers

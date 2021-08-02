@@ -21,16 +21,15 @@ See the available modules below.
 <a name="nudgedestimate"></a>
 ### nudged.estimate(params)
 
-Estimate a transformation of the given type and constraints.
-Internally, calls the estimator of the given type.
-For maximal efficiency, use the estimator functions directly
-via [nudged.estimators](#nudgedestimators).
+Estimates a transformation with the selected estimator and constraints.
+See [nudged.estimators](#nudgedestimators) for available estimators.
 
 <p style="display: inline">Parameters:</p>
 
 - `params`, an object with properties:
   - `estimator`
-    - Required string. The freedom of the transform.
+    - Required string. The name of the estimator.
+    - Defines the freedom of the transform to compute.
     - One of the following:
       'I', 'L', 'X', 'Y', 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
   - `domain`
@@ -52,7 +51,28 @@ via [nudged.estimators](#nudgedestimators).
 
 <p style="display: inline">Return:</p>
 
-- a [transform](#nudgedtransform) object
+- a [transform](#nudgedtransform)
+
+Internally, this calls the function of the selected estimator.
+Therefore, if you desire maximal efficiency instead of flexibility,
+use the estimator functions directly via nudged.estimators,
+like for example `[nudged.estimators.R](#nudgedestimatorsR)(domain, range, center)`
+
+Example:
+
+    > const domain = [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 2 }]
+    > const range  = [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
+    > const center = { x: 0, y: 0 }
+    > const tr = nudged.estimate({
+    estimator: 'SR',
+    domain: domain,
+    range: range,
+    center: center
+    })
+    > nudged.transform.getScale(tr)
+    1.242259
+    > nudged.transform.getRotation(tr)
+    1.107148
 
 ## nudged.estimators
 
