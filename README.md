@@ -343,18 +343,18 @@ Git workflow:
 
 - Create a feature branch: `$ git branch feature-name`
 - When feature finished, merge:
-  - `$ git checkout master`
-  - `$ git merge feature-name`
-  - `$ git push`
+  - `$ git checkout master`
+  - `$ git merge feature-name`
+  - `$ git push`
   - Delete the feature branch.
 - Bump version in package.json, `npm run gv`, and run tests.
 - Build examples `npm run build:examples`
 - Commit: `$ git commit -a -m "Release 7.7.7"`
 - Create [tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging):
-  - `$ git tag -a 7.7.7 -m "v7.7.7 Superb Name"`
+  - `$ git tag -a 7.7.7 -m "v7.7.7 Superb Name"`
   - `$ git push --tags`
 - Publish to npm:
-  - `$ npm publish`
+  - `$ npm publish`
 
 
 ## Acknowledgments
