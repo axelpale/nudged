@@ -685,20 +685,24 @@ rotation angle, and translation.
 <p style="display: inline">Parameters:</p>
 
 - `scale`
-  - number, the scaling factor
+  - a positive number. The scaling factor.
 - `rotation`
-  - number, rotation in radians from positive x axis towards pos. y axis.
+  - a number. Rotation in radians from positive x axis towards pos. y axis.
 - `tx`
-  - translation toward pos. x
+  - a number. Translation toward positive x
 - `ty`
-  - translation toward pos. y
+  - a number. Translation toward positive y
 
 <p style="display: inline">Return:</p>
 
-- a [transform](#nudgedtransform) object
+- a [transform](#nudgedtransform)
 
-Precondition
-  scale must be positive
+Example:
+
+    > const tr = nudged.transform.fromPolar(2, 0, 5, 10)
+    > const p = { x: 1, y: 1 }
+    > nudged.point.transform(p, tr)
+    { x: 7, y: 12 }
 
 <a name="nudgedtransformfromArray"></a>
 ### nudged.transform.fromArray(arrtr)

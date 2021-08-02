@@ -164,38 +164,6 @@ See the [API documentation](doc/API.md).
 TODO process the following API docs to the source code because
 they have lots of examples not yet in the code.
 
-### nudged.create(scale, rotation, translationX, translationY)
-
-Create a transformation that scales, rotates, and translates as specified.
-
-**Parameters:**
-- *scale*: a number; the scaling factor.
-- *rotation*: a number; the rotation in radians from positive x axis toward positive y axis.
-- *translationX*: a number; translation after rotation, toward positive x axis.
-- *translationY*: a number; translation after rotation, toward positive y axis.
-
-The parameters are optional and default to the identity transformation.
-
-**Return** a new `nudged.Transform` instance.
-
-**Examples:**
-
-    > var t0 = nudged.create()
-    > t0.transform([3, 1])
-    [3, 1]
-
-    > var t1 = nudged.create(2)
-    > t1.transform([3, 1])
-    [6, 2]
-
-    > var t2 = nudged.create(1, Math.PI / 2)
-    > t2.transform([3, 1])
-    [-1, 3]
-
-    > var t3 = nudged.create(1, 0, 20.2, 0)
-    > t3.transform([3, 1])
-    [23.2, 1]
-
 ### nudged.estimate(type, domain, range, param?)
 
 Compute an optimal affine transformation from *domain* to *range* points. The *type* of transformation determines the freedom of the transformation to be estimated.
