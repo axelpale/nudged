@@ -1,9 +1,9 @@
 # nudged
 
-![Nudged logo](doc/nudged-logo-2021.png)
-
 [![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
 [![Build Status](https://img.shields.io/travis/com/axelpale/nudged)](https://travis-ci.com/github/axelpale/nudged)
+
+![Nudged logo](doc/nudged-logo-2021.png)
 
 *Nudged* is **a JavaScript module** to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. It has already been applied to **user interfaces, multi-touch recognition, geography, and eye tracker calibration**.
 
