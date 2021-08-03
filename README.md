@@ -43,16 +43,16 @@ _**Image**: Available transformation estimators. Each estimator has an abbreviat
 
 ## Usage
 
-Let `domain` and `range` be sets of points `{ x, y }` before and after an unknown transformation as illustrated in the figure below.
+Let `domain` be a set of points, `[{ x, y }, ...]`. Let `range` be the same points after an unknown transformation T as illustrated in the figure below.
 
-    const domain = [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 1, y: 2 }]
-    const range  = [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
+    const domain = [{ x: 0, y: 2 }, { x: 2, y: 2 }, { x: 1, y: 4 }]
+    const range  = [{ x: 4, y: 4 }, { x: 4, y: 2 }, { x: 6, y: 3 }]
 
-<img src="doc/img/nudged-diagram-6-2.png" alt="The domain and the range" />
+<img src="doc/img/nudged-diagram-6-4.png" alt="The domain and the range" />
 
-_**Figure**: The domain (o circles) and the range (x crosses)._
+_**Figure**: The domain (circles o) and the range (crosses x). The + marks the point {x:0,y:0}._
 
-Compute an optimal transformation based on the points:
+We would like to find a simple 2D transformation `tran` that simulates T as closely as possible by combining translation, scaling, and rotation. We compute `tran` by calling [nudged.estimate](docs/API.md#nudgedestimate):
 
     const tran = nudged.estimate({
       estimator: 'TSR',
@@ -63,14 +63,14 @@ Compute an optimal transformation based on the points:
 The result is a *transform* object:
 
     > tran
-    { a: 0, b: 1, x: 1, y: 1 }
+    { a: 0, b: -1, x: 4, y: 4 }
 
-You can apply the transformation to a point:
+You can apply `tran` to a point with [point.transform](doc/API.md#nudgedpointtransform):
 
-    > nudged.point.transform({ x: 2, y: 2 }, tran)
-    { x: -1, y: 3 }
+    > nudged.point.transform({ x: 0, y: 4 }, tran)
+    { x: 6, y: 4 }
 
-You can apply the transformation to an HTML image element:
+You can apply `tran` to an HTML image element. Just convert `tran` to a [CSS transform string](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function) with [transform.toString](doc/API.md#nudgedtransformtostring):
 
     > img.style.transform = nudged.transform.toString(tran)
 
@@ -97,7 +97,7 @@ To estimate scalings and rotations around a fixed point, give an additional `cen
 
 You can think the center point as a nail that keeps a very elastic sheet of rubber fixed onto a table. The nail retains its location regardless of how the rubber sheet is transformed around it.
 
-<img src="doc/img/nudged-diagram-center-point.png" alt="A rotation around a fixed center point" />
+<img src="doc/img/nudged-diagram-7-4.png" alt="A rotation around a fixed center point" />
 
 _**Figure**: Rotation around a center point (⊕) maps the domain (o) as close to the range (x) as possible. Here the mapped image (●) cannot match the range exactly due to the restriction set by the center point. The + denotes the point `{ x: 0, y: 0 }`._
 
@@ -112,7 +112,7 @@ To estimate scalings in respect of a center point, as illustrated below, set `es
 
 _**Figure**: Scaling the domain (o) by the factor of 0.5 about a center point (⊕). The resulting image (●) has all distances halved. The + denotes the point `{ x: 0, y: 0 }`._
 
-### Analyze the transform
+### Analyse the transform
 
 To examine properties of the resulting transformation matrix:
 
@@ -137,43 +137,63 @@ We can demonstrate this by transforming the domain points and
 comparing the result to the range:
 
     > nudged.point.transformMany(domain, tran)
-    [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
+    [ { x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 } ]
     > range
-    [{ x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 }]
+    [ { x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 } ]
+
+<img src="doc/img/nudged-diagram-6-6.png" alt="Scaling about a center point (⊕)" />
+
+_**Figure**: The domain (o) mapped with `tran` (→). The fit is perfect, the image (●) match the range (x) exactly._
 
 See [nudged.analysis](doc/API.md#nudgedanalysis) for more.
 
 ### Build transforms
 
-In addition to estimation, you can create transforms by other means. For example, let us create a 0.5x scaling about `{ x: 5, y: 4 }`:
+In addition to estimation, you can create transforms by other means. For example, let us assign a 0.5x scaling about `{ x: 6, y: 5 }` to `t`:
 
-    > const t = nudged.transform.scaling({ x: 5, y: 4 }, 0.5)
+    > const t = nudged.transform.scaling({ x: 6, y: 5 }, 0.5)
     > t
-    { a: 0.5, b: 0, x: 2.5, y: 2 }
+    { a: 0.5, b: 0, x: 3, y: 2.5 }
 
-<img src="doc/img/nudged-diagram-scaling-about-center-3.png" alt="Scaling about a center point (⊕)" />
+Let us apply `t` to `domain`. The result is illustrated below.
 
-_**Figure**: Scaling the domain (o) by the factor of 0.5 about the center point (⊕). The resulting image (●) has all distances halved. The + denotes the point `{ x: 0, y: 0 }`._
+    > nudged.point.transformMany(domain, t)
+    [ { x: 3, y: 2.5 }, { x: 4, y: 2.5 }, { x: 3.5, y: 3.5 } ]
 
-Then let us create a transform `that` that develops `t`
+<img src="doc/img/nudged-diagram-8-4.png" alt="Scaling about a center point (⊕)" />
+
+_**Figure**: Scaling the domain (o) by the factor of 0.5 about the center point (⊕). The resulting image (●) has all distances halved. The + denotes the point {x:0, y:0}._
+
+Then let us modify the transform further. We create a transform `tr` that develops `t`
 by adding a negative rotation of 45 degrees (π/4) around `{ x: 0, y: 0 }`:
 
-    > const that = nudged.transform.rotateBy(t, { x: 0, y: 0 }, -Math.PI / 4)
-    > that
-    { a: 0.353..., b: -0.353..., x: 3.181..., y: -0.353... }
+    > const tr = nudged.transform.rotateBy(t, { x: 0, y: 0 }, -Math.PI / 4)
+    > tr
+    { a: 0.353..., b: -0.353..., x: 3.889..., y: -0.353... }
 
 Let us apply the resulting transform to the domain points:
 
-    > nudged.point.transformMany(domain, that)
+    > nudged.point.transformMany(domain, tr)
     [
-      { x: 3.181..., y: -0.353... },
-      { x: 3.889..., y: -1.060... },
-      { x: 4.242..., y: 0.000... }
+      { x: 3.889..., y: -0.353... },
+      { x: 4.596..., y: -1.060... },
+      { x: 4.949..., y: 3.330... }
     ]
 
-TODO mention prebuilt transforms
+Not all transformation need to be built. You can find some prebuilt transforms under [nudged.transform](#nudgedtransform):
 
-See [API](#api) for more.
+    > const p = { x: 4, y: 2 }
+    > const X2 = nudged.transform.X2
+    > nudged.point.transform(p, X2)
+    { x: 8, y: 4 }
+    > const ROT180 = nudged.transform.ROT180
+    > nudged.point.transform(p, ROT180)
+    { x: -4, y: -2 }
+    > const I = nudged.transform.IDENTITY
+    > nudged.point.transform(p, I)
+    { x: 4, y: 2 }
+
+To discover more features and details, see [API](#api).
 
 ## Example apps
 
