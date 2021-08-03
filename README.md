@@ -9,8 +9,8 @@
 
 ### Table of contents
 
-- [Introduction](#introduction)
 - [Installation](#installation)
+- [Introduction](#introduction)
 - [Usage](#usage)
 - [Example apps](#example-apps)
 - [API Docs](doc/API.md)
@@ -18,6 +18,15 @@
 - [Acknowledgments](#acknowledgments)
 - [Versioning](#versioning)
 - [Licence](#licence)
+
+
+## Installation
+
+With [npm](https://www.npmjs.com/package/nudged):
+
+    $ npm install nudged
+
+Available also [in Python](https://pypi.python.org/pypi/nudged).
 
 
 ## Introduction
@@ -30,15 +39,6 @@ _**Image**: Available transformation estimators. Each estimator has an abbreviat
 **Mathematically speaking**, Nudged is a set of optimal [least squares estimators](https://en.wikipedia.org/wiki/Least_squares) for the group of nonreflective similarity transformation matrices, also called [Helmert transformations](https://en.wikipedia.org/wiki/Helmert_transformation). Such transformations are [affine transformations](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has [time complexity](https://en.wikipedia.org/wiki/Time_complexity) of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, Nudged solves a 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in [linear time](https://en.wikipedia.org/wiki/Time_complexity#Linear_time). The algorithms and their efficiency are thoroughly described in a **M.Sc. thesis** [Advanced algorithms for manipulating 2D objects on touch screens](http://URN.fi/URN:NBN:fi:tty-201605264186).
 
 **The development has been supported** by [Infant Cognition Laboratory](https://www.tuni.fi/en/research/infant-cognition) at [Tampere University](https://www.tuni.fi/en/) where Nudged is used to correct eye tracking data. Yet, the main motivation for Nudged comes from [Tapspace](https://github.com/taataa/tapspace), a zoomable user interface library where smooth and fast scaling by touch is crucial.
-
-
-## Installation
-
-With [npm](https://www.npmjs.com/package/nudged):
-
-    $ npm install nudged
-
-Available also [in Python](https://pypi.python.org/pypi/nudged).
 
 
 ## Usage
