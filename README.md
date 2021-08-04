@@ -70,7 +70,7 @@ You can apply `tran` to a point with [point.transform](doc/API.md#nudgedpointtra
     > nudged.point.transform({ x: 0, y: 4 }, tran)
     { x: 6, y: 4 }
 
-You can apply `tran` to an HTML image element. Just convert `tran` to a [CSS transform string](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function) with [transform.toString](doc/API.md#nudgedtransformtostring):
+You can apply `tran` to an HTML image element. Just convert `tran` to a [CSS transform](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function) with [transform.toString](doc/API.md#nudgedtransformtostring):
 
     > img.style.transform = nudged.transform.toString(tran)
 
@@ -80,8 +80,8 @@ For example, to make a transformation that maps the range back to the domain
 instead of another way around, invert the transform with [transform.inverse](doc/API.md#nudgedtransforminverse):
 
     > const inv = nudged.transform.inverse(tran)
-    > nudged.point.transform({ x: -1, y: 3 }, inv)
-    { x: 2, y: 2 }
+    > nudged.point.transform({ x: 6, y: 4 }, inv)
+    { x: 0, y: 4 }
 
 ### Set a center point
 
@@ -117,14 +117,14 @@ _**Figure**: Scaling the domain (o) by the factor of 0.5 about a center point (�
 To examine properties of the resulting transformation matrix:
 
     > nudged.transform.getRotation(tran)
-    1.5707... = π / 2
+    -1.5707... = -π / 2
     > nudged.transform.getScale(tran)
     1.0
     > nudged.transform.getTranslation(tran)
-    { x: 1, y: 1 }
+    { x: 2, y: 4 }
     > nudged.transform.toMatrix(tran)
-    { a: 0, c: -1, e: 1,
-      b: 1, d:  0, f: 1 }
+    { a:  0, c: 1, e: 2,
+      b: -1, d: 0, f: 4 }
 
 To compare how well the transform fits the domain to the range, you can compute
 the *mean squared error*, *MSE*. The smaller the error, the better the fit:
@@ -137,9 +137,9 @@ We can demonstrate this by transforming the domain points and
 comparing the result to the range:
 
     > nudged.point.transformMany(domain, tran)
-    [ { x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 } ]
+    [ { x: 4, y: 4 }, { x: 4, y: 2 }, { x: 6, y: 3 } ]
     > range
-    [ { x: 1, y: 1 }, { x: 1, y: 3 }, { x: -1, y: 2 } ]
+    [ { x: 4, y: 4 }, { x: 4, y: 2 }, { x: 6, y: 3 } ]
 
 <img src="doc/img/nudged-diagram-6-6.png" alt="Scaling about a center point (⊕)" />
 
