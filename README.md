@@ -225,7 +225,7 @@ To discover more features and details, see [API](#api).
 
 ## Example apps
 
-The following demo applications give an example how nudged can be used in web.
+The following demo applications give an example how nudged can be used in the web.
 
 ### Multitouch transformation with N fingers
 
