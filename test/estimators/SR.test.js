@@ -13,13 +13,13 @@ module.exports = (ts) => {
       center: { x: 0, y: 0 }
     })
     const expected = nudged.transform.fromPolar(2, Math.PI / 2, 0, 0)
-    t.transformEqual(tr, expected, 'allow SR group')
+    t.transformsEqual(tr, expected, 'allow SR group')
 
     t.end()
   })
 
   ts.test(title + 'trivial point sets', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateSR([], [], { x: 0, y: 0 }),
       IDENTITY,
       'empty domain and range'
@@ -29,7 +29,7 @@ module.exports = (ts) => {
   })
 
   ts.test(title + 'no rotation or scaling', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateSR(
         [{ x: 0, y: 0 }],
         [{ x: 0, y: 0 }],
@@ -39,7 +39,7 @@ module.exports = (ts) => {
       'domain, range, and center equal'
     )
 
-    t.transformEqual(
+    t.transformsEqual(
       estimateSR(
         [{ x: 1, y: 0 }],
         [{ x: 0, y: 0 }],
@@ -53,7 +53,7 @@ module.exports = (ts) => {
   })
 
   ts.test(title + 'multiple points', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateSR(
         [{ x: 0, y: 2 }, { x: 2, y: 0 }],
         [{ x: 4, y: 0 }, { x: 4, y: 2 }],

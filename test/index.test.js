@@ -45,11 +45,11 @@ test.Test.prototype.pointsAlmostEqual = function (actual, expected, message) {
   })
 }
 
-test.Test.prototype.transformEqual = function (actual, expected, message) {
+test.Test.prototype.transformsEqual = function (actual, expected, message) {
   // Test if two transforms are almost the same.
   this._assert(nudged.transform.almostEqual(actual, expected), {
     message: message || 'transforms should be almost equal',
-    operator: 'transformEqual',
+    operator: 'transformsEqual',
     actual: actual,
     expected: expected
   })

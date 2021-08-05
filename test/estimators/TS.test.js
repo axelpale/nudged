@@ -11,19 +11,19 @@ module.exports = (ts) => {
       range: [{ x: 2, y: 2 }, { x: 6, y: 2 }]
     })
     const expected = nudged.transform.fromPolar(2, 0, 0, 2)
-    t.transformEqual(tr, expected, 'allow TS group')
+    t.transformsEqual(tr, expected, 'allow TS group')
 
     t.end()
   })
 
   ts.test(title + 'trivial point sets', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateTS([], []),
       IDENTITY,
       'empty domain and range'
     )
 
-    t.transformEqual(
+    t.transformsEqual(
       estimateTS(
         [{ x: 0, y: 0 }],
         [{ x: 0, y: 0 }]
@@ -36,7 +36,7 @@ module.exports = (ts) => {
   })
 
   ts.test(title + 'singularity', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateTS(
         [{ x: 0, y: 0 }, { x: 2, y: 0 }],
         [{ x: 1, y: -1 }, { x: 1, y: 1 }]

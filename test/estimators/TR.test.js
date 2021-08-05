@@ -11,19 +11,19 @@ module.exports = (ts) => {
       range: [{ x: 4, y: 0 }, { x: 4, y: 2 }]
     })
     const expected = nudged.transform.fromPolar(1, Math.PI / 2, 4, -1)
-    t.transformEqual(tr, expected, 'allow TR group')
+    t.transformsEqual(tr, expected, 'allow TR group')
 
     t.end()
   })
 
   ts.test(title + 'trivial point sets', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateTR([], []),
       IDENTITY,
       'empty domain and range'
     )
 
-    t.transformEqual(
+    t.transformsEqual(
       estimateTR(
         [{ x: 0, y: 0 }],
         [{ x: 0, y: 0 }]
@@ -36,7 +36,7 @@ module.exports = (ts) => {
   })
 
   ts.test(title + 'only scale', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateTR(
         [{ x: 1, y: 0 }, { x: -1, y: 0 }],
         [{ x: 2, y: 0 }, { x: -2, y: 0 }]
@@ -49,7 +49,7 @@ module.exports = (ts) => {
   })
 
   ts.test(title + 'multiple points', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateTR(
         [{ x: 0, y: 0 }, { x: 4, y: 0 }],
         [{ x: 4, y: 0 }, { x: 4, y: 2 }]

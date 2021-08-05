@@ -4,7 +4,7 @@ const fromPolar = nudged.transform.fromPolar // unit
 
 module.exports = (ts) => {
   ts.test(title + 'around twice', (t) => {
-    t.transformEqual(fromPolar(1, Math.PI * 4, 0, 0), {
+    t.transformsEqual(fromPolar(1, Math.PI * 4, 0, 0), {
       a: 1,
       b: 0,
       x: 0,
@@ -16,7 +16,7 @@ module.exports = (ts) => {
 
   ts.test(title + 'zero scale', (t) => {
     // NOTE invalid affine transformation
-    t.transformEqual(fromPolar(0, 0, 0, 0), {
+    t.transformsEqual(fromPolar(0, 0, 0, 0), {
       a: 0,
       b: 0,
       x: 0,

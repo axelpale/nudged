@@ -5,7 +5,7 @@ const I = nudged.transform.IDENTITY
 
 module.exports = (ts) => {
   ts.test(title + 'basic usage with the general estimator', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       nudged.estimate({
         estimator: 'L',
         domain: [],
@@ -16,7 +16,7 @@ module.exports = (ts) => {
       'allow L group'
     )
 
-    t.transformEqual(
+    t.transformsEqual(
       nudged.estimate({
         estimator: 'L',
         domain: [{ x: 0, y: 0 }],
@@ -31,7 +31,7 @@ module.exports = (ts) => {
   })
 
   ts.test(title + 'basic usage with direct estimator', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateL(
         [],
         []
@@ -40,7 +40,7 @@ module.exports = (ts) => {
       'empty domain, no angle'
     )
 
-    t.transformEqual(
+    t.transformsEqual(
       estimateL(
         [{ x: 0, y: 0 }],
         [{ x: 1, y: 0 }],
@@ -51,7 +51,7 @@ module.exports = (ts) => {
     )
 
     // 5/8 turn, should be equivalent to 1/8 turn.
-    t.transformEqual(
+    t.transformsEqual(
       estimateL(
         [{ x: -2, y: -2 }],
         [{ x: 1, y: 5 }],
@@ -69,7 +69,7 @@ module.exports = (ts) => {
   })
 
   ts.test(title + 'multiple points', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateL(
         [{ x: 1, y: 1 }, { x: 2, y: 0 }],
         [{ x: 1, y: 2 }, { x: 2, y: 1 }],

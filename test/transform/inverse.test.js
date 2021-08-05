@@ -6,20 +6,20 @@ const transform = nudged.transform
 module.exports = (ts) => {
   ts.test(title + 'various inversions', (t) => {
     const inv180 = inverse(transform.ROT180)
-    t.transformEqual(inv180, transform.ROT180)
+    t.transformsEqual(inv180, transform.ROT180)
 
     const x2 = inverse(transform.HALF)
-    t.transformEqual(x2, transform.X2)
+    t.transformsEqual(x2, transform.X2)
 
     t.end()
   })
 
   ts.test(title + 'double inversions', (t) => {
     const inv45 = inverse(transform.ROT45)
-    t.transformEqual(inverse(inv45), transform.ROT45)
+    t.transformsEqual(inverse(inv45), transform.ROT45)
 
     const inv90 = inverse(transform.ROT90)
-    t.transformEqual(inverse(inv90), transform.ROT90)
+    t.transformsEqual(inverse(inv90), transform.ROT90)
 
     t.end()
   })

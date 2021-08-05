@@ -5,7 +5,7 @@ const I = nudged.transform.IDENTITY
 
 module.exports = (ts) => {
   ts.test(title + 'basic X with general estimator', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       nudged.estimate({
         estimator: 'X',
         domain: [],
@@ -19,7 +19,7 @@ module.exports = (ts) => {
   })
 
   ts.test(title + 'basic X with direct estimator', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateX(
         [{ x: 0, y: 0 }],
         [{ x: 1, y: 0 }]
@@ -28,7 +28,7 @@ module.exports = (ts) => {
       'simple translation along x'
     )
 
-    t.transformEqual(
+    t.transformsEqual(
       estimateX(
         [{ x: 0, y: 0 }],
         [{ x: 0, y: 1 }]
@@ -41,7 +41,7 @@ module.exports = (ts) => {
   })
 
   ts.test(title + 'multiple points', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateX(
         [{ x: 1, y: 1 }, { x: 2, y: 0 }],
         [{ x: 2, y: 0 }, { x: 3, y: -1 }]

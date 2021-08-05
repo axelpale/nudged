@@ -13,13 +13,13 @@ module.exports = (ts) => {
       range: [{ x: 2, y: 0 }],
       center: { x: 0, y: 0 }
     })
-    t.transformEqual(tr, X2, 'allow S group')
+    t.transformsEqual(tr, X2, 'allow S group')
 
     t.end()
   })
 
   ts.test(title + 'trivial point sets', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateS([], [], { x: 0, y: 0 }),
       IDENTITY,
       'empty domain and range'
@@ -29,7 +29,7 @@ module.exports = (ts) => {
   })
 
   ts.test(title + 'no scaling', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateS(
         [{ x: 0, y: 0 }],
         [{ x: 0, y: 0 }],
@@ -39,7 +39,7 @@ module.exports = (ts) => {
       'domain, range, and center equal'
     )
 
-    t.transformEqual(
+    t.transformsEqual(
       estimateS(
         [{ x: 1, y: 0 }],
         [{ x: 0, y: 1 }],
@@ -53,7 +53,7 @@ module.exports = (ts) => {
   })
 
   ts.test(title + 'multiple points', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateS(
         [{ x: 1, y: 1 }, { x: 3, y: 3 }],
         [{ x: 0, y: 0 }, { x: 4, y: 4 }],

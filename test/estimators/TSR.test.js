@@ -11,19 +11,19 @@ module.exports = (ts) => {
       range: [{ x: 4, y: 0 }, { x: 4, y: 4 }]
     })
     const expected = nudged.transform.fromPolar(2, Math.PI / 2, 4, -2)
-    t.transformEqual(tr, expected, 'allow TSR group')
+    t.transformsEqual(tr, expected, 'allow TSR group')
 
     t.end()
   })
 
   ts.test(title + 'trivial point sets', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateTSR([], []),
       IDENTITY,
       'empty domain and range'
     )
 
-    t.transformEqual(
+    t.transformsEqual(
       estimateTSR(
         [{ x: 0, y: 0 }],
         [{ x: 0, y: 0 }]
@@ -36,7 +36,7 @@ module.exports = (ts) => {
   })
 
   ts.test(title + 'translation', (t) => {
-    t.transformEqual(
+    t.transformsEqual(
       estimateTSR(
         [{ x: 1, y: 0 }, { x: -1, y: 0 }],
         [{ x: 2, y: 1 }, { x: 0, y: 1 }]

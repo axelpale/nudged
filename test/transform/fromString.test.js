@@ -26,7 +26,7 @@ module.exports = (ts) => {
     const ts2 = fromString(tsStr)
 
     // Now same decimals
-    t.transformEqual(ts2, ts)
+    t.transformsEqual(ts2, ts)
 
     t.end()
   })
