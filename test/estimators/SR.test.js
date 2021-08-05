@@ -66,6 +66,34 @@ module.exports = (ts) => {
     t.end()
   })
 
+  ts.test(title + 'domain equal center', (t) => {
+    t.transformsEqual(
+      estimateSR(
+        [{ x: 1, y: 1 }, { x: 1, y: 1 }],
+        [{ x: 2, y: 2 }, { x: 2, y: 2 }],
+        { x: 1, y: 1 }
+      ),
+      IDENTITY,
+      'no scaling if same domain and center'
+    )
+
+    t.end()
+  })
+
+  ts.test(title + 'scaling and rotating a square', (t) => {
+    t.transformsEqual(
+      estimateSR(
+        [{ x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 1, y: 2 }],
+        [{ x: 2, y: 2 }, { x: 2, y: 2 }, { x: 1, y: 3 }, { x: 0, y: 2 }],
+        { x: 1, y: 1 }
+      ),
+      { a: 1, b: 1, x: 1, y: -1 },
+      'scaling and rotation with a bit of translation'
+    )
+
+    t.end()
+  })
+
   ts.test(title + 'detect missing params', (t) => {
     t.throws(() => {
       estimateSR([], [])

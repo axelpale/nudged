@@ -23,9 +23,9 @@ module.exports = (ts) => {
 
   ts.test(title + 'trivial point sets', (t) => {
     t.transformsEqual(
-      estimateTSR([], []),
+      estimateTSR([], [{ x: 0, y: 0 }]),
       IDENTITY,
-      'empty domain and range'
+      'empty domain'
     )
 
     t.transformsEqual(
@@ -48,6 +48,42 @@ module.exports = (ts) => {
       ),
       { a: 1, b: 0, x: 1, y: 1 },
       'capture only translation 1,1'
+    )
+
+    t.end()
+  })
+
+  ts.test(title + 'scaling and rotating a square', (t) => {
+    const dom = [{ x: 1, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 1, y: 2 }]
+    const ran = [{ x: 1, y: 1 }, { x: 2, y: 2 }, { x: 1, y: 3 }, { x: 0, y: 2 }]
+    t.transformsEqual(
+      estimateTSR(dom, ran),
+      { a: 1, b: 1, x: 1, y: -1 },
+      'scale and rotate a bit'
+    )
+
+    t.end()
+  })
+
+  ts.test(title + 'approximating non-uniform scaling', (t) => {
+    const dom = [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 2 }, { x: 2, y: 2 }]
+    const ran = [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 4 }, { x: 2, y: 4 }]
+    t.transformsEqual(
+      estimateTSR(dom, ran),
+      { a: 1.5, b: 0, x: -0.5, y: 0.5 },
+      'a compromise between 1x and 2x'
+    )
+
+    t.end()
+  })
+
+  ts.test(title + 'allow transform to a constant point', (t) => {
+    const dom = [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 2 }]
+    const ran = [{ x: 1, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 1 }]
+    t.transformsEqual(
+      estimateTSR(dom, ran),
+      { a: 0, b: 0, x: 1, y: 1 },
+      'here singular transform is okay'
     )
 
     t.end()

@@ -51,6 +51,32 @@ module.exports = (ts) => {
     t.end()
   })
 
+  ts.test(title + 'singleton domain', (t) => {
+    t.transformsEqual(
+      estimateTS(
+        [{ x: 0, y: 0 }],
+        [{ x: 1, y: 2 }, { x: 1, y: 1 }]
+      ),
+      { a: 1, b: 0, x: 1, y: 2 },
+      'only translation with one point pair'
+    )
+
+    t.end()
+  })
+
+  ts.test(title + 'identical domain points', (t) => {
+    t.transformsEqual(
+      estimateTS(
+        [{ x: 1, y: 1 }, { x: 1, y: 1 }],
+        [{ x: 2, y: 2 }, { x: 2, y: 2 }]
+      ),
+      { a: 1, b: 0, x: 1, y: 1 },
+      'allow identical domain points'
+    )
+
+    t.end()
+  })
+
   // TODO a estimation that causes the determinant near zero but not zero
 
   ts.test(title + 'detect missing params', (t) => {

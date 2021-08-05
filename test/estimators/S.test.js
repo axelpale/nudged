@@ -63,6 +63,16 @@ module.exports = (ts) => {
       'homothety about 2,2'
     )
 
+    t.transformsEqual(
+      estimateS(
+        [{ x: 1, y: 1 }, { x: 1, y: 1 }],
+        [{ x: 2, y: 2 }, { x: 2, y: 2 }],
+        { x: 0, y: 0 }
+      ),
+      { a: 2, b: 0, x: 0, y: 0 },
+      'multiple identical points'
+    )
+
     t.end()
   })
 

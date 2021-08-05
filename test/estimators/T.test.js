@@ -44,6 +44,12 @@ module.exports = (ts) => {
       'ignore extra range'
     )
 
+    t.deepEqual(
+      estimate([], []),
+      { a: 1, b: 0, x: 0, y: 0 },
+      'allow empty'
+    )
+
     t.end()
   })
 }

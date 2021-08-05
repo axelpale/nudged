@@ -45,7 +45,7 @@ module.exports = (ts) => {
         [{ x: 2, y: 0 }, { x: -2, y: 0 }]
       ),
       IDENTITY,
-      'scale x2'
+      'ignore scale x2'
     )
 
     t.end()
@@ -64,12 +64,37 @@ module.exports = (ts) => {
     t.end()
   })
 
-  // TODO a rotation that causes the determinant near zero but not zero
+  ts.test(title + 'multiple identical points', (t) => {
+    t.transformsEqual(
+      estimateTR(
+        [{ x: 0, y: 0 }, { x: 0, y: 0 }],
+        [{ x: 4, y: 0 }, { x: 4, y: 0 }]
+      ),
+      { a: 1, b: 0, x: 4, y: 0 },
+      'translation only'
+    )
+
+    t.end()
+  })
 
   ts.test(title + 'detect missing params', (t) => {
     t.throws(() => {
       estimateTR([])
     }, 'missing range')
+
+    t.end()
+  })
+
+  ts.test(title + 'almost zero determinant', (t) => {
+    // This domain and range pair caused D to become almost zero
+    // but not zero. After proper 'D < tolerance' instead of 'D === 0'
+    // the issue should be repaired.
+    const dom = [{ x: 0.212556732223903, y: 0.202823146747352 }]
+    const ran = [{ x: 0.208018154311649, y: 0.198184568835098 }]
+    const tr = estimateTR(dom, ran)
+
+    t.equal(nudged.transform.getScale(tr), 1)
+    t.equal(nudged.transform.getRotation(tr), 0)
 
     t.end()
   })
