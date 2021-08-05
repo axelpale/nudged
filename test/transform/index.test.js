@@ -5,6 +5,7 @@ const units = {
   fromArray: require('./fromArray.test'),
   fromPolar: require('./fromPolar.test'),
   fromString: require('./fromString.test'),
+  fromScale: require('./fromScale.test'),
   equal: require('./equal.test'),
   getRotation: require('./getRotation.test'),
   getScale: require('./getScale.test'),
