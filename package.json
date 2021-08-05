@@ -3,6 +3,7 @@
   "version": "2.0.0-alpha",
   "description": "Affine transformation estimator e.g. for multi-touch gestures and calibration",
   "keywords": [
+    "geometry",
     "transformation",
     "scale",
     "rotate",
@@ -12,6 +13,7 @@
     "multitouch",
     "gesture",
     "estimator",
+    "estimation",
     "similarity",
     "calibration"
   ],
