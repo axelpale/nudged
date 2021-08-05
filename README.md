@@ -173,6 +173,13 @@ Create a `nudged.Transform` instance from an array created by nudged.Transform#t
     > t1.equals(t2)
     true
 
+### nudged.createFromString(str)
+
+Create a `nudged.Transform` instance from a CSS transform matrix string. Compatible with `nudged.Transform#toString()`.
+
+    > var css = 'matrix(1.0, 2.0, -2.0, 1.0, 3.0, 4.0)'
+    > var t = nudged.createFromString(css)
+
 ### nudged.estimate(type, domain, range, param?)
 
 Compute an optimal affine transformation from *domain* to *range* points. The *type* of transformation determines the freedom of the transformation to be estimated.
