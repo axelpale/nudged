@@ -13,7 +13,7 @@
 - [Introduction](#introduction)
 - [Usage](#usage)
 - [Example apps](#example-apps)
-- [API Docs](doc/API.md)
+- [API docs](doc/API.md)
 - [For developers](#for-developers)
 - [Acknowledgments](#acknowledgments)
 - [Versioning](#versioning)
@@ -22,11 +22,17 @@
 
 ## Installation
 
-With [npm](https://www.npmjs.com/package/nudged):
+Install `nudged` with [npm](https://www.npmjs.com/package/nudged) or other compatible package manager. The package comes in two flavors: functional and object oriented.
+
+Install the functional nudged 2.0.0-beta:
 
     $ npm install nudged
 
-Available also [in Python](https://pypi.python.org/pypi/nudged).
+Install the object-oriented [nudged 1.x](https://github.com/axelpale/nudged/tree/1.x):
+
+    $ npm install nudged@1
+
+Nudged is also available [in Python](https://pypi.python.org/pypi/nudged).
 
 
 ## Introduction
@@ -250,7 +256,9 @@ In this [map viewer demo](https://rawgit.com/axelpale/nudged/master/examples/nud
 
 ## API
 
-See the [API documentation](doc/API.md).
+[The functional 2.x API documentation](doc/API.md).
+
+[The object-oriented 1.x API documentation](https://github.com/axelpale/nudged/tree/1.x#api)
 
 
 ## For developers
