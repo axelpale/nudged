@@ -24,7 +24,7 @@
 
 Install `nudged` with [npm](https://www.npmjs.com/package/nudged) or other compatible package manager. The package comes in two flavors: functional and object oriented.
 
-Install the functional nudged 2.0.0-beta:
+Install the functional nudged 2:
 
     $ npm install nudged
 
