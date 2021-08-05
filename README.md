@@ -52,7 +52,7 @@ Let `domain` be a set of points, `[{ x, y }, ...]`. Let `range` be the same poin
 
 _**Figure**: The domain (circles o) and the range (crosses x). The + marks the point {x:0,y:0}._
 
-We would like to find a simple 2D transformation `tran` that simulates T as closely as possible by combining translation, scaling, and rotation. We compute `tran` by calling [nudged.estimate](docs/API.md#nudgedestimate):
+We would like to find a simple 2D transformation `tran` that simulates T as closely as possible by combining translation, scaling, and rotation. We compute `tran` by calling [nudged.estimate](doc/API.md#nudgedestimate):
 
     const tran = nudged.estimate({
       estimator: 'TSR',
