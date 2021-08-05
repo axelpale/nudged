@@ -1,7 +1,7 @@
 const title = 'estimators.L: '
 const nudged = require('../../index')
 const estimateL = nudged.estimators.L
-const I = nudged.transform.IDENTITY
+const IDENTITY = nudged.transform.IDENTITY
 
 module.exports = (ts) => {
   ts.test(title + 'basic usage with the general estimator', (t) => {
@@ -12,7 +12,7 @@ module.exports = (ts) => {
         range: [],
         angle: 0
       }),
-      I,
+      IDENTITY,
       'allow L group'
     )
 
@@ -36,7 +36,7 @@ module.exports = (ts) => {
         [],
         []
       ),
-      I,
+      IDENTITY,
       'empty domain, no angle'
     )
 
@@ -46,7 +46,7 @@ module.exports = (ts) => {
         [{ x: 1, y: 0 }],
         Math.PI / 2
       ),
-      I,
+      IDENTITY,
       'orthogonal, no translation'
     )
 

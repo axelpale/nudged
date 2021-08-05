@@ -1,7 +1,7 @@
 const title = 'estimators.X: '
 const nudged = require('../../index')
 const estimateX = nudged.estimators.X
-const I = nudged.transform.IDENTITY
+const IDENTITY = nudged.transform.IDENTITY
 
 module.exports = (ts) => {
   ts.test(title + 'basic X with general estimator', (t) => {
@@ -11,7 +11,7 @@ module.exports = (ts) => {
         domain: [],
         range: []
       }),
-      I,
+      IDENTITY,
       'allow X group'
     )
 
@@ -33,7 +33,7 @@ module.exports = (ts) => {
         [{ x: 0, y: 0 }],
         [{ x: 0, y: 1 }]
       ),
-      I,
+      IDENTITY,
       'simple translation along y'
     )
 
