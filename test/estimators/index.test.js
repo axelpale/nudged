@@ -1,0 +1,26 @@
+// Sub-units for each estimator.
+const testI = require('./I.test')
+const testL = require('./L.test')
+const testX = require('./X.test')
+const testY = require('./Y.test')
+const testT = require('./T.test')
+const testS = require('./S.test')
+const testR = require('./R.test')
+const testTS = require('./TS.test')
+const testTR = require('./TR.test')
+const testSR = require('./SR.test')
+const testTSR = require('./TSR.test')
+
+module.exports = (t) => {
+  t.test('estimators.I', testI)
+  t.test('estimators.L', testL)
+  t.test('estimators.X', testX)
+  t.test('estimators.Y', testY)
+  t.test('estimators.T', testT)
+  t.test('estimators.S', testS)
+  t.test('estimators.R', testR)
+  t.test('estimators.TS', testTS)
+  t.test('estimators.TR', testTR)
+  t.test('estimators.SR', testSR)
+  t.test('estimators.TSR', testTSR)
+}
