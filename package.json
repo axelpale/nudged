@@ -1,6 +1,6 @@
 {
   "name": "nudged",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Affine transformation estimator e.g. for multi-touch gestures and calibration",
   "keywords": [
     "transformation",
