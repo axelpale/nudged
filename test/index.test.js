@@ -215,6 +215,15 @@ describe('nudged', function () {
     })
   })
 
+  describe('.createFromString', function () {
+    it('should work with toString', function () {
+      var t1 = nudged.create(0.4, 2.2, 10, 10)
+      var str = t1.toString()
+      var t2 = nudged.createFromString(str)
+      assertTransform(t1, t2)
+    })
+  })
+
   describe('.estimate', function () {
     it('should estimate correct transformation type', function () {
       forSamples('sr', function (sam, samkey) {
