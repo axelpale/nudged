@@ -133,7 +133,7 @@ To estimate scalings in respect of a center point, as illustrated below, set `es
 
 _**Figure**: The domain (o) is scaled towards the center point (⊕) so that the resulting image (●) lies as close to the range (x) as possible._
 
-See [estimators.S](#nudgedestimatorss), [estimators.R](#nudgedestimatorss), and [estimators.SR](#nudgedestimatorss) for further details.
+See [estimators.S](doc/API.md#nudgedestimatorss), [estimators.R](doc/API.md#nudgedestimatorss), and [estimators.SR](doc/API.md#nudgedestimatorss) for further details.
 
 ### Analyse the transform
 
@@ -208,7 +208,7 @@ Let us apply the resulting transform to the domain points. The result is illustr
 _**Figure**: A scaling is combined with rotation so that the image of the scaling (grey ●) is further rotated by 90 degrees around a center point (⊕)._
 
 
-Not all transformation need to be built. You can find some prebuilt transforms under [nudged.transform](#nudgedtransform):
+Not all transformation need to be built. You can find some prebuilt transforms under [nudged.transform](doc/API.md#nudgedtransform):
 
     > const p = { x: 4, y: 2 }
     > const X2 = nudged.transform.X2
@@ -221,7 +221,7 @@ Not all transformation need to be built. You can find some prebuilt transforms u
     > nudged.point.transform(p, I)
     { x: 4, y: 2 }
 
-To discover more features and details, see [API](#api).
+To discover more features and details, see [API](doc/API.md).
 
 ## Example apps
 
@@ -306,7 +306,7 @@ We want to thank:
 
 - [Tampere University of Technology](https://www.tuni.fi/en) and [Adj. Prof. Ossi Nykänen](https://www.researchgate.net/scientific-contributions/Ossi-Nykaenen-69896506) for guidance on the [M.Sc. thesis on Nudged](http://URN.fi/URN:NBN:fi:tty-201605264186).
 - [Infant Cognition Laboratory at University of Tampere](https://www.tuni.fi/en/research/infant-cognition) and [Adj. Prof. Jukka Leppänen](https://scholar.google.fi/citations?user=dNRRUIsAAAAJ) for funding and support in research.
-- [3D Media Group at Tampere University of Technology](https://www.tuni.fi/en/research/3d-media-group), [M.Sc. Olli Suominen](https://tutcris.tut.fi/portal/en/persons/olli-suominen(8d7b7ce4-1468-4621-9a6e-d307f644c9bb).html), and [Assoc. Prof. Atanas Gotchev](https://tutcris.tut.fi/portal/en/persons/atanas-gotchev(3b4a825b-941b-484e-b046-cd09bde1cd31).html) for providing touch-screen devices for testing.
+- [3D Media Group at Tampere University of Technology](https://www.tuni.fi/en/research/3d-media-group), [M.Sc. Olli Suominen](https://researchportal.tuni.fi/en/persons/olli-suominen), and [Prof. Atanas Gotchev](https://researchportal.tuni.fi/en/persons/atanas-gotchev) for providing touch-screen devices for testing.
 - Tanja for math photos.
 - Vilkku, Xiao, and Krista for finger photos.
 
@@ -319,4 +319,4 @@ We want to thank:
 
 ## Licence
 
-[MIT Licence](../blob/master/LICENSE)
+[MIT Licence](LICENSE)
