@@ -54,56 +54,52 @@ exports.createFromArray = function (arr) {
   return new exports.Transform(s, r, tx, ty)
 }
 
+// Expressions for createFromString
+var cssMatrix = /\s*matrix\(([-+\w ,.%]+)\)/
+var cssMatrixDelimiter = /\s*,\s*/
+
 exports.createFromString = function (str) {
-  // Create a nudged.Transform instance from an string using the CSS syntax.
+  // Create a nudged.Transform instance from a string that uses
+  // the CSS transform matrix syntax: 'matrix(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)'
   //
-  // Together with nudged.Transform#toArray(), this method makes an easy
-  // serialization and deserialization to and from JSON possible.
+  // Together with nudged.Transform#toString(), this method makes an easy
+  // serialization and deserialization to and from strings.
+  //
+  // Note that the function does not yet support other CSS transform functions
+  // such as 'translate' or 'perspective'. It might also give unexpected
+  // results if the matrix exhibits shear or non-uniform scaling.
   //
   // Parameter:
   //   str
-  //     string the transform description
-  let transform = exports.Transform.IDENTITY;
+  //     string, the transform description
+  //
+  // Return
+  //   a Transform
+  //
+  // Throws
+  //   if no valid transform is found
+  //
+  var matrixMatch = str.match(cssMatrix)
 
-  // Build the regexp parser for each directives
-  let regexpItems = [
-    /(translate)\(\s*([-+]?\d+(?:\.\d+)?)\s*,\s*([-+]?\d+(?:\.\d+)?)\s*\)/,
-    /(rotate)\(\s*([-+]?\d+(?:\.\d+)?\s*)\)/,
-    /(scale)\(\s*([-+]?\d+(?:\.\d+)?\s*)\)/,
-    /(?:\s+)/
-  ]
-  const regex = new RegExp(regexpItems.map(x => x.source).join('|'), 'y')
-
-  // Iterate on directives
-  let chunck;
-  while ((chunck = regex.exec(str) ) !== null) {
-    // Cleanup not matching groups
-    let founds = [...chunck];
-    founds = founds.filter(x => x !== undefined)
-
-    // Ignore whitespace group
-    if (founds.length === 1) {
-      continue;
-    }
-
-    founds.shift();
-    let directive = founds.shift();
-    switch(directive) {
-      case 'translate':
-        transform = transform.translateBy(parseFloat(founds.shift()), parseFloat(founds.shift()));
-        break;
-
-      case 'rotate':
-        transform = transform.rotateBy((Math.PI / 180) * parseFloat(founds.shift()));
-        break;
-
-      case 'scale':
-        transform = transform.scaleBy(parseFloat(founds.shift()));
-        break;
-    }
+  if (!matrixMatch) {
+    throw new Error('Invalid CSS matrix string: ' + str)
   }
 
-  return transform;
+  var elemStrings = matrixMatch[1].split(cssMatrixDelimiter)
+  var elems = []
+
+  var i
+  for (i = 0; i < elemStrings.length; i += 1) {
+    elems.push(parseFloat(elemStrings[i]))
+  }
+
+  var s = elems[0]
+  var r = elems[1]
+  // skip [2][3] => forget shear or non-uniform scaling
+  var tx = elems[4]
+  var ty = elems[5]
+
+  return new exports.Transform(s, r, tx, ty)
 }
 
 exports.estimate = function (type, domain, range, pivot) {
