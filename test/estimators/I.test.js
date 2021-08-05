@@ -1,8 +1,9 @@
+const title = 'transform.IDENTITY: '
 const nudged = require('../../index')
 const unit = nudged.estimators.I
 
 module.exports = (ts) => {
-  ts.test('case: happy', (t) => {
+  ts.test(title + 'happy', (t) => {
     t.deepEqual(unit(), {
       a: 1,
       b: 0,
@@ -13,7 +14,7 @@ module.exports = (ts) => {
     t.end()
   })
 
-  ts.test('case: no effect from params', (t) => {
+  ts.test(title + 'no effect from params', (t) => {
     const domain = [{ x: 0, y: 0 }]
     const range = [{ x: 5, y: 5 }]
     t.deepEqual(unit(domain, range), {
