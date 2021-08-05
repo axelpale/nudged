@@ -37,7 +37,7 @@ Nudged is also available [in Python](https://pypi.python.org/pypi/nudged).
 
 ## Introduction
 
-In general, you can apply Nudged in any situation where you want to capture a 2D transformation based on a movement of any number of control points. See the image below for the available transformations Nudged can estimate.
+In general, you can apply Nudged in any situation where you want to capture a 2D transformation based on a movement of any number of control points. You have a set of points, and they move from some source coordinates to some target coordinates. You want to capture the movement pattern between the source and the target as a 2D transformation. You may want to capture the pattern in order to apply it to something else, such as a photo or some other object. See the image below for the available transformations Nudged can estimate, illustrated with two control points and a photo.
 
 <img src="doc/transformation-types.jpg" alt="Types of transformation estimators"/><br>
 _**Image**: Available transformation estimators. Each estimator has an abbreviated name, for example 'SR', according to the free parameters to estimate. The black-white dots and connecting arrows represent movement of two control points. Given the control points, Nudged estimates a transformation. The pairs of photos represent the effect of the resulting transformation. For easy visual comparison, the control points and the initial image positions are kept the same for each estimator._
