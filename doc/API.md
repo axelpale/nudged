@@ -539,8 +539,12 @@ The matrix that the transform represents has the following elements:
 - [nudged.transform.compose](#nudgedtransformcompose)
 - [nudged.transform.create](#nudgedtransformcreate)
 - [nudged.transform.equal](#nudgedtransformequal)
-- [nudged.transform.fromPolar](#nudgedtransformfromPolar)
 - [nudged.transform.fromArray](#nudgedtransformfromArray)
+- [nudged.transform.fromPolar](#nudgedtransformfromPolar)
+- [nudged.transform.fromRotation](#nudgedtransformfromRotation)
+- [nudged.transform.fromScale](#nudgedtransformfromScale)
+- [nudged.transform.fromString](#nudgedtransformfromString)
+- [nudged.transform.fromTranslation](#nudgedtransformfromTranslation)
 - [nudged.transform.getRotation](#nudgedtransformgetRotation)
 - [nudged.transform.getScale](#nudgedtransformgetScale)
 - [nudged.transform.getTranslation](#nudgedtransformgetTranslation)
@@ -697,34 +701,6 @@ For loose equality see [almostEqual](#nudgedtransformalmostequal).
 
 - a boolean
 
-<a name="nudgedtransformfromPolar"></a>
-### nudged.transform.fromPolar(scale, rotation, tx, ty)
-
-Create a [nudged.transform](#nudgedtransform) object by using scale magnitude,
-rotation angle, and translation.
-
-<p style="display: inline">Parameters:</p>
-
-- `scale`
-  - a positive number. The scaling factor.
-- `rotation`
-  - a number. Rotation in radians from positive x axis towards pos. y axis.
-- `tx`
-  - a number. Translation toward positive x
-- `ty`
-  - a number. Translation toward positive y
-
-<p style="display: inline">Return:</p>
-
-- a [transform](#nudgedtransform)
-
-Example:
-
-    > const tr = nudged.transform.fromPolar(2, 0, 5, 10)
-    > const p = { x: 1, y: 1 }
-    > nudged.point.transform(p, tr)
-    { x: 7, y: 12 }
-
 <a name="nudgedtransformfromArray"></a>
 ### nudged.transform.fromArray(arrtr)
 
@@ -745,6 +721,123 @@ Example:
 
     > nudged.transform.fromArray([1, 2, 3, 4])
     { a: 1, b: 2, x: 3, y: 4 }
+
+<a name="nudgedtransformfromPolar"></a>
+### nudged.transform.fromPolar(center, scale, rotation)
+
+Create a [nudged.transform](#nudgedtransform) object by using scale and rotation
+in respect of a center point.
+
+<p style="display: inline">Parameters:</p>
+
+- `center`
+  - a [point](#nudgedpoint)
+- `scale`
+  - a positive number. The scaling factor.
+- `rotation`
+  - a number. Rotation in radians from positive x axis towards pos. y axis.
+
+<p style="display: inline">Return:</p>
+
+- a [transform](#nudgedtransform)
+
+Example:
+
+    > const tr = nudged.transform.fromPolar({ x: 4, y: 2 }, 2, 0)
+    > const p = { x: 2, y: 1 }
+    > nudged.point.transform(p, tr)
+    { x: 0, y: 0 }
+
+<a name="nudgedtransformfromRotation"></a>
+### nudged.transform.fromRotation(center, radians)
+
+Create a [transform](#nudgedtransform) that rotates around the center by the radians.
+
+<p style="display: inline">Parameters:</p>
+
+- `center`
+  - a [point](#nudgedpoint)
+- `radians`
+  - a number, angle
+
+<p style="display: inline">Return:</p>
+
+- a [transform](#nudgedtransform)
+
+Example:
+
+    > let rot = nudged.transform.fromRotation({ x: 4, y: 2 }, Math.PI / 5)
+    > rot
+    { a: 0.809..., b: 0.587..., x: 1.939..., y: -1.969... }
+
+<a name="nudgedtransformfromScale"></a>
+### nudged.transform.fromScale(center, multiplier)
+
+Create a [transform](#nudgedtransform) that scales in respect of the center point and
+the scale multiplier. Such transform is called a
+[homothety](https://en.wikipedia.org/wiki/Homothety).
+
+<p style="display: inline">Parameters:</p>
+
+- `center`
+  - a [point](#nudgedpoint)
+- `multiplier`
+  - a number
+
+<p style="display: inline">Return:</p>
+
+- a [transform](#nudgedtransform)
+
+Example:
+
+    > let x2 = nudged.transform.fromScale({ x: 4, y: 2 }, 2)
+    > x2
+    { a: 2, b: 0, x: -4, y: -2 }
+
+<a name="nudgedtransformfromString"></a>
+### nudged.transform.fromString(str)
+
+Create a [transform](#nudgedtransform) from a string that uses
+the CSS transform matrix syntax: 'matrix(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)'
+
+Together with [nudged.transform.toString](#nudgedtransformtoString) this method makes an easy
+serialization and deserialization to and from strings.
+
+Note that the function does not yet support other CSS transform functions
+such as 'translate' or 'perspective'. It might also give unexpected
+results if the matrix exhibits shear or non-uniform scaling.
+
+<p style="display: inline">Parameters:</p>
+
+- `str`
+  - a string, the CSS matrix description
+
+<p style="display: inline">Return:</p>
+
+- a [transform](#nudgedtransform)
+
+Throws
+  if no valid transform is found
+
+<a name="nudgedtransformfromTranslation"></a>
+### nudged.transform.fromTranslation(p)
+
+Create a [transform](#nudgedtransform) that translates `{ 0, 0 }` to the point { x, y }
+
+<p style="display: inline">Parameters:</p>
+
+- `p`
+  - a [point](#nudgedpoint)
+
+<p style="display: inline">Return:</p>
+
+- a [point](#nudgedpoint)
+
+Example:
+
+    > let tl = nudged.transform.fromTranslation({ x: 4, y: 2 })
+    > tl
+    { a: 1, b: 0, x: 4, y: 2 }
 
 <a name="nudgedtransformgetRotation"></a>
 ### nudged.transform.getRotation(tr)
@@ -964,16 +1057,23 @@ Example:
 
 Return a string of CSS transform-function data type.
 
-Together with nudged.createFromString(...), this method allows
+Together with [nudged.transform.fromString](#nudgedtransformfromString), this method allows
 serialization to and from strings.
 
-NOTE When JavaScript converts numbers to strings, the string might
-end up using the scientific notation (e.g. 1e-12). Not all browsers
-support scientific notation in CSS. We have experienced problems
-with Safari and Opera. Therefore toString must prevent the scientific
-notation here and convert to fixed number of decimal places.
+Example:
 
-See also: https://stackoverflow.com/q/1685680/638546
+    > let sc = nudged.transform.fromScale({ x: 4, y: 2 }, 2)
+    > nudged.transform.toString(sc)
+    'matrix(2.00000000,0.00000000,0.00000000,2.00000000,-4.00000000,-2.00000000)'
+
+The matrix values are fixed to 8 decimals. This prevents bugs
+caused by the scientific notation e.g. '1e-12'. The default JavaScript
+number-to-string conversion might produce scientific notation with
+some very large and very small numbers. The scientific notation is not
+understood by all CSS parsers. We have experienced problems with
+Safari and Opera. Therefore toString must prevent the scientific
+notation here and convert to fixed number of decimal places.
+See [SO](https://stackoverflow.com/q/1685680/638546) for further details.
 
 <a name="nudgedtransformtranslateBy"></a>
 ### nudged.transform.translateBy(tr, vec)
