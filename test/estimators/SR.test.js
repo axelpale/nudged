@@ -12,7 +12,7 @@ module.exports = (ts) => {
       range: [{ x: 0, y: 2 }],
       center: { x: 0, y: 0 }
     })
-    const expected = nudged.transform.fromPolar(2, Math.PI / 2, 0, 0)
+    const expected = nudged.transform.fromPolar({ x: 0, y: 0 }, 2, Math.PI / 2)
     t.transformsEqual(tr, expected, 'allow SR group')
 
     t.end()

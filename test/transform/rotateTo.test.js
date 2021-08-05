@@ -10,7 +10,7 @@ module.exports = (ts) => {
     t.transformsEqual(rotateTo(ROT180, c1, Math.PI), ROT180)
     t.transformsEqual(rotateTo(IDENTITY, c1, Math.PI), ROT180)
 
-    const tr = transform.fromPolar(2, Math.PI / 2, 0, 0)
+    const tr = transform.fromPolar({ x: 0, y: 0 }, 2, Math.PI / 2)
     const c2 = { x: 100, y: 100 }
     t.transformsEqual(
       rotateTo(tr, c2, Math.PI),

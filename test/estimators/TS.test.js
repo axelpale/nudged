@@ -10,7 +10,10 @@ module.exports = (ts) => {
       domain: [{ x: 1, y: 0 }, { x: 3, y: 0 }],
       range: [{ x: 2, y: 2 }, { x: 6, y: 2 }]
     })
-    const expected = nudged.transform.fromPolar(2, 0, 0, 2)
+    const expected = nudged.transform.translateBy(
+      nudged.transform.fromScale({ x: 0, y: 0 }, 2),
+      { x: 0, y: 2 }
+    )
     t.transformsEqual(tr, expected, 'allow TS group')
 
     t.end()

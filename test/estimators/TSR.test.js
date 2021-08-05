@@ -2,6 +2,8 @@ const title = 'estimators.TSR: '
 const nudged = require('../../index')
 const estimateTSR = nudged.estimators.TSR
 const IDENTITY = nudged.transform.IDENTITY
+const fromPolar = nudged.transform.fromPolar
+const translateBy = nudged.transform.translateBy
 
 module.exports = (ts) => {
   ts.test(title + 'basic usage with the general estimator', (t) => {
@@ -10,7 +12,10 @@ module.exports = (ts) => {
       domain: [{ x: 1, y: 0 }, { x: 3, y: 0 }],
       range: [{ x: 4, y: 0 }, { x: 4, y: 4 }]
     })
-    const expected = nudged.transform.fromPolar(2, Math.PI / 2, 4, -2)
+    const expected = translateBy(
+      fromPolar({ x: 0, y: 0 }, 2, Math.PI / 2),
+      { x: 4, y: -2 }
+    )
     t.transformsEqual(tr, expected, 'allow TSR group')
 
     t.end()
