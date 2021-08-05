@@ -129,7 +129,7 @@ To estimate scalings in respect of a center point, as illustrated below, set `es
       center: center
     })
 
-<img src="doc/img/nudged-diagram-8-7-scaling-estimation.png" alt="Scaling about a center point (⊕)" />
+<img src="doc/img/nudged-diagram-8-8-scaling-estimation.png" alt="Scaling about a center point (⊕)" />
 
 _**Figure**: The domain (o) is scaled towards the center point (⊕) so that the resulting image (●) lies as close to the range (x) as possible._
 
