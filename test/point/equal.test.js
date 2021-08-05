@@ -1,9 +1,10 @@
+const title = 'point.equal: '
 const nudged = require('../../index')
 const point = nudged.point
 const TOLERANCE = nudged.tolerance
 
 module.exports = (ts) => {
-  ts.test('case: various matches', (t) => {
+  ts.test(title + 'various matches', (t) => {
     const a = { x: 1, y: 2 }
     const b = { x: 3, y: 4 }
     const c = { x: 1, y: 2 - TOLERANCE }

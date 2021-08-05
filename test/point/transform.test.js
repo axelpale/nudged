@@ -1,9 +1,10 @@
+const title = 'point.transform: '
 const nudged = require('../../index')
 const transform = nudged.transform
 const point = nudged.point // unit
 
 module.exports = (ts) => {
-  ts.test('case: transform single point', (t) => {
+  ts.test(title + 'transform single point', (t) => {
     t.deepEqual(
       point.transform({ x: 1, y: 2 }, transform.X2),
       { x: 2, y: 4 },

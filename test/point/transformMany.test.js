@@ -1,9 +1,10 @@
+const title = 'point.transformMany: '
 const nudged = require('../../index')
 const transform = nudged.transform
 const point = nudged.point
 
 module.exports = (ts) => {
-  ts.test('case: transform array of points', (t) => {
+  ts.test(title + 'transform array of points', (t) => {
     const ps = [{ x: 1, y: 2 }, { x: -1, y: -2 }]
     t.deepEqual(
       point.transformMany(ps, transform.X2),
@@ -14,7 +15,7 @@ module.exports = (ts) => {
     t.end()
   })
 
-  ts.test('case: try transform single point with mapPoints', (t) => {
+  ts.test(title + 'try transform single point with mapPoints', (t) => {
     t.throws(() => {
       point.transformMany({ x: 1, y: 2 }, transform.X2)
     }, TypeError, 'detect missing array')

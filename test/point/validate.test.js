@@ -1,8 +1,9 @@
+const title = 'point.validate: '
 const point = require('../../index').point
 const validate = point.validate
 
 module.exports = (ts) => {
-  ts.test('case: various valid points', (t) => {
+  ts.test(title + 'various valid points', (t) => {
     t.true(validate({
       x: 1,
       y: 2
@@ -13,7 +14,7 @@ module.exports = (ts) => {
     t.end()
   })
 
-  ts.test('case: various invalid points', (t) => {
+  ts.test(title + 'various invalid points', (t) => {
     t.false(validate({
       x: 0,
       y: NaN
