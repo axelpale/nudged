@@ -13,8 +13,10 @@ module.exports = (ts) => {
   ts.test(title + 'no effect from params', (t) => {
     const domain = [{ x: 0, y: 0 }]
     const range = [{ x: 5, y: 5 }]
+    // @ts-ignore
     t.deepEqual(unit(domain, range), IDENTITY)
 
+    // @ts-ignore
     t.deepEqual(unit(['a', 'b'], ['foo', 4, 'bar']), IDENTITY)
 
     t.end()

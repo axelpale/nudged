@@ -14,10 +14,12 @@ module.exports = (ts) => {
 
   ts.test(title + 'invalid array', (t) => {
     t.throws(() => {
+      // @ts-ignore
       fromArray([1])
     }, 'too short array')
 
     t.throws(() => {
+      // @ts-ignore
       fromArray([1, 2, 3])
     }, 'too long array')
 

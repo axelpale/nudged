@@ -81,6 +81,7 @@ module.exports = (ts) => {
 
   ts.test(title + 'detect missing params', (t) => {
     t.throws(() => {
+      // @ts-ignore
       estimateTS([])
     }, 'missing range')
 

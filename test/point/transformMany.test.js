@@ -17,6 +17,7 @@ module.exports = (ts) => {
 
   ts.test(title + 'try transform single point with mapPoints', (t) => {
     t.throws(() => {
+      // @ts-ignore
       point.transformMany({ x: 1, y: 2 }, transform.X2)
     }, TypeError, 'detect missing array')
 

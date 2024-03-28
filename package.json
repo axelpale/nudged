@@ -19,6 +19,7 @@
   ],
   "homepage": "https://github.com/axelpale/nudged",
   "main": "index.js",
+  "types": "nudged.d.ts",
   "author": {
     "name": "Akseli Palen",
     "email": "akseli.palen@gmail.com"
@@ -38,7 +39,8 @@
     "lodash": "^4.17.21",
     "standard": "^16.0.3",
     "tap-spec": "^5.0.0",
-    "tape": "^5.2.2"
+    "tape": "^5.2.2",
+    "typescript": "^5.4.3"
   },
   "scripts": {
     "start": "npm run start:examples_server",
@@ -47,6 +49,7 @@
     "test:unit": "node test/index.test.js | tap-spec",
     "test:lint": "standard index.js 'lib/**/*.js' 'test/**/*.js'",
     "test:lint:fix": "standard --fix index.js 'lib/**/*.js' 'test/**/*.js'",
+    "test:types": "tsc -p tsconfig.json -checkJs",
     "build:docs": "node doc/gendocs/index.js",
     "gv": "genversion lib/version.js",
     "release": "npm run gv && npm test && npm run build:docs && npm publish",
