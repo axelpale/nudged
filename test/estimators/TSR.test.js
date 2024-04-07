@@ -96,4 +96,17 @@ module.exports = (ts) => {
 
     t.end()
   })
+
+  ts.test(title + 'avoids precision errors', (t) => {
+    const dom = [{ x: 314.24933946532116, y: 807.8879779776474 }]
+    const ran = [{ x: 314.24933946532116, y: 824.4274168968749 }]
+
+    t.transformsEqual(
+      estimateTSR(dom, ran),
+      { a: 1, b: 0, x: ran[0].x - dom[0].x, y: ran[0].y - dom[0].y },
+      'simple translation, no scaling or rotation'
+    )
+
+    t.end()
+  })
 }
