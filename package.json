@@ -32,7 +32,7 @@
   "license": "MIT",
   "devDependencies": {
     "async": "^3.2.0",
-    "browserify": "^17.0.0",
+    "browserify": "^17.0.1",
     "component-emitter": "^1.2.0",
     "genversion": "^3.0.0",
     "hammerjs": "^2.0.4",
