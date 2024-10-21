@@ -1,6 +1,6 @@
 {
   "name": "nudged",
-  "version": "2.0.0",
+  "version": "2.0.1-alpha",
   "description": "Affine transformation estimator e.g. for multi-touch gestures and calibration",
   "keywords": [
     "geometry",
@@ -9,13 +9,15 @@
     "rotate",
     "translate",
     "pinch",
+    "math",
     "affine",
     "multitouch",
     "gesture",
     "estimator",
     "estimation",
     "similarity",
-    "calibration"
+    "calibration",
+    "layout"
   ],
   "homepage": "https://github.com/axelpale/nudged",
   "main": "index.js",
