@@ -265,18 +265,18 @@ In this [map viewer demo](https://rawgit.com/axelpale/nudged/master/examples/nud
 
 Guidelines:
 
-- ES6
-- [Standard style](https://standardjs.com/)
+- Use [ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript) syntax with [CommonJS](https://en.wikipedia.org/wiki/CommonJS) module format.
+- Follow [Standard](https://standardjs.com/) style:
   - 2 space indent
   - max 80 chars per line
   - spaces around operators
 - Functional approach
   - namespaces and functions instead of classes and methods
-  - immutable and stateless data handling; no in-place manipulation.
+  - immutable and stateless data handling; no in-place manipulation of arguments.
 - Minimal run-time type checking
   - Nudged is designed to be a low-level module with high performance.
   - Instead of run-time checks, the geometries provide a dedicated .validate function.
-- Write rich comments that answer the question why.
+- Write rich comments that answer the question "why".
 
 Run lint & unit tests:
 
@@ -316,7 +316,8 @@ We want to thank:
 - [Infant Cognition Laboratory at University of Tampere](https://www.tuni.fi/en/research/infant-cognition) and [Adj. Prof. Jukka Leppänen](https://scholar.google.fi/citations?user=dNRRUIsAAAAJ) for funding and support in research.
 - [3D Media Group at Tampere University of Technology](https://www.tuni.fi/en/research/3d-media-group), [M.Sc. Olli Suominen](https://researchportal.tuni.fi/en/persons/olli-suominen), and [Prof. Atanas Gotchev](https://researchportal.tuni.fi/en/persons/atanas-gotchev) for providing touch-screen devices for testing.
 - Tanja for math photos.
-- Vilkku, Xiao, and Krista for finger photos.
+- Vilkku, Xiao, and Krista for illustrative finger photos.
+- All contributors of pull requests and improvements over the years.
 
 
 ## Versioning
