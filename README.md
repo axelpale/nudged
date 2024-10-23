@@ -323,10 +323,9 @@ We want to thank:
 
 ## Versioning
 
-[Semantic Versioning 2.0.0](http://semver.org/)
-
+The versioning convention of the package follows [Semantic Versioning 2.0.0](http://semver.org/).
 
 
 ## Licence
 
-[MIT Licence](LICENSE)
+The nudged source code is open source and free to use. It is released under a [MIT licence](LICENSE).
