@@ -20,8 +20,8 @@ test.Test.prototype.almostEqual = function (actual, expected, message) {
   this._assert(isAlmost, {
     message: message || 'should be almost equal',
     operator: 'almostEqual',
-    actual: actual,
-    expected: expected
+    actual,
+    expected
   })
 }
 
@@ -31,7 +31,7 @@ test.Test.prototype.notAlmostEqual = function (actual, expected, message) {
   this._assert(!isAlmost, {
     message: message || 'should not be almost equal',
     operator: 'notAlmostEqual',
-    actual: actual,
+    actual,
     expected: 'not ' + expected
   })
 }
@@ -41,8 +41,8 @@ test.Test.prototype.pointsAlmostEqual = function (actual, expected, message) {
   this._assert(nudged.point.almostEqual(actual, expected), {
     message: message || 'transform should have correct elements',
     operator: 'pointsAlmostEqual',
-    actual: actual,
-    expected: expected
+    actual,
+    expected
   })
 }
 
@@ -51,8 +51,8 @@ test.Test.prototype.transformsEqual = function (actual, expected, message) {
   this._assert(nudged.transform.almostEqual(actual, expected), {
     message: message || 'transforms should be almost equal',
     operator: 'transformsEqual',
-    actual: actual,
-    expected: expected
+    actual,
+    expected
   })
 }
 
@@ -61,7 +61,7 @@ test.Test.prototype.notTransformsEqual = function (actual, expected, message) {
   this._assert(!nudged.transform.almostEqual(actual, expected), {
     message: message || 'transforms should not be almost equal',
     operator: 'notTransformsEqual',
-    actual: actual,
+    actual,
     expected: 'not ' + expected
   })
 }
