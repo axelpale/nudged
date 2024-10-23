@@ -1,8 +1,9 @@
 # nudged
 
 [![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
-[![Build Status](https://img.shields.io/travis/com/axelpale/nudged)](https://travis-ci.com/github/axelpale/nudged)
 ![Dependency status](https://img.shields.io/badge/dependencies-none-lightgrey)
+[![License](https://img.shields.io/npm/l/nudged)](#license)
+[![GitHub Actions workflow status](https://img.shields.io/github/actions/workflow/status/axelpale/nudged/nudged-ci.yml)](https://github.com/axelpale/nudged/actions/workflows/nudged-ci.yml)
 
 ![Nudged logo](doc/nudged-logo-2021-512.png)
 
