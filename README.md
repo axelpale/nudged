@@ -6,7 +6,7 @@
 
 ![Nudged logo](doc/nudged-logo-2021-512.png)
 
-*Nudged* is **a JavaScript module** to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. It has already been applied to **user interfaces, multi-touch recognition, geography, and eye tracker calibration**.
+*Nudged* is **a JavaScript module** to efficiently estimate translation, scale, and rotation between two sets of 2D points. It enables you to **capture transformations** that you can use for **motion dynamics, calibration, geometry snapping, and mapping between coordinate spaces**. It has already been applied to **user interface geometry [[1]](https://github.com/taataa/tapspace), multi-touch recognition [[1]](https://github.com/taataa/tapspace), and eye tracker calibration [[2]](https://github.com/infant-cognition-tampere/gazeanalysislib)**.
 
 ### Table of contents
 
