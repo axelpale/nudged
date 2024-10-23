@@ -20,6 +20,7 @@
 - [Acknowledgments](#acknowledgments)
 - [Versioning](#versioning)
 - [Licence](#licence)
+- [See also](#see-also)
 
 
 ## Installation
@@ -265,6 +266,8 @@ In this [map viewer demo](https://rawgit.com/axelpale/nudged/master/examples/nud
 
 ## For developers
 
+Nudged source code is located at [GitHub](https://github.com/axelpale/nudged).
+
 Guidelines:
 
 - Use [ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript) syntax with [CommonJS](https://en.wikipedia.org/wiki/CommonJS) module format.
@@ -330,3 +333,10 @@ The versioning convention of the package follows [Semantic Versioning 2.0.0](htt
 ## Licence
 
 The nudged source code is open source and free to use. It is released under a [MIT licence](LICENSE).
+
+
+## See also
+
+- [Affineplane](https://axelpale.github.io/affineplane/) geometry library is directly compatible with Nudged object interfaces. It provides further tools to transform geometry and manipulate transformations in 2D and 3D.
+- [Tapspace.js](https://github.com/taataa/tapspace) is a toolkit for zoomable user interfaces. Tapspace.js heavily depends on the nudged algorithm in multi-touch recognition, web content layout, and tensor geometry.
+- [Apollonius](https://axelpale.github.io/apollonius/) is another math-heavy geometry package from the author of Nudged. Apollonius considers finding a circle that is simultaneously tangent to three other circles.
