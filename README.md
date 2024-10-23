@@ -2,6 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
 [![Build Status](https://img.shields.io/travis/com/axelpale/nudged)](https://travis-ci.com/github/axelpale/nudged)
+![Dependency status](https://img.shields.io/badge/dependencies-none-lightgrey)
 
 ![Nudged logo](doc/nudged-logo-2021-512.png)
 
