@@ -322,7 +322,7 @@ We want to thank:
 - [3D Media Group at Tampere University of Technology](https://www.tuni.fi/en/research/3d-media-group), [M.Sc. Olli Suominen](https://researchportal.tuni.fi/en/persons/olli-suominen), and [Prof. Atanas Gotchev](https://researchportal.tuni.fi/en/persons/atanas-gotchev) for providing touch-screen devices for testing.
 - Tanja for math photos.
 - Vilkku, Xiao, and Krista for illustrative finger photos.
-- All contributors of pull requests and improvements over the years.
+- All who have contributed to the codebase and issue resolution over the years.
 
 
 ## Versioning
