@@ -17,6 +17,8 @@
     "estimation",
     "similarity",
     "calibration",
+    "snapping",
+    "match",
     "layout"
   ],
   "homepage": "https://github.com/axelpale/nudged",
