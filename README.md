@@ -327,7 +327,7 @@ We want to thank:
 
 ## Versioning
 
-The versioning convention of the package follows [Semantic Versioning 2.0.0](http://semver.org/).
+The versioning convention of the package follows [Semantic Versioning 2.0.0](http://semver.org/) and [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
 
 
 ## Licence
