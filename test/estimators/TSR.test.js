@@ -109,4 +109,37 @@ module.exports = (ts) => {
 
     t.end()
   })
+
+  ts.test(title + 'handle numerically large coordinates', (t) => {
+    // Note that JavaScript double precision floating point
+    // has only 52 bit mantissa, and thus begins to break when
+    // there are 16 significant digits (2^52≈10^16)
+    let dom, ran, tr
+    // const GIGA = 1e9
+    const TERA = 1e12
+    const PETA = 1e15
+    const delta = 0.001
+
+    // Single point, values in tera scale.
+    const msg = 'should handle milli-translation in tera-scale'
+    dom = [{ x: TERA, y: TERA }]
+    ran = [{ x: TERA + delta, y: TERA + delta }]
+    tr = estimateTSR(dom, ran)
+    t.equal(tr.a, 1, msg + ' for a')
+    t.equal(tr.b, 0, msg + ' for b')
+    t.between(tr.x, 0.0009, 0.0011, msg + ' for x')
+    t.between(tr.y, 0.0009, 0.0011, msg + ' for y')
+
+    // Single point, value in peta scale.
+    dom = [{ x: PETA, y: PETA }]
+    ran = [{ x: PETA + delta, y: PETA + delta }]
+    tr = estimateTSR(dom, ran)
+    t.transformsEqual(
+      tr,
+      { a: 1, b: 0, x: 0, y: 0 },
+      'should break gracefully for a milli-translation in peta-scale'
+    )
+
+    t.end()
+  })
 }
