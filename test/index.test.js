@@ -14,6 +14,17 @@ const analysisTest = require('./analysis/index.test')
 
 // Custom assertations
 
+test.Test.prototype.between = function (actual, lower, upper, message) {
+  // Test if a number is inclusively between a lower and upper bounds.
+  const isBetween = (actual >= lower && actual <= upper)
+  this._assert(isBetween, {
+    message: message || 'should be between bounds',
+    operator: 'between',
+    actual,
+    expected: 'to be between ' + lower + ' and ' + upper
+  })
+}
+
 test.Test.prototype.almostEqual = function (actual, expected, message) {
   // Test if a number is almost another number.
   const isAlmost = Math.abs(actual - expected) < TOLERANCE
