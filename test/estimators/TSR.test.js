@@ -142,4 +142,23 @@ module.exports = (ts) => {
 
     t.end()
   })
+
+  // Two points, rotation scale, values in peta scale.
+  // dom = [
+  //   { x: PETA, y: PETA },
+  //   { x: PETA, y: PETA + delta }
+  // ]
+  // ran = [
+  //   { x: PETA + delta + delta, y: PETA },
+  //   { x: PETA, y: PETA }
+  // ]
+  // t.transformsEqual(
+  //   estimateTSR(dom, ran),
+  //   { a: 0, b: 2, x: delta, y: -delta },
+  //   'should handle peta-scale coordinates with two point pairs'
+  // )
+
+  // ts.test(title + 'handle numerically tiny coordinates', () => {
+
+  // })
 }
