@@ -114,14 +114,14 @@ module.exports = (ts) => {
     // Note that JavaScript double precision floating point
     // has only 52 bit mantissa, and thus begins to break when
     // there are 16 significant digits (2^52≈10^16)
-    let dom, ran, tr
+    let dom, ran, tr, msg
     // const GIGA = 1e9
     const TERA = 1e12
     const PETA = 1e15
     const delta = 0.001
 
     // Single point, values in tera scale.
-    const msg = 'should handle milli-translation in tera-scale'
+    msg = 'should handle milli-translation in tera-scale'
     dom = [{ x: TERA, y: TERA }]
     ran = [{ x: TERA + delta, y: TERA + delta }]
     tr = estimateTSR(dom, ran)
@@ -139,6 +139,21 @@ module.exports = (ts) => {
       { a: 1, b: 0, x: 0, y: 0 },
       'should break gracefully for a milli-translation in peta-scale'
     )
+
+    // Two points, values in tera scale.
+    // TODO The estimator should handle this in future. See #38
+    msg = 'does not handle transformation in tera-scale'
+    dom = [
+      { x: TERA, y: TERA },
+      { x: TERA, y: TERA - delta }
+    ]
+    ran = [
+      { x: TERA + delta + delta, y: TERA },
+      { x: TERA, y: TERA }
+    ]
+    tr = estimateTSR(dom, ran)
+    t.equal(tr.a, 1, msg + ' for a')
+    t.equal(tr.b, 0, msg + ' for b')
 
     t.end()
   })
