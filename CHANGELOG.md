@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Improve error message in `nudged.estimate` regarding nullish `params.estimator` property. (#37)
 - Migrate continuous integration from Travis CI to GitHub Actions CI (#33)
 - Improve test output: replace outdated tap-spec with tap-arc
 - Upgrade standalone module bundler: browserify
@@ -26,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix robustness issues relating to near-zero determinant in `R`, `TS`, `TR`, and `TSR` estimators (#31)
+- Repair error message bug in `nudged.estimate` (#37)
 
 ### Migration Tips
 
