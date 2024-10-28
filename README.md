@@ -1,11 +1,13 @@
 # nudged
 
 [![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
-[![Build Status](https://img.shields.io/travis/com/axelpale/nudged)](https://travis-ci.com/github/axelpale/nudged)
+![Dependency status](https://img.shields.io/badge/dependencies-none-lightgrey)
+[![License](https://img.shields.io/npm/l/nudged)](#license)
+[![GitHub Actions workflow status](https://img.shields.io/github/actions/workflow/status/axelpale/nudged/nudged-ci.yml)](https://github.com/axelpale/nudged/actions/workflows/nudged-ci.yml)
 
 ![Nudged logo](doc/nudged-logo-2021-512.png)
 
-*Nudged* is **a JavaScript module** to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. It has already been applied to **user interfaces, multi-touch recognition, geography, and eye tracker calibration**.
+*Nudged* is **a JavaScript module** to efficiently estimate translation, scale, and rotation between two sets of 2D points. It enables you to **capture transformations** that you can use for **motion dynamics, calibration, geometry snapping, and mapping between coordinate spaces**. It has already been applied to **user interface geometry [[1]](https://github.com/taataa/tapspace), multi-touch recognition [[1]](https://github.com/taataa/tapspace), and eye tracker calibration [[2]](https://github.com/infant-cognition-tampere/gazeanalysislib)**.
 
 ### Table of contents
 
@@ -18,6 +20,7 @@
 - [Acknowledgments](#acknowledgments)
 - [Versioning](#versioning)
 - [Licence](#licence)
+- [See also](#see-also)
 
 
 ## Installation
@@ -263,20 +266,22 @@ In this [map viewer demo](https://rawgit.com/axelpale/nudged/master/examples/nud
 
 ## For developers
 
+Nudged source code is located at [GitHub](https://github.com/axelpale/nudged).
+
 Guidelines:
 
-- ES6
-- [Standard style](https://standardjs.com/)
+- Use [ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript) syntax with [CommonJS](https://en.wikipedia.org/wiki/CommonJS) module format.
+- Follow [Standard](https://standardjs.com/) style:
   - 2 space indent
   - max 80 chars per line
   - spaces around operators
 - Functional approach
   - namespaces and functions instead of classes and methods
-  - immutable and stateless data handling; no in-place manipulation.
+  - immutable and stateless data handling; no in-place manipulation of arguments.
 - Minimal run-time type checking
   - Nudged is designed to be a low-level module with high performance.
   - Instead of run-time checks, the geometries provide a dedicated .validate function.
-- Write rich comments that answer the question why.
+- Write rich comments that answer the question "why".
 
 Run lint & unit tests:
 
@@ -316,15 +321,22 @@ We want to thank:
 - [Infant Cognition Laboratory at University of Tampere](https://www.tuni.fi/en/research/infant-cognition) and [Adj. Prof. Jukka Leppänen](https://scholar.google.fi/citations?user=dNRRUIsAAAAJ) for funding and support in research.
 - [3D Media Group at Tampere University of Technology](https://www.tuni.fi/en/research/3d-media-group), [M.Sc. Olli Suominen](https://researchportal.tuni.fi/en/persons/olli-suominen), and [Prof. Atanas Gotchev](https://researchportal.tuni.fi/en/persons/atanas-gotchev) for providing touch-screen devices for testing.
 - Tanja for math photos.
-- Vilkku, Xiao, and Krista for finger photos.
+- Vilkku, Xiao, and Krista for illustrative finger photos.
+- All who have contributed to the codebase and issue resolution over the years.
 
 
 ## Versioning
 
-[Semantic Versioning 2.0.0](http://semver.org/)
-
+The versioning convention of the package follows [Semantic Versioning 2.0.0](http://semver.org/) and [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
 
 
 ## Licence
 
-[MIT Licence](LICENSE)
+The nudged source code is open source and free to use. It is released under a [MIT licence](LICENSE).
+
+
+## See also
+
+- [Affineplane](https://axelpale.github.io/affineplane/) geometry library is directly compatible with Nudged object interfaces. It provides further tools to transform geometry and manipulate transformations in 2D and 3D.
+- [Tapspace.js](https://github.com/taataa/tapspace) is a toolkit for zoomable user interfaces. Tapspace.js heavily depends on the nudged algorithm in multi-touch recognition, web content layout, and tensor geometry.
+- [Apollonius](https://axelpale.github.io/apollonius/) is another math-heavy geometry package from the author of Nudged. Apollonius considers finding a circle that is simultaneously tangent to three other circles.

@@ -1,0 +1,21 @@
+name: Nudged CI
+run-name: nudged test run by ${{ github.actor }}
+
+on: [push]
+
+jobs:
+  nudged-node-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10, 12, 14, 18, 20, 22]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm test

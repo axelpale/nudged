@@ -30,7 +30,7 @@ See [nudged.estimators](#nudgedestimators) for available estimators.
   - `estimator`
     - Required string. The name of the estimator.
     - Defines the freedom of the transform to compute.
-    - One of the following:
+    - Must be one of the following:
       'I', 'L', 'X', 'Y', 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
   - `domain`
     - required array of [points](#nudgedpoint) `{ x, y }`.
@@ -101,6 +101,9 @@ Example:
 
     > nudged.estimators.I(domain, range)
     { a: 1, b: 0, x: 0, y: 0 }
+
+Why this trivial estimator exists? If the estimator type becomes a variable in your application
+then it is convenient to be able to disable estimation by just switching the estimator type to I.
 
 <a name="nudgedestimatorsL"></a>
 ### nudged.estimators.L(domain, range, angle)
