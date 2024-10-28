@@ -158,22 +158,37 @@ module.exports = (ts) => {
     t.end()
   })
 
-  // Two points, rotation scale, values in peta scale.
-  // dom = [
-  //   { x: PETA, y: PETA },
-  //   { x: PETA, y: PETA + delta }
-  // ]
-  // ran = [
-  //   { x: PETA + delta + delta, y: PETA },
-  //   { x: PETA, y: PETA }
-  // ]
-  // t.transformsEqual(
-  //   estimateTSR(dom, ran),
-  //   { a: 0, b: 2, x: delta, y: -delta },
-  //   'should handle peta-scale coordinates with two point pairs'
-  // )
+  ts.test(title + 'handle numerically tiny coordinates', (t) => {
+    let dom, ran, tr, msg
+    const PICO = 1e-12
 
-  // ts.test(title + 'handle numerically tiny coordinates', () => {
+    // Single point, values in pico scale.
+    msg = 'should handle translation in pico-scale'
+    dom = [{ x: PICO, y: PICO }]
+    ran = [{ x: PICO + PICO, y: PICO + PICO }]
+    tr = estimateTSR(dom, ran)
+    t.equal(tr.a, 1, msg + ' for a')
+    t.equal(tr.b, 0, msg + ' for b')
+    t.equal(tr.x, PICO, msg + ' for x')
+    t.equal(tr.y, PICO, msg + ' for y')
 
-  // })
+    // Two point scaling, values in pico scale.
+    // TODO The estimator should handle this in future. See #38
+    msg = 'does not handle scaling in pico-scale'
+    dom = [
+      { x: PICO, y: PICO },
+      { x: PICO + PICO, y: PICO }
+    ]
+    ran = [
+      { x: PICO, y: PICO },
+      { x: PICO + PICO + PICO, y: PICO }
+    ]
+    tr = estimateTSR(dom, ran)
+    t.equal(tr.a, 1, msg + ' for a') // TODO should be 2 once #38
+    t.equal(tr.b, 0, msg + ' for b')
+    t.equal(tr.x, 0, msg + ' for x') // TODO should be -PICO once #38
+    t.equal(tr.y, 0, msg + ' for y') // TODO should be -PICO once #38
+
+    t.end()
+  })
 }
