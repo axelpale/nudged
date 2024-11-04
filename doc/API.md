@@ -21,7 +21,7 @@ The [estimate](#nudgedestimate) function and [estimators](#nudgedestimators) nam
 features for computing transformations between point sets.
 The [point](#nudgedpoint) and [transform](#nudgedtransform) namespaces provide basic tools to work with
 the geometry and export it to various formats.
-The [analysis](#nudgedanalysis) provides tools to assess the quality of the estimated transformations
+The [analysis](#nudgedanalysis) provides tools to assess the quality of thean estimated [transform](#nudgedtransform)ations
 and to detect outliers in point pairs.
 
 
@@ -42,7 +42,7 @@ Source: [lib/index.js](https://github.com/axelpale/nudged/blob/main/lib/index.js
 <a name="nudgedanalysis"></a>
 ## [nudged](#nudged).[analysis](#nudgedanalysis)
 
-These tools help you to measure how well the estimated transformation fits the data.
+These tools help you to measure how well thean estimated [transform](#nudgedtransform)ation fits the data.
 
 
 <p style="margin-bottom: 0"><strong>Contents:</strong></p>
@@ -68,7 +68,7 @@ The smaller the MSE the better the fit.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *tr*
-  - an estimated transform
+  - an estimated [transform](#nudgedtransform)
 - *domain*
   - an array of [points](#nudgedpoint). The domain used in the estimation.
 - *range*
@@ -93,7 +93,7 @@ to detect possible outliers and to build custom analysis methods.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *tr*
-  - an estimated transform
+  - an estimated [transform](#nudgedtransform)
 - *domain*
   - an array of [points](#nudgedpoint). The domain used in the estimation.
 - *range*
@@ -117,7 +117,7 @@ the range points and transformed domain points.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *tr*
-  - an estimated transform
+  - an estimated [transform](#nudgedtransform)
 - *domain*
   - an array of [points](#nudgedpoint). The domain used in the estimation.
 - *range*
@@ -145,18 +145,18 @@ See [nudged.estimators](#nudgedestimators) for available estimators.
 
 - *params*, an object with properties:
   - *estimator*
-    - Required string. The name of the estimator.
-    - Defines the freedom of the transform to compute.
+    - A string. The name of the estimator. Required.
     - Must be one of the following: 'I', 'L', 'X', 'Y', 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
+    - Defines the freedom of the transform to compute.
   - *domain*
-    - requiredan array of [points](#nudgedpoint) `{ x, y }`.
+    - an array of [points](#nudgedpoint) `{ x, y }`. Required.
     - The points before the transform.
   - *range*
-    - requiredan array of [points](#nudgedpoint) `{ x, y }`.
+    - an array of [points](#nudgedpoint) `{ x, y }`. Required.
     - The points after the transform.
   - *center*
-    - optional point.
-    - Used as the center by the estimators 'S', 'R', and 'SR'.
+    - a [point](#nudgedpoint) `{ x, y }`. Optional.
+    - If given, it defines the fixed pivot point for the estimators 'S', 'R', and 'SR'.
     - If an estimator other than these is selected, the center has no effect to the estimation.
   - *angle*
     - optional number. Angle in radians.
@@ -1130,7 +1130,7 @@ Source: [fromScale.js](https://github.com/axelpale/nudged/blob/main/lib/transfor
 ## [nudged](#nudged).[transform](#nudgedtransform).[fromString](#nudgedtransformfromstring)(str)
 
 Create a [transform](#nudgedtransform) from a string that uses
-the CSS transform matrix syntax: `matrix(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)`
+the [CSS transform matrix](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix) syntax: `matrix(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)`
 
 Together with [nudged.transform.toString](#nudgedtransformtostring) this method makes an easy
 serialization and deserialization to and from strings.

@@ -65,6 +65,11 @@ See the available modules below.`,
         // Link 'a transform'
         pattern: /a transform/i,
         replacement: 'a [transform](#nudgedtransform)'
+      },
+      {
+        // Link 'an estimated transform'
+        pattern: /(an)? ?estimated transform/i,
+        replacement: 'an estimated [transform](#nudgedtransform)'
       }
     ]),
     yamdog.decorators.italicSingles(), // emphasize list items
