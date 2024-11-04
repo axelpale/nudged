@@ -18,10 +18,10 @@ See the available modules below.
 
 The estimators and related tools are grouped into namespaces.
 The [estimate](#nudgedestimate) function and [estimators](#nudgedestimators) namespace provide the core
-features for computing transformations between [point](#nudgedpoint) sets.
+features for computing [transformations](#nudgedtransform) between [point](#nudgedpoint) sets.
 The [point](#nudgedpoint) and [transform](#nudgedtransform) namespaces provide basic tools to work with
 the geometry and export it to various formats.
-The [analysis](#nudgedanalysis) provides tools to assess the quality of computed transformation estimates
+The [analysis](#nudgedanalysis) provides tools to assess the quality of computed [transformation](#nudgedtransform) estimates
 and to detect outliers in [point](#nudgedpoint) pairs.
 
 
@@ -42,7 +42,7 @@ Source: [lib/index.js](https://github.com/axelpale/nudged/blob/main/lib/index.js
 <a name="nudgedanalysis"></a>
 ## [nudged](#nudged).[analysis](#nudgedanalysis)
 
-These tools help you to measure how well the estimated transformation fits the data.
+These tools help you to measure how well the estimated [transformation](#nudgedtransform) fits the data.
 
 
 <p style="margin-bottom: 0"><strong>Contents:</strong></p>
@@ -62,7 +62,7 @@ Compute mean squared error (MSE) that is
 the mean squared distances between
 the range [points](#nudgedpoint) and transformed domain [points](#nudgedpoint).
 The MSE is a standard measure for how well the
-transformation fits the data.
+[transformation](#nudgedtransform) fits the data.
 The smaller the MSE the better the fit.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
@@ -86,7 +86,7 @@ Source: [mse.js](https://github.com/axelpale/nudged/blob/main/lib/analysis/mse.j
 ## [nudged](#nudged).[analysis](#nudgedanalysis).[residuals](#nudgedanalysisresiduals)(tr, domain, range)
 
 Get an array of residuals. A residual is the distance
-between a domain [point](#nudgedpoint) after the given transformation and
+between a domain [point](#nudgedpoint) after the given [transformation](#nudgedtransform) and
 its associated range [point](#nudgedpoint). You can use an array of residuals
 to detect possible outliers and to build custom analysis methods.
 
@@ -138,7 +138,7 @@ Source: [rss.js](https://github.com/axelpale/nudged/blob/main/lib/analysis/rss.j
 <a name="nudgedestimate"></a>
 ## [nudged](#nudged).[estimate](#nudgedestimate)(params)
 
-Estimates a transformation with the selected estimator and constraints.
+Estimates a [transformation](#nudgedtransform) with the selected estimator and constraints.
 See [nudged.estimators](#nudgedestimators) for available estimators.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
@@ -222,7 +222,7 @@ Source: [estimators/index.js](https://github.com/axelpale/nudged/blob/main/lib/e
 <a name="nudgedestimatorsi"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[I](#nudgedestimatorsi)()
 
-The trivial estimator; The estimate is always the identity transformation.
+The trivial estimator; The estimate is always the identity [transformation](#nudgedtransform).
 
 **Example:**
 ```
@@ -306,7 +306,7 @@ Source: [S.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/S.js)
 <a name="nudgedestimatorssr"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[SR](#nudgedestimatorssr)(domain, range, center)
 
-Estimate optimal transformation given the domain and the range
+Estimate optimal [transformation](#nudgedtransform) given the domain and the range
 so that the center [point](#nudgedpoint) remains fixed.
 Example use cases:
 1) Transform an image that has one corner fixed with a pin.
@@ -392,8 +392,8 @@ Source: [TS.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/TS.j
 <a name="nudgedestimatorstsr"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[TSR](#nudgedestimatorstsr)(domain, range)
 
-Estimate a non-reflective similarity transformation.
-In other words, an affine transformation where translation,
+Estimate a non-reflective similarity [transformation](#nudgedtransform).
+In other words, an affine [transformation](#nudgedtransform) where translation,
 positive scaling, and rotation are allowed.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
@@ -674,7 +674,7 @@ Source: [toArray.js](https://github.com/axelpale/nudged/blob/main/lib/point/toAr
 Transform a [point](#nudgedpoint). The [point](#nudgedpoint) is first scaled and rotated
 around origin and then translated.
 This corresponds to a matrix multiplication *Mv*
-where *M* is a 3x3 transformation matrix
+where *M* is a 3x3 [transformation](#nudgedtransform) matrix
 and *v* is a 3x1 augmented 2D vector.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
@@ -776,11 +776,11 @@ Source: [tolerance.js](https://github.com/axelpale/nudged/blob/main/lib/toleranc
 This namespace provides functions to create and modify *transforms*.
 
 A *transform* is a plain object with the structure `{ a, b, x, y }`.
-It defines a transformation matrix, and to be exact, an
+It defines a [transformation](#nudgedtransform) matrix, and to be exact, an
 [augmented affine](https://en.wikipedia.org/wiki/Affine_transformation#Augmented_matrix)
 [non-reflective similarity](https://en.wikipedia.org/wiki/Similarity_(geometry))
-transformation matrix.
-Such transformation matrices are a compact way to represent
+[transformation](#nudgedtransform) matrix.
+Such [transformation](#nudgedtransform) matrices are a compact way to represent
 translation, rotation, and scaling in a single 3x3 matrix.
 The matrix that the [transform](#nudgedtransform) represents has the following elements:
 
@@ -844,7 +844,7 @@ Source: [transform/index.js](https://github.com/axelpale/nudged/blob/main/lib/tr
 
 The identity [transform](#nudgedtransform), resembles multiplication by 1 in the way that
 it does not have any effect. You can use it as a starting [point](#nudgedpoint)
-to build other transformations. For example:
+to build other [transformations](#nudgedtransform). For example:
 
 ```
 const I = nudged.transform.IDENTITY
@@ -973,9 +973,9 @@ Create a [transform](#nudgedtransform) object `{ a, b, x, y }`.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *a*
-  - a number. Corresponds to the indices m11 and m22, the diagonal of the 2x2 linear transformation matrix.
+  - a number. Corresponds to the indices m11 and m22, the diagonal of the 2x2 linear [transformation](#nudgedtransform) matrix.
 - *b*
-  - a number. Corresponds to the indices m12 & -m21, the upper and lower triangles of the linear transformation matrix.
+  - a number. Corresponds to the indices m12 & -m21, the upper and lower triangles of the linear [transformation](#nudgedtransform) matrix.
 - *x*
   - a number. Corresponds to the index m31, the translation towards x.
 - *y*
@@ -1212,7 +1212,7 @@ Source: [getRotation.js](https://github.com/axelpale/nudged/blob/main/lib/transf
 <a name="nudgedtransformgetscale"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[getScale](#nudgedtransformgetscale)(tr)
 
-Get the scale multiplier of the transformation.
+Get the scale multiplier of the [transformation](#nudgedtransform).
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
@@ -1274,7 +1274,7 @@ so that *TX = XT = I*, where *T* is the given [transform](#nudgedtransform).
 
 <p style="margin-bottom: 0"><strong>Throws:</strong></p>
 
-- if the given transformation is singular and cannot be inverted.
+- if the given [transformation](#nudgedtransform) is singular and cannot be inverted.
 - This can occur for example in situations
 - where the scale of the [transform](#nudgedtransform) has dropped to zero.
 
@@ -1314,7 +1314,7 @@ Source: [rotateBy.js](https://github.com/axelpale/nudged/blob/main/lib/transform
 
 Rotate the image of the [transform](#nudgedtransform) to the given angle
 so that the given center [point](#nudgedpoint) stays fixed.
-The angle is relative to the x-axis of the domain of the transformation.
+The angle is relative to the x-axis of the domain of the [transformation](#nudgedtransform).
 After the rotation, x-axis of the image and a line at the angle are equal or parallel.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
@@ -1405,7 +1405,7 @@ Source: [toArray.js](https://github.com/axelpale/nudged/blob/main/lib/transform/
 <a name="nudgedtransformtomatrix"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[toMatrix](#nudgedtransformtomatrix)(tr)
 
-Get the similarity transformation matrix
+Get the similarity [transformation](#nudgedtransform) matrix
 in the format common to other APIs, including:
 
 [DOMMatrix](https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix)
@@ -1469,7 +1469,7 @@ Source: [toString.js](https://github.com/axelpale/nudged/blob/main/lib/transform
 <a name="nudgedtransformtranslateby"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[translateBy](#nudgedtransformtranslateby)(tr, vec)
 
-Modify transformation so that its image
+Modify [transformation](#nudgedtransform) so that its image
 is translated by the given vector.
 Scale and rotation are kept intact.
 In other words the resulting [transform](#nudgedtransform)
@@ -1494,7 +1494,7 @@ Source: [translateBy.js](https://github.com/axelpale/nudged/blob/main/lib/transf
 <a name="nudgedtransformtranslateto"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[translateTo](#nudgedtransformtranslateto)(tr, point)
 
-Modify transformation so that it maps `{ x: 0, y: 0 }` to the given [point](#nudgedpoint).
+Modify [transformation](#nudgedtransform) so that it maps `{ x: 0, y: 0 }` to the given [point](#nudgedpoint).
 The rotation and scale are kept intact.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
@@ -1515,8 +1515,8 @@ Source: [translateTo.js](https://github.com/axelpale/nudged/blob/main/lib/transf
 <a name="nudgedtransformvalidate"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[validate](#nudgedtransformvalidate)(tr)
 
-Check if the value is a valid, non-singular affine transformation.
-A valid non-singular affine transformation must have properties
+Check if the value is a valid, non-singular affine [transformation](#nudgedtransform).
+A valid non-singular affine [transformation](#nudgedtransform) must have properties
 `a`, `b`, `x`, and `y` and the sum of `a` and `b` must not approach zero.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>

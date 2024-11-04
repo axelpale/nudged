@@ -55,6 +55,8 @@ See the available modules below.`,
     yamdog.decorators.linkKeywords({
       points: '#nudgedpoint',
       point: '#nudgedpoint',
+      transformations: '#nudgedtransform',
+      transformation: '#nudgedtransform',
       transform: '#nudgedtransform'
     }),
     yamdog.decorators.italicSingles(), // emphasize list items
