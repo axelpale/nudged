@@ -27,6 +27,12 @@ See the available modules below.`,
   // Decorators; a customizable features to pimp yo docs
   decorators: [
     yamdog.decorators.alphabetical(), // render blocks in alphabetical order
-    yamdog.decorators.toc() // insert tables of contents
+    yamdog.decorators.toc(), // insert tables of contents
+    yamdog.decorators.linkNames(),
+    yamdog.decorators.linkKeywords({
+      point: '#nudgedpoint',
+      transform: '#nudgedtransform'
+    }),
+    yamdog.decorators.italicSingles() // emphasize list items
   ]
 })
