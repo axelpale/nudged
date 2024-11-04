@@ -26,13 +26,44 @@ in modules aka namespaces instead of classes.
 See the available modules below.`,
   // Decorators; a customizable features to pimp yo docs
   decorators: [
-    yamdog.decorators.alphabetical(), // render blocks in alphabetical order
-    yamdog.decorators.toc(), // insert tables of contents
+    yamdog.decorators.alphabetical({
+      groupCase: true
+    }),
     yamdog.decorators.linkNames(),
+    yamdog.decorators.replace([
+      {
+        // Normalize parameters title
+        pattern: /^param(?:eter)?s?:?/i,
+        replacement: '**Parameters:**'
+      },
+      {
+        // Normalize return title
+        pattern: /^returns?:?/i,
+        replacement: '**Returns:**'
+      },
+      {
+        // Normalize throws title
+        pattern: /^throws?:?/i,
+        replacement: '**Throws:**'
+      },
+      {
+        // Normalize example title
+        pattern: /^examples?:?/i,
+        replacement: '**Example:**'
+      }
+    ]),
     yamdog.decorators.linkKeywords({
       point: '#nudgedpoint',
       transform: '#nudgedtransform'
     }),
-    yamdog.decorators.italicSingles() // emphasize list items
+    yamdog.decorators.italicSingles(), // emphasize list items
+    yamdog.decorators.backTopLinks(), // navigational links between sections
+    yamdog.decorators.toc({ // insert tables of contents
+      title: '**Contents:**'
+    }),
+    yamdog.decorators.sourceLinks({
+      basePath: path.resolve(__dirname, '..'),
+      baseUrl: 'https://github.com/axelpale/nudged/blob/main/'
+    })
   ]
 })
