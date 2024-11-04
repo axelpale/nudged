@@ -50,15 +50,23 @@ See the available modules below.`,
         // Normalize example title
         pattern: /^examples?:?/i,
         replacement: '**Example:**'
+      },
+      {
+        // Link 'a point'
+        pattern: /a point/i,
+        replacement: 'a [point](#nudgedpoint)'
+      },
+      {
+        // Link 'an array of points'
+        pattern: /(an)? ?array of points?/i,
+        replacement: 'an array of [points](#nudgedpoint)'
+      },
+      {
+        // Link 'a transform'
+        pattern: /a transform/i,
+        replacement: 'a [transform](#nudgedtransform)'
       }
     ]),
-    yamdog.decorators.linkKeywords({
-      points: '#nudgedpoint',
-      point: '#nudgedpoint',
-      transformations: '#nudgedtransform',
-      transformation: '#nudgedtransform',
-      transform: '#nudgedtransform'
-    }),
     yamdog.decorators.italicSingles(), // emphasize list items
     yamdog.decorators.backTopLinks(), // navigational links between sections
     yamdog.decorators.toc({ // insert tables of contents
