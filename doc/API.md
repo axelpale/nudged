@@ -21,7 +21,7 @@ The [estimate](#nudgedestimate) function and [estimators](#nudgedestimators) nam
 features for computing transformations between point sets.
 The [point](#nudgedpoint) and [transform](#nudgedtransform) namespaces provide basic tools to work with
 the geometry and export it to various formats.
-The [analysis](#nudgedanalysis) provides tools to assess the quality of thean estimated [transform](#nudgedtransform)ations
+The [analysis](#nudgedanalysis) provides tools to assess the quality of the estimated transformations
 and to detect outliers in point pairs.
 
 
@@ -37,12 +37,12 @@ and to detect outliers in point pairs.
 - [nudged.version](#nudgedversion)
 
 
-Source: [lib/index.js](https://github.com/axelpale/nudged/blob/main/lib/index.js)
+Source: [lib/index.js](https://github.com/axelpale/nudged/blob/master/lib/index.js)
 
 <a name="nudgedanalysis"></a>
 ## [nudged](#nudged).[analysis](#nudgedanalysis)
 
-These tools help you to measure how well thean estimated [transform](#nudgedtransform)ation fits the data.
+These tools help you to measure how well the estimated transformation fits the data.
 
 
 <p style="margin-bottom: 0"><strong>Contents:</strong></p>
@@ -53,13 +53,13 @@ These tools help you to measure how well thean estimated [transform](#nudgedtran
 - [nudged.analysis.rss](#nudgedanalysisrss)
 
 
-Source: [analysis/index.js](https://github.com/axelpale/nudged/blob/main/lib/analysis/index.js)
+Source: [analysis/index.js](https://github.com/axelpale/nudged/blob/master/lib/analysis/index.js)
 
 <a name="nudgedanalysismse"></a>
 ## [nudged](#nudged).[analysis](#nudgedanalysis).[mse](#nudgedanalysismse)(tr, domain, range)
 
-Compute mean squared error (MSE) that is
-the mean squared distances between
+Compute mean squared error (MSE) of the transformation.
+MSE is the mean squared distances between
 the range points and transformed domain points.
 The MSE is a standard measure for how well the
 transformation fits the data.
@@ -68,11 +68,11 @@ The smaller the MSE the better the fit.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *tr*
-  - an estimated [transform](#nudgedtransform)
+  - a [transform](#nudgedtransform). The estimated transformation.
 - *domain*
-  - an array of [points](#nudgedpoint). The domain used in the estimation.
+  - an array of [points](#nudgedpoint). The domain that was used in the estimation.
 - *range*
-  - an array of [points](#nudgedpoint). The range used in the estimation.
+  - an array of [points](#nudgedpoint). The range that was used in the estimation.
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -80,7 +80,7 @@ The smaller the MSE the better the fit.
 - a positive number
 
 
-Source: [mse.js](https://github.com/axelpale/nudged/blob/main/lib/analysis/mse.js)
+Source: [mse.js](https://github.com/axelpale/nudged/blob/master/lib/analysis/mse.js)
 
 <a name="nudgedanalysisresiduals"></a>
 ## [nudged](#nudged).[analysis](#nudgedanalysis).[residuals](#nudgedanalysisresiduals)(tr, domain, range)
@@ -93,7 +93,7 @@ to detect possible outliers and to build custom analysis methods.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *tr*
-  - an estimated [transform](#nudgedtransform)
+  - a [transform](#nudgedtransform). The estimated transformation.
 - *domain*
   - an array of [points](#nudgedpoint). The domain used in the estimation.
 - *range*
@@ -105,19 +105,19 @@ to detect possible outliers and to build custom analysis methods.
 - array of numbers, distances
 
 
-Source: [residuals.js](https://github.com/axelpale/nudged/blob/main/lib/analysis/residuals.js)
+Source: [residuals.js](https://github.com/axelpale/nudged/blob/master/lib/analysis/residuals.js)
 
 <a name="nudgedanalysisrss"></a>
 ## [nudged](#nudged).[analysis](#nudgedanalysis).[rss](#nudgedanalysisrss)(tr, domain, range)
 
-Compute the residual sum of squares (RSS) that is
-the sum of the squared distances between
+Compute the residual sum of squares (RSS) of the transformation.
+The RSS is the sum of the squared distances between
 the range points and transformed domain points.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *tr*
-  - an estimated [transform](#nudgedtransform)
+  - a [transform](#nudgedtransform). The estimated transformation.
 - *domain*
   - an array of [points](#nudgedpoint). The domain used in the estimation.
 - *range*
@@ -133,12 +133,12 @@ Note that the RSS tends to grow linearly with the number of points.
 If you need an error measure that is independent of the number of points
 then consider using [nudged.analysis.mse](#nudgedanalysismse) instead.
 
-Source: [rss.js](https://github.com/axelpale/nudged/blob/main/lib/analysis/rss.js)
+Source: [rss.js](https://github.com/axelpale/nudged/blob/master/lib/analysis/rss.js)
 
 <a name="nudgedestimate"></a>
 ## [nudged](#nudged).[estimate](#nudgedestimate)(params)
 
-Estimates a [transform](#nudgedtransform)ation with the selected estimator and constraints.
+Estimates a transformation with the selected estimator and constraints.
 See [nudged.estimators](#nudgedestimators) for available estimators.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
@@ -149,10 +149,10 @@ See [nudged.estimators](#nudgedestimators) for available estimators.
     - Must be one of the following: 'I', 'L', 'X', 'Y', 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
     - Defines the freedom of the transform to compute.
   - *domain*
-    - an array of [points](#nudgedpoint) `{ x, y }`. Required.
+    - An array of [points](#nudgedpoint) `{ x, y }`. Required.
     - The points before the transform.
   - *range*
-    - an array of [points](#nudgedpoint) `{ x, y }`. Required.
+    - An array of [points](#nudgedpoint) `{ x, y }`. Required.
     - The points after the transform.
   - *center*
     - a [point](#nudgedpoint) `{ x, y }`. Optional.
@@ -191,7 +191,7 @@ like for example `nudged.estimators.R(domain, range, center)`
 1.107148
 ```
 
-Source: [estimate.js](https://github.com/axelpale/nudged/blob/main/lib/estimate.js)
+Source: [estimate.js](https://github.com/axelpale/nudged/blob/master/lib/estimate.js)
 
 <a name="nudgedestimators"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators)
@@ -217,7 +217,7 @@ for a bit more efficiency by saving one function call.
 - [nudged.estimators.Y](#nudgedestimatorsy)
 
 
-Source: [estimators/index.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/index.js)
+Source: [estimators/index.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/index.js)
 
 <a name="nudgedestimatorsi"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[I](#nudgedestimatorsi)()
@@ -233,7 +233,7 @@ The trivial estimator; The estimate is always the identity transformation.
 Why this trivial estimator exists? If the estimator type becomes a variable in your application
 then it can be convenient to be able to disable estimation by just switching the estimator type to `I`.
 
-Source: [I.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/I.js)
+Source: [I.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/I.js)
 
 <a name="nudgedestimatorsl"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[L](#nudgedestimatorsl)(domain, range, angle)
@@ -247,7 +247,7 @@ Estimate translation along a line at the given angle.
 - *range*
   - an array of [points](#nudgedpoint)
 - *angle*
-  - number, radians
+  - a number, an angle in radians
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -255,7 +255,7 @@ Estimate translation along a line at the given angle.
 - a [transform](#nudgedtransform)
 
 
-Source: [L.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/L.js)
+Source: [L.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/L.js)
 
 <a name="nudgedestimatorsr"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[R](#nudgedestimatorsr)(domain, range, center)
@@ -269,7 +269,7 @@ Estimate rotation around a fixed center point.
 - *range*
   - an array of [points](#nudgedpoint)
 - *center*
-  - point, a fixed center to rotate around
+  - a [point](#nudgedpoint), a fixed center to rotate around
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -277,7 +277,7 @@ Estimate rotation around a fixed center point.
 - a [transform](#nudgedtransform)
 
 
-Source: [R.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/R.js)
+Source: [R.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/R.js)
 
 <a name="nudgedestimatorss"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[S](#nudgedestimatorss)(domain, range, center)
@@ -301,7 +301,7 @@ a [homothety](https://en.wikipedia.org/wiki/Homothety).
 - a [transform](#nudgedtransform)
 
 
-Source: [S.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/S.js)
+Source: [S.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/S.js)
 
 <a name="nudgedestimatorssr"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[SR](#nudgedestimatorssr)(domain, range, center)
@@ -327,7 +327,7 @@ Example use cases:
 - a [transform](#nudgedtransform)
 
 
-Source: [SR.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/SR.js)
+Source: [SR.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/SR.js)
 
 <a name="nudgedestimatorst"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[T](#nudgedestimatorst)(domain, range)
@@ -347,7 +347,7 @@ Estimate translation that maps domain points close to range points.
 - a [transform](#nudgedtransform)
 
 
-Source: [T.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/T.js)
+Source: [T.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/T.js)
 
 <a name="nudgedestimatorstr"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[TR](#nudgedestimatorstr)(domain, range)
@@ -367,7 +367,7 @@ Estimate translation with rotation.
 - a [transform](#nudgedtransform)
 
 
-Source: [TR.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/TR.js)
+Source: [TR.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/TR.js)
 
 <a name="nudgedestimatorsts"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[TS](#nudgedestimatorsts)(domain, range)
@@ -387,7 +387,7 @@ Estimate translation with scaling.
 - a [transform](#nudgedtransform)
 
 
-Source: [TS.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/TS.js)
+Source: [TS.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/TS.js)
 
 <a name="nudgedestimatorstsr"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[TSR](#nudgedestimatorstsr)(domain, range)
@@ -409,7 +409,7 @@ positive scaling, and rotation are allowed.
 - a [transform](#nudgedtransform)
 
 
-Source: [TSR.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/TSR.js)
+Source: [TSR.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/TSR.js)
 
 <a name="nudgedestimatorsx"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[X](#nudgedestimatorsx)(domain, range)
@@ -429,7 +429,7 @@ Estimate horizontal translation that is a translation along x-axis.
 - a [transform](#nudgedtransform)
 
 
-Source: [X.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/X.js)
+Source: [X.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/X.js)
 
 <a name="nudgedestimatorsy"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[Y](#nudgedestimatorsy)(domain, range)
@@ -449,7 +449,7 @@ Estimate vertical translation that is a translation along y-axis.
 - a [transform](#nudgedtransform)
 
 
-Source: [Y.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/Y.js)
+Source: [Y.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/Y.js)
 
 <a name="nudgedpoint"></a>
 ## [nudged](#nudged).[point](#nudgedpoint)
@@ -473,7 +473,7 @@ A set of operators for 2D point objects `{ x, y }`.
 - [nudged.point.validate](#nudgedpointvalidate)
 
 
-Source: [point/index.js](https://github.com/axelpale/nudged/blob/main/lib/point/index.js)
+Source: [point/index.js](https://github.com/axelpale/nudged/blob/master/lib/point/index.js)
 
 <a name="nudgedpointalmostequal"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[almostEqual](#nudgedpointalmostequal)(p, q, tolerance)
@@ -508,7 +508,7 @@ false
 true
 ```
 
-Source: [almostEqual.js](https://github.com/axelpale/nudged/blob/main/lib/point/almostEqual.js)
+Source: [almostEqual.js](https://github.com/axelpale/nudged/blob/master/lib/point/almostEqual.js)
 
 <a name="nudgedpointcreate"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[create](#nudgedpointcreate)(x, y)
@@ -528,7 +528,7 @@ Create a [point](#nudgedpoint) object.
 - a [point](#nudgedpoint) `{ x, y }`
 
 
-Source: [create.js](https://github.com/axelpale/nudged/blob/main/lib/point/create.js)
+Source: [create.js](https://github.com/axelpale/nudged/blob/master/lib/point/create.js)
 
 <a name="nudgedpointdistance"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[distance](#nudgedpointdistance)(p, q)
@@ -546,10 +546,10 @@ Also called the Euclidean norm alias L2-norm.
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- number, the distance from p to q (= distance from q to p)
+- a number, the distance from p to q (= distance from q to p)
 
 
-Source: [distance.js](https://github.com/axelpale/nudged/blob/main/lib/point/distance.js)
+Source: [distance.js](https://github.com/axelpale/nudged/blob/master/lib/point/distance.js)
 
 <a name="nudgedpointequal"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[equal](#nudgedpointequal)(p, q)
@@ -573,7 +573,7 @@ Note that strict numerical equality is rarely true in practice
 because of rounding errors caused by floating point arithmetics.
 Consider using [nudged.point.almostEqual](#nudgedpointalmostequal) instead.
 
-Source: [equal.js](https://github.com/axelpale/nudged/blob/main/lib/point/equal.js)
+Source: [equal.js](https://github.com/axelpale/nudged/blob/master/lib/point/equal.js)
 
 <a name="nudgedpointfromarray"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[fromArray](#nudgedpointfromarray)(arrp)
@@ -596,7 +596,7 @@ Create a [point](#nudgedpoint) `{ x, y }` from an array `[x, y]`.
 - if the array has unexpected number of elements.
 
 
-Source: [fromArray.js](https://github.com/axelpale/nudged/blob/main/lib/point/fromArray.js)
+Source: [fromArray.js](https://github.com/axelpale/nudged/blob/master/lib/point/fromArray.js)
 
 <a name="nudgedpointoffset"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[offset](#nudgedpointoffset)(p, dx, dy)
@@ -619,7 +619,7 @@ This is equivalent to translation by the vector `{ x: dx, y: dy }`.
 - a [point](#nudgedpoint)
 
 
-Source: [offset.js](https://github.com/axelpale/nudged/blob/main/lib/point/offset.js)
+Source: [offset.js](https://github.com/axelpale/nudged/blob/master/lib/point/offset.js)
 
 <a name="nudgedpointpolaroffset"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[polarOffset](#nudgedpointpolaroffset)(p, distance, angle)
@@ -648,7 +648,7 @@ Create a [point](#nudgedpoint) away from p at the given distance and angle.
 { x: 1, y: 5 }
 ```
 
-Source: [polarOffset.js](https://github.com/axelpale/nudged/blob/main/lib/point/polarOffset.js)
+Source: [polarOffset.js](https://github.com/axelpale/nudged/blob/master/lib/point/polarOffset.js)
 
 <a name="nudgedpointtoarray"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[toArray](#nudgedpointtoarray)(p)
@@ -666,7 +666,7 @@ Convert a [point](#nudgedpoint) `{ x, y }` into a two-element array `[x, y]`.
 - an array `[x, y]`
 
 
-Source: [toArray.js](https://github.com/axelpale/nudged/blob/main/lib/point/toArray.js)
+Source: [toArray.js](https://github.com/axelpale/nudged/blob/master/lib/point/toArray.js)
 
 <a name="nudgedpointtransform"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[transform](#nudgedpointtransform)(p, tr)
@@ -697,7 +697,7 @@ and *v* is a 3x1 augmented 2D vector.
 { x: 0, y: 1 }
 ```
 
-Source: [transform.js](https://github.com/axelpale/nudged/blob/main/lib/point/transform.js)
+Source: [transform.js](https://github.com/axelpale/nudged/blob/master/lib/point/transform.js)
 
 <a name="nudgedpointtransformmany"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[transformMany](#nudgedpointtransformmany)(p, tr)
@@ -725,7 +725,7 @@ Transform an array of [points](#nudgedpoint).
 [{ x: 0, y: 1 }, { x: -1, y: 0 }]
 ```
 
-Source: [transformMany.js](https://github.com/axelpale/nudged/blob/main/lib/point/transformMany.js)
+Source: [transformMany.js](https://github.com/axelpale/nudged/blob/master/lib/point/transformMany.js)
 
 <a name="nudgedpointvalidate"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[validate](#nudgedpointvalidate)(p)
@@ -753,7 +753,7 @@ true
 false
 ```
 
-Source: [validate.js](https://github.com/axelpale/nudged/blob/main/lib/point/validate.js)
+Source: [validate.js](https://github.com/axelpale/nudged/blob/master/lib/point/validate.js)
 
 <a name="nudgedtolerance"></a>
 ## [nudged](#nudged).[tolerance](#nudgedtolerance)
@@ -768,7 +768,7 @@ much larger than 1 * 10^-16. Let say 1 * 10^-10 is a good one.
 0.0000000001
 ```
 
-Source: [tolerance.js](https://github.com/axelpale/nudged/blob/main/lib/tolerance.js)
+Source: [tolerance.js](https://github.com/axelpale/nudged/blob/master/lib/tolerance.js)
 
 <a name="nudgedtransform"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform)
@@ -776,7 +776,7 @@ Source: [tolerance.js](https://github.com/axelpale/nudged/blob/main/lib/toleranc
 This namespace provides functions to create and modify *transforms*.
 
 A *transform* is a plain object with the structure `{ a, b, x, y }`.
-It defines a [transform](#nudgedtransform)ation matrix, and to be exact, an
+It defines a transformation matrix, and to be exact, an
 [augmented affine](https://en.wikipedia.org/wiki/Affine_transformation#Augmented_matrix)
 [non-reflective similarity](https://en.wikipedia.org/wiki/Similarity_(geometry))
 transformation matrix.
@@ -830,20 +830,21 @@ The matrix that the transform represents has the following elements:
 - [nudged.transform.validate](#nudgedtransformvalidate)
 
 
-Source: [transform/index.js](https://github.com/axelpale/nudged/blob/main/lib/transform/index.js)
+Source: [transform/index.js](https://github.com/axelpale/nudged/blob/master/lib/transform/index.js)
 
 <a name="nudgedtransformhalf"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[HALF](#nudgedtransformhalf)
 
-A prebuilt transform. Scales towards `{ x: 0, y: 0 }` by the factor of 0.5.
+A prebuilt transform `{ a: 0.5, b: 0, x: 0, y: 0 }`. Scales towards `{ x: 0, y: 0 }` by the factor of 0.5.
 
-Source: [transform/index.js](https://github.com/axelpale/nudged/blob/main/lib/transform/index.js)
+Source: [transform/index.js](https://github.com/axelpale/nudged/blob/master/lib/transform/index.js)
 
 <a name="nudgedtransformidentity"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[IDENTITY](#nudgedtransformidentity)
 
-The identity transform, resembles multiplication by 1 in the way that
-it does not have any effect. You can use it as a starting point
+The identity transform `{ a: 1, b: 0, x: 0, y: 0 }`.
+It resembles multiplication by 1 in the way that it does not cause any effect.
+You can use it as a starting point
 to build other transformations. For example:
 
 ```
@@ -853,21 +854,21 @@ const angle = Math.PI / 5
 const rotation = nudged.transform.rotateBy(I, center, angle)
 ```
 
-Source: [transform/index.js](https://github.com/axelpale/nudged/blob/main/lib/transform/index.js)
+Source: [transform/index.js](https://github.com/axelpale/nudged/blob/master/lib/transform/index.js)
 
 <a name="nudgedtransformrot180"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[ROT180](#nudgedtransformrot180)
 
-A prebuilt transform. Rotates around `{ x: 0, y: 0 }` by 180 degrees.
+A prebuilt transform `{ a: -1, b: 0, x: 0, y: 0 }`. Rotates around `{ x: 0, y: 0 }` by 180 degrees.
 
-Source: [transform/index.js](https://github.com/axelpale/nudged/blob/main/lib/transform/index.js)
+Source: [transform/index.js](https://github.com/axelpale/nudged/blob/master/lib/transform/index.js)
 
 <a name="nudgedtransformrot270"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[ROT270](#nudgedtransformrot270)
 
-A prebuilt transform. Rotates around `{ x: 0, y: 0 }` by 270 degrees (= 3/4 turn = 3π/2).
+A prebuilt transform `{ a: 0, b: -1, x: 0, y: 0 }`. Rotates around `{ x: 0, y: 0 }` by 270 degrees (= 3/4 turn = 3π/2).
 
-Source: [transform/index.js](https://github.com/axelpale/nudged/blob/main/lib/transform/index.js)
+Source: [transform/index.js](https://github.com/axelpale/nudged/blob/master/lib/transform/index.js)
 
 <a name="nudgedtransformrot45"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[ROT45](#nudgedtransformrot45)
@@ -884,14 +885,14 @@ A prebuilt transform. Rotates around `{ x: 0, y: 0 }` by 45 degrees.
 { x: 0.7071..., y: 0.7071... }
 ```
 
-Source: [transform/index.js](https://github.com/axelpale/nudged/blob/main/lib/transform/index.js)
+Source: [transform/index.js](https://github.com/axelpale/nudged/blob/master/lib/transform/index.js)
 
 <a name="nudgedtransformrot90"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[ROT90](#nudgedtransformrot90)
 
-A prebuilt transform. Rotates around `{ x: 0, y: 0 }` by 90 degrees.
+A prebuilt transform `{ a: 0, b: 1, x: 0, y: 0 }`. Rotates around `{ x: 0, y: 0 }` by 90 degrees.
 
-Source: [transform/index.js](https://github.com/axelpale/nudged/blob/main/lib/transform/index.js)
+Source: [transform/index.js](https://github.com/axelpale/nudged/blob/master/lib/transform/index.js)
 
 <a name="nudgedtransformsingular"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[SINGULAR](#nudgedtransformsingular)
@@ -899,25 +900,25 @@ Source: [transform/index.js](https://github.com/axelpale/nudged/blob/main/lib/tr
 A prebuilt singular transform `{ a: 0, b: 0, x: 0, y: 0 }`.
 It resembles multiplication by 0.
 
-Source: [transform/index.js](https://github.com/axelpale/nudged/blob/main/lib/transform/index.js)
+Source: [transform/index.js](https://github.com/axelpale/nudged/blob/master/lib/transform/index.js)
 
 <a name="nudgedtransformx2"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[X2](#nudgedtransformx2)
 
-A prebuilt transform. Scales away from `{ x: 0, y: 0 }` by the factor of 2.
+A prebuilt transform `{ a: 2, b: 0, x: 0, y: 0 }`. Scales away from `{ x: 0, y: 0 }` by the factor of 2.
 
-Source: [transform/index.js](https://github.com/axelpale/nudged/blob/main/lib/transform/index.js)
+Source: [transform/index.js](https://github.com/axelpale/nudged/blob/master/lib/transform/index.js)
 
 <a name="nudgedtransformalmostequal"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[almostEqual](#nudgedtransformalmostequal)(tr, ts, tolerance)
 
 Are two transforms almost equal?
 Due to the limitations of floating point precision,
-most operations have a bit of numerical error in their results.
-Therefore two matrices that should be equivalent according to the math,
+most operations have a little numerical error in their results.
+Two matrices that should be equivalent according to algebra,
 might not have strictly equivalent elements.
-For these situations, use transform.almostEqual instead of
-the strict [transform.equal](#nudgedtransformequal).
+Therefore some tolerance is often necessary in practice.
+See [nudged.transform.equal](#nudgedtransformequal) for strict comparison.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
@@ -935,11 +936,11 @@ the strict [transform.equal](#nudgedtransformequal).
 - a boolean. True if the transforms are equal or almost equal.
 
 
-For the difference metric, we use a modified L1 norm
+How the error is computed? For the difference metric, we use a modified L1 norm
 that values a, b, x, and y equally. If the sum of the differences
 is smaller or equal to the tolerance, consider the transforms equal.
 
-Source: [almostEqual.js](https://github.com/axelpale/nudged/blob/main/lib/transform/almostEqual.js)
+Source: [almostEqual.js](https://github.com/axelpale/nudged/blob/master/lib/transform/almostEqual.js)
 
 <a name="nudgedtransformcompose"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[compose](#nudgedtransformcompose)(tr, ts)
@@ -963,7 +964,7 @@ To put it short, transform the *image* of ts by tr.
 - a [transform](#nudgedtransform)
 
 
-Source: [compose.js](https://github.com/axelpale/nudged/blob/main/lib/transform/compose.js)
+Source: [compose.js](https://github.com/axelpale/nudged/blob/master/lib/transform/compose.js)
 
 <a name="nudgedtransformcreate"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[create](#nudgedtransformcreate)(a, b, x, y)
@@ -979,15 +980,15 @@ Create a [transform](#nudgedtransform) object `{ a, b, x, y }`.
 - *x*
   - a number. Corresponds to the index m31, the translation towards x.
 - *y*
-  - a number. Corresponds to the index m32, the translation towards y
+  - a number. Corresponds to the index m32, the translation towards y.
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- a [transform](#nudgedtransform) object
+- a [transform](#nudgedtransform)
 
 
-Source: [create.js](https://github.com/axelpale/nudged/blob/main/lib/transform/create.js)
+Source: [create.js](https://github.com/axelpale/nudged/blob/master/lib/transform/create.js)
 
 <a name="nudgedtransformequal"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[equal](#nudgedtransformequal)(tr, ts)
@@ -1011,7 +1012,7 @@ For loose equality, see [almostEqual](#nudgedtransformalmostequal).
 - a boolean
 
 
-Source: [equal.js](https://github.com/axelpale/nudged/blob/main/lib/transform/equal.js)
+Source: [equal.js](https://github.com/axelpale/nudged/blob/master/lib/transform/equal.js)
 
 <a name="nudgedtransformfromarray"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[fromArray](#nudgedtransformfromarray)(arrtr)
@@ -1037,7 +1038,7 @@ Compatible with [nudged.transform.toArray](#nudgedtransformtoarray).
 { a: 1, b: 2, x: 3, y: 4 }
 ```
 
-Source: [fromArray.js](https://github.com/axelpale/nudged/blob/main/lib/transform/fromArray.js)
+Source: [fromArray.js](https://github.com/axelpale/nudged/blob/master/lib/transform/fromArray.js)
 
 <a name="nudgedtransformfrompolar"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[fromPolar](#nudgedtransformfrompolar)(center, scale, rotation)
@@ -1068,7 +1069,7 @@ in respect of a center point.
 { x: 0, y: 0 }
 ```
 
-Source: [fromPolar.js](https://github.com/axelpale/nudged/blob/main/lib/transform/fromPolar.js)
+Source: [fromPolar.js](https://github.com/axelpale/nudged/blob/master/lib/transform/fromPolar.js)
 
 <a name="nudgedtransformfromrotation"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[fromRotation](#nudgedtransformfromrotation)(center, radians)
@@ -1095,7 +1096,7 @@ Create a [transform](#nudgedtransform) that rotates around the center by the rad
 { a: 0.809..., b: 0.587..., x: 1.939..., y: -1.969... }
 ```
 
-Source: [fromRotation.js](https://github.com/axelpale/nudged/blob/main/lib/transform/fromRotation.js)
+Source: [fromRotation.js](https://github.com/axelpale/nudged/blob/master/lib/transform/fromRotation.js)
 
 <a name="nudgedtransformfromscale"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[fromScale](#nudgedtransformfromscale)(center, multiplier)
@@ -1124,7 +1125,7 @@ the scale multiplier. Such transform is called a
 { a: 2, b: 0, x: -4, y: -2 }
 ```
 
-Source: [fromScale.js](https://github.com/axelpale/nudged/blob/main/lib/transform/fromScale.js)
+Source: [fromScale.js](https://github.com/axelpale/nudged/blob/master/lib/transform/fromScale.js)
 
 <a name="nudgedtransformfromstring"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[fromString](#nudgedtransformfromstring)(str)
@@ -1155,7 +1156,7 @@ results if the matrix exhibits shear or non-uniform scaling.
 - if no valid transform is found
 
 
-Source: [fromString.js](https://github.com/axelpale/nudged/blob/main/lib/transform/fromString.js)
+Source: [fromString.js](https://github.com/axelpale/nudged/blob/master/lib/transform/fromString.js)
 
 <a name="nudgedtransformfromtranslation"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[fromTranslation](#nudgedtransformfromtranslation)(p)
@@ -1180,7 +1181,7 @@ Create a [transform](#nudgedtransform) that translates `{ 0, 0 }` to the point `
 { a: 1, b: 0, x: 4, y: 2 }
 ```
 
-Source: [fromTranslation.js](https://github.com/axelpale/nudged/blob/main/lib/transform/fromTranslation.js)
+Source: [fromTranslation.js](https://github.com/axelpale/nudged/blob/master/lib/transform/fromTranslation.js)
 
 <a name="nudgedtransformgetrotation"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[getRotation](#nudgedtransformgetrotation)(tr)
@@ -1207,7 +1208,7 @@ the positive y-axis.
 3.1415...
 ```
 
-Source: [getRotation.js](https://github.com/axelpale/nudged/blob/main/lib/transform/getRotation.js)
+Source: [getRotation.js](https://github.com/axelpale/nudged/blob/master/lib/transform/getRotation.js)
 
 <a name="nudgedtransformgetscale"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[getScale](#nudgedtransformgetscale)(tr)
@@ -1232,7 +1233,7 @@ Get the scale multiplier of the transformation.
 0.5
 ```
 
-Source: [getScale.js](https://github.com/axelpale/nudged/blob/main/lib/transform/getScale.js)
+Source: [getScale.js](https://github.com/axelpale/nudged/blob/master/lib/transform/getScale.js)
 
 <a name="nudgedtransformgettranslation"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[getTranslation](#nudgedtransformgettranslation)(tr)
@@ -1258,7 +1259,7 @@ as a vector `{ x, y }`.
 { x: 0, y: 0 }
 ```
 
-Source: [getTranslation.js](https://github.com/axelpale/nudged/blob/main/lib/transform/getTranslation.js)
+Source: [getTranslation.js](https://github.com/axelpale/nudged/blob/master/lib/transform/getTranslation.js)
 
 <a name="nudgedtransforminverse"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[inverse](#nudgedtransforminverse)(tr)
@@ -1274,9 +1275,7 @@ so that *TX = XT = I*, where *T* is the given transform.
 
 <p style="margin-bottom: 0"><strong>Throws:</strong></p>
 
-- if the given transformation is singular and cannot be inverted.
-- This can occur for example in situations
-- where the scale of the transform has dropped to zero.
+- if the given transformation is singular and cannot be inverted. This can occur for example in situations where the scaling of the transform has dropped to zero.
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -1284,7 +1283,7 @@ so that *TX = XT = I*, where *T* is the given transform.
 - a [transform](#nudgedtransform)
 
 
-Source: [inverse.js](https://github.com/axelpale/nudged/blob/main/lib/transform/inverse.js)
+Source: [inverse.js](https://github.com/axelpale/nudged/blob/master/lib/transform/inverse.js)
 
 <a name="nudgedtransformrotateby"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[rotateBy](#nudgedtransformrotateby)(tr, center, radians)
@@ -1307,7 +1306,7 @@ so that the given center point stays fixed.
 - a [transform](#nudgedtransform)
 
 
-Source: [rotateBy.js](https://github.com/axelpale/nudged/blob/main/lib/transform/rotateBy.js)
+Source: [rotateBy.js](https://github.com/axelpale/nudged/blob/master/lib/transform/rotateBy.js)
 
 <a name="nudgedtransformrotateto"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[rotateTo](#nudgedtransformrotateto)(tr, center, radians)
@@ -1332,7 +1331,7 @@ After the rotation, x-axis of the image and a line at the angle are equal or par
 - a [transform](#nudgedtransform)
 
 
-Source: [rotateTo.js](https://github.com/axelpale/nudged/blob/main/lib/transform/rotateTo.js)
+Source: [rotateTo.js](https://github.com/axelpale/nudged/blob/master/lib/transform/rotateTo.js)
 
 <a name="nudgedtransformscaleby"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[scaleBy](#nudgedtransformscaleby)(tr, center, multiplier)
@@ -1357,14 +1356,13 @@ The operation is also called
 - a [transform](#nudgedtransform)
 
 
-Source: [scaleBy.js](https://github.com/axelpale/nudged/blob/main/lib/transform/scaleBy.js)
+Source: [scaleBy.js](https://github.com/axelpale/nudged/blob/master/lib/transform/scaleBy.js)
 
 <a name="nudgedtransformscaleto"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[scaleTo](#nudgedtransformscaleto)(tr, center, scale)
 
-Scale the transform tr so that:
-1) its scale multiplier becomes equal with the given scale.
-2) its image stays fixed at the given center point.
+Scale the transform *tr* so that 1) its scale multiplier becomes equal
+with the given scale, and 2) its image stays fixed at the given center point.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
@@ -1381,7 +1379,7 @@ Scale the transform tr so that:
 - a [transform](#nudgedtransform)
 
 
-Source: [scaleTo.js](https://github.com/axelpale/nudged/blob/main/lib/transform/scaleTo.js)
+Source: [scaleTo.js](https://github.com/axelpale/nudged/blob/master/lib/transform/scaleTo.js)
 
 <a name="nudgedtransformtoarray"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[toArray](#nudgedtransformtoarray)(tr)
@@ -1400,17 +1398,16 @@ This the array is compatible with [nudged.transform.fromArray](#nudgedtransformf
 - an array `[a, b, x, y]`
 
 
-Source: [toArray.js](https://github.com/axelpale/nudged/blob/main/lib/transform/toArray.js)
+Source: [toArray.js](https://github.com/axelpale/nudged/blob/master/lib/transform/toArray.js)
 
 <a name="nudgedtransformtomatrix"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[toMatrix](#nudgedtransformtomatrix)(tr)
 
 Get the similarity transformation matrix
 in the format common to other APIs, including:
-
-[DOMMatrix](https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix)
-[WebKitCSSMatrix](https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix)
-[kld-affine](https://github.com/thelonious/kld-affine)
+- [DOMMatrix](https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix)
+- [WebKitCSSMatrix](https://developer.mozilla.org/en-US/docs/Web/API/DOMMatrix)
+- [kld-affine](https://github.com/thelonious/kld-affine)
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
@@ -1420,7 +1417,7 @@ in the format common to other APIs, including:
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- an object `{ a, b, c, d, e, g }` that represents the matrix below.
+- an object `{ a, b, c, d, e, f }` that represents the matrix below.
 
 
 ```
@@ -1438,7 +1435,7 @@ in the format common to other APIs, including:
   b: 0.52, d: 0.48, f: 4.83 }
 ```
 
-Source: [toMatrix.js](https://github.com/axelpale/nudged/blob/main/lib/transform/toMatrix.js)
+Source: [toMatrix.js](https://github.com/axelpale/nudged/blob/master/lib/transform/toMatrix.js)
 
 <a name="nudgedtransformtostring"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[toString](#nudgedtransformtostring)(tr)
@@ -1464,7 +1461,7 @@ Safari and Opera. Therefore toString must prevent the scientific
 notation here and convert to fixed number of decimal places.
 See [SO](https://stackoverflow.com/q/1685680/638546) for further details.
 
-Source: [toString.js](https://github.com/axelpale/nudged/blob/main/lib/transform/toString.js)
+Source: [toString.js](https://github.com/axelpale/nudged/blob/master/lib/transform/toString.js)
 
 <a name="nudgedtransformtranslateby"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[translateBy](#nudgedtransformtranslateby)(tr, vec)
@@ -1489,7 +1486,7 @@ applies an additional translation defined by the given vector.
 - a [transform](#nudgedtransform)
 
 
-Source: [translateBy.js](https://github.com/axelpale/nudged/blob/main/lib/transform/translateBy.js)
+Source: [translateBy.js](https://github.com/axelpale/nudged/blob/master/lib/transform/translateBy.js)
 
 <a name="nudgedtransformtranslateto"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[translateTo](#nudgedtransformtranslateto)(tr, point)
@@ -1510,7 +1507,7 @@ The rotation and scale are kept intact.
 - a [transform](#nudgedtransform)
 
 
-Source: [translateTo.js](https://github.com/axelpale/nudged/blob/main/lib/transform/translateTo.js)
+Source: [translateTo.js](https://github.com/axelpale/nudged/blob/master/lib/transform/translateTo.js)
 
 <a name="nudgedtransformvalidate"></a>
 ## [nudged](#nudged).[transform](#nudgedtransform).[validate](#nudgedtransformvalidate)(tr)
@@ -1530,7 +1527,7 @@ A valid non-singular affine transformation must have properties
 - a boolean
 
 
-Source: [validate.js](https://github.com/axelpale/nudged/blob/main/lib/transform/validate.js)
+Source: [validate.js](https://github.com/axelpale/nudged/blob/master/lib/transform/validate.js)
 
 <a name="nudgedversion"></a>
 ## [nudged](#nudged).[version](#nudgedversion)
@@ -1552,4 +1549,4 @@ This feature is powered by
 </p>
 
 
-Source: [lib/index.js](https://github.com/axelpale/nudged/blob/main/lib/index.js)
+Source: [lib/index.js](https://github.com/axelpale/nudged/blob/master/lib/index.js)
