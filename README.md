@@ -21,17 +21,18 @@
 - [Versioning](#versioning)
 - [Licence](#licence)
 - [See also](#see-also)
+- [GitHub](https://github.com/axelpale/nudged)
 
 
 ## Installation
 
 Install `nudged` with [npm](https://www.npmjs.com/package/nudged) or other compatible package manager. The package comes in two flavors: functional and object oriented.
 
-Install the functional nudged 2:
+Install the latest, functional nudged:
 
     $ npm install nudged
 
-Install the object-oriented [nudged 1.x](https://github.com/axelpale/nudged/tree/1.x):
+Alternatively, install the object oriented [nudged 1.x](https://github.com/axelpale/nudged/tree/1.x):
 
     $ npm install nudged@1
 
@@ -340,3 +341,5 @@ The nudged source code is open source and free to use. It is released under a [M
 - [Affineplane](https://axelpale.github.io/affineplane/) geometry library is directly compatible with Nudged object interfaces. It provides further tools to transform geometry and manipulate transformations in 2D and 3D.
 - [Tapspace.js](https://github.com/taataa/tapspace) is a toolkit for zoomable user interfaces. Tapspace.js heavily depends on the nudged algorithm in multi-touch recognition, web content layout, and tensor geometry.
 - [Apollonius](https://axelpale.github.io/apollonius/) is another math-heavy geometry package from the author of Nudged. Apollonius considers finding a circle that is simultaneously tangent to three other circles.
+- [A Nudged Blog Post](https://www.akselipalen.com/2016/07/03/nudged-a-fast-transformation-estimator/)
+- [Nudged GitHub](https://github.com/axelpale/nudged)
