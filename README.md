@@ -26,7 +26,7 @@
 
 ## Installation
 
-Install `nudged` with [npm](https://www.npmjs.com/package/nudged) or other compatible package manager. The package comes in two flavors: functional and object oriented.
+Install `nudged` with [npm](https://www.npmjs.com/package/nudged), [yarn](https://classic.yarnpkg.com/en/package/nudged) or other compatible package manager. The package comes in two flavors: functional and object oriented.
 
 Install the latest, functional nudged:
 
