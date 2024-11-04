@@ -53,7 +53,7 @@
     "test:pretty": "node test/index.test.js | tap-arc",
     "test:lint": "standard index.js 'lib/**/*.js' 'test/**/*.js'",
     "test:lint:fix": "standard --fix index.js 'lib/**/*.js' 'test/**/*.js'",
-    "build:docs": "node doc/gendocs/index.js",
+    "build:docs": "node doc/API.md.js",
     "gv": "genversion lib/version.js",
     "release": "npm run gv && npm test && npm run build:docs && npm publish",
     "test:nudged-editor": "standard --fix 'examples/nudged-editor/lib/*.js'",
