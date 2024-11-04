@@ -58,18 +58,18 @@ See the available modules below.`,
       },
       {
         // Link 'an array of points'
-        pattern: /(an)? ?array of points?/i,
-        replacement: 'an array of [points](#nudgedpoint)'
+        pattern: /array of points?/i,
+        replacement: 'array of [points](#nudgedpoint)'
       },
       {
         // Link 'a transform'
-        pattern: /a transform/i,
-        replacement: 'a [transform](#nudgedtransform)'
+        pattern: /a transform(\.| )/i,
+        replacement: 'a [transform](#nudgedtransform)$1'
       },
       {
-        // Link 'an estimated transform'
-        pattern: /(an)? ?estimated transform/i,
-        replacement: 'an estimated [transform](#nudgedtransform)'
+        // Link 'a transform'
+        pattern: /a transform$/i,
+        replacement: 'a [transform](#nudgedtransform)'
       }
     ]),
     yamdog.decorators.italicSingles(), // emphasize list items
