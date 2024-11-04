@@ -53,6 +53,7 @@ See the available modules below.`,
       }
     ]),
     yamdog.decorators.linkKeywords({
+      points: '#nudgedpoint',
       point: '#nudgedpoint',
       transform: '#nudgedtransform'
     }),

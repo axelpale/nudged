@@ -17,11 +17,11 @@ See the available modules below.
 ## [nudged](#nudged)
 
 The estimators and related tools are grouped into namespaces.
-The `estimate` function and `estimators` namespace provide the core
+The [estimate](#nudgedestimate) function and [estimators](#nudgedestimators) namespace provide the core
 features for computing transformations between [point](#nudgedpoint) sets.
-The `point` and `transform` namespaces provide basic tools to work with
-the estimated transformations and 2D points.
-The `analysis` provides tools to assess the quality of computed estimates
+The [point](#nudgedpoint) and [transform](#nudgedtransform) namespaces provide basic tools to work with
+the geometry and export it to various formats.
+The [analysis](#nudgedanalysis) provides tools to assess the quality of computed transformation estimates
 and to detect outliers in [point](#nudgedpoint) pairs.
 
 
@@ -60,7 +60,7 @@ Source: [analysis/index.js](https://github.com/axelpale/nudged/blob/main/lib/ana
 
 Compute mean squared error (MSE) that is
 the mean squared distances between
-the range points and transformed domain points.
+the range [points](#nudgedpoint) and transformed domain [points](#nudgedpoint).
 The MSE is a standard measure for how well the
 transformation fits the data.
 The smaller the MSE the better the fit.
@@ -70,9 +70,9 @@ The smaller the MSE the better the fit.
 - *tr*
   - an estimated [transform](#nudgedtransform)
 - *domain*
-  - an array of points. The domain used in the estimation.
+  - an array of [points](#nudgedpoint). The domain used in the estimation.
 - *range*
-  - an array of points. The range used in the estimation.
+  - an array of [points](#nudgedpoint). The range used in the estimation.
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -95,9 +95,9 @@ to detect possible outliers and to build custom analysis methods.
 - *tr*
   - an estimated [transform](#nudgedtransform)
 - *domain*
-  - an array of points. The domain used in the estimation.
+  - an array of [points](#nudgedpoint). The domain used in the estimation.
 - *range*
-  - an array of points. The range used in the estimation.
+  - an array of [points](#nudgedpoint). The range used in the estimation.
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -112,16 +112,16 @@ Source: [residuals.js](https://github.com/axelpale/nudged/blob/main/lib/analysis
 
 Compute the residual sum of squares (RSS) that is
 the sum of the squared distances between
-the range points and transformed domain points.
+the range [points](#nudgedpoint) and transformed domain [points](#nudgedpoint).
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *tr*
   - an estimated [transform](#nudgedtransform)
 - *domain*
-  - an array of points. The domain used in the estimation.
+  - an array of [points](#nudgedpoint). The domain used in the estimation.
 - *range*
-  - an array of points. The range used in the estimation.
+  - an array of [points](#nudgedpoint). The range used in the estimation.
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -129,8 +129,8 @@ the range points and transformed domain points.
 - a positive number
 
 
-Note that the RSS tends to grow linearly with the number of points.
-If you need an error measure that is independent of the number of points
+Note that the RSS tends to grow linearly with the number of [points](#nudgedpoint).
+If you need an error measure that is independent of the number of [points](#nudgedpoint)
 then consider using [nudged.analysis.mse](#nudgedanalysismse) instead.
 
 Source: [rss.js](https://github.com/axelpale/nudged/blob/main/lib/analysis/rss.js)
@@ -149,11 +149,11 @@ See [nudged.estimators](#nudgedestimators) for available estimators.
     - Defines the freedom of the [transform](#nudgedtransform) to compute.
     - Must be one of the following: 'I', 'L', 'X', 'Y', 'T', 'S', 'R', 'TS', 'TR', 'SR', 'TSR'
   - *domain*
-    - required array of points `{ x, y }`.
-    - The points before the [transform](#nudgedtransform).
+    - required array of [points](#nudgedpoint) `{ x, y }`.
+    - The [points](#nudgedpoint) before the [transform](#nudgedtransform).
   - *range*
-    - required array of points `{ x, y }`.
-    - The points after the [transform](#nudgedtransform).
+    - required array of [points](#nudgedpoint) `{ x, y }`.
+    - The [points](#nudgedpoint) after the [transform](#nudgedtransform).
   - *center*
     - optional [point](#nudgedpoint).
     - Used as the center by the estimators 'S', 'R', and 'SR'.
@@ -243,9 +243,9 @@ Estimate translation along a line at the given angle.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *domain*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *range*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *angle*
   - number, radians
 
@@ -265,9 +265,9 @@ Estimate rotation around a fixed center [point](#nudgedpoint).
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *domain*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *range*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *center*
   - [point](#nudgedpoint), a fixed center to rotate around
 
@@ -289,9 +289,9 @@ a [homothety](https://en.wikipedia.org/wiki/Homothety).
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *domain*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *range*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *center*
   - a [point](#nudgedpoint), the center of scaling
 
@@ -315,9 +315,9 @@ Example use cases:
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *domain*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *range*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *center*
   - a [point](#nudgedpoint) that must remain constant in the tranformation.
 
@@ -332,14 +332,14 @@ Source: [SR.js](https://github.com/axelpale/nudged/blob/main/lib/estimators/SR.j
 <a name="nudgedestimatorst"></a>
 ## [nudged](#nudged).[estimators](#nudgedestimators).[T](#nudgedestimatorst)(domain, range)
 
-Estimate translation that maps domain points close to range points.
+Estimate translation that maps domain [points](#nudgedpoint) close to range [points](#nudgedpoint).
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *domain*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *range*
-  - array of points
+  - array of [points](#nudgedpoint)
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -357,9 +357,9 @@ Estimate translation with rotation.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *domain*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *range*
-  - array of points
+  - array of [points](#nudgedpoint)
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -377,9 +377,9 @@ Estimate translation with scaling.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *domain*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *range*
-  - array of points
+  - array of [points](#nudgedpoint)
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -399,9 +399,9 @@ positive scaling, and rotation are allowed.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *domain*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *range*
-  - array of points
+  - array of [points](#nudgedpoint)
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -419,9 +419,9 @@ Estimate horizontal translation that is a translation along x-axis.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *domain*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *range*
-  - array of points
+  - array of [points](#nudgedpoint)
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -439,9 +439,9 @@ Estimate vertical translation that is a translation along y-axis.
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
 - *domain*
-  - array of points
+  - array of [points](#nudgedpoint)
 - *range*
-  - array of points
+  - array of [points](#nudgedpoint)
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
@@ -478,7 +478,7 @@ Source: [point/index.js](https://github.com/axelpale/nudged/blob/main/lib/point/
 <a name="nudgedpointalmostequal"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[almostEqual](#nudgedpointalmostequal)(p, q, tolerance)
 
-Test if two points are almost equal within the limit
+Test if two [points](#nudgedpoint) are almost equal within the limit
 given by the optional tolerance parameter.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
@@ -533,7 +533,7 @@ Source: [create.js](https://github.com/axelpale/nudged/blob/main/lib/point/creat
 <a name="nudgedpointdistance"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[distance](#nudgedpointdistance)(p, q)
 
-The Euclidean distance between two points.
+The Euclidean distance between two [points](#nudgedpoint).
 Also called the Euclidean norm alias L2-norm.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
@@ -554,7 +554,7 @@ Source: [distance.js](https://github.com/axelpale/nudged/blob/main/lib/point/dis
 <a name="nudgedpointequal"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[equal](#nudgedpointequal)(p, q)
 
-Test if the coordinates of two points are strictly equal.
+Test if the coordinates of two [points](#nudgedpoint) are strictly equal.
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
@@ -702,19 +702,19 @@ Source: [transform.js](https://github.com/axelpale/nudged/blob/main/lib/point/tr
 <a name="nudgedpointtransformmany"></a>
 ## [nudged](#nudged).[point](#nudgedpoint).[transformMany](#nudgedpointtransformmany)(p, tr)
 
-Transform an array of points.
+Transform an array of [points](#nudgedpoint).
 
 <p style="margin-bottom: 0"><strong>Parameters:</strong></p>
 
-- *points*
-  - an array of points
+- [points](#nudgedpoint)
+  - an array of [points](#nudgedpoint)
 - *tr*
   - a [transform](#nudgedtransform)
 
 
 <p style="margin-bottom: 0"><strong>Returns:</strong></p>
 
-- an array of points, transformed
+- an array of [points](#nudgedpoint), transformed
 
 
 **Example:**
