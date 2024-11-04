@@ -79,7 +79,7 @@ See the available modules below.`,
     }),
     yamdog.decorators.sourceLinks({
       basePath: path.resolve(__dirname, '..'),
-      baseUrl: 'https://github.com/axelpale/nudged/blob/main/'
+      baseUrl: 'https://github.com/axelpale/nudged/blob/master/'
     })
   ]
 })
