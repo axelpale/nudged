@@ -1,11 +1,13 @@
 # nudged
 
 [![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
-[![Build Status](https://img.shields.io/travis/com/axelpale/nudged)](https://travis-ci.com/github/axelpale/nudged)
+![Dependency status](https://img.shields.io/badge/dependencies-none-lightgrey)
+[![License](https://img.shields.io/npm/l/nudged)](#license)
+[![GitHub Actions workflow status](https://img.shields.io/github/actions/workflow/status/axelpale/nudged/nudged-ci.yml)](https://github.com/axelpale/nudged/actions/workflows/nudged-ci.yml)
 
 ![Nudged logo](doc/nudged-logo-2021-512.png)
 
-*Nudged* is **a JavaScript module** to efficiently estimate translation, scale, and/or rotation between two sets of 2D points. It has already been applied to **user interfaces, multi-touch recognition, geography, and eye tracker calibration**.
+*Nudged* is **a JavaScript module** to efficiently estimate translation, scale, and rotation between two sets of 2D points. It enables you to **capture transformations** that you can use for **motion dynamics, calibration, geometry snapping, and mapping between coordinate spaces**. It has already been applied to **user interface geometry [[1]](https://github.com/taataa/tapspace), multi-touch recognition [[1]](https://github.com/taataa/tapspace), and eye tracker calibration [[2]](https://github.com/infant-cognition-tampere/gazeanalysislib)**.
 
 ### Table of contents
 
@@ -13,22 +15,24 @@
 - [Introduction](#introduction)
 - [Usage](#usage)
 - [Example apps](#example-apps)
-- [API docs](doc/API.md)
+- [API docs](https://axelpale.github.io/nudged/doc/API.html)
 - [For developers](#for-developers)
 - [Acknowledgments](#acknowledgments)
 - [Versioning](#versioning)
 - [Licence](#licence)
+- [See also](#see-also)
+- [GitHub](https://github.com/axelpale/nudged)
 
 
 ## Installation
 
-Install `nudged` with [npm](https://www.npmjs.com/package/nudged) or other compatible package manager. The package comes in two flavors: functional and object oriented.
+Install `nudged` with [npm](https://www.npmjs.com/package/nudged), [yarn](https://classic.yarnpkg.com/en/package/nudged) or other compatible package manager. The package comes in two flavors: functional and object oriented.
 
-Install the functional nudged 2:
+Install the latest, functional nudged:
 
     $ npm install nudged
 
-Install the object-oriented [nudged 1.x](https://github.com/axelpale/nudged/tree/1.x):
+Alternatively, install the object oriented [nudged 1.x](https://github.com/axelpale/nudged/tree/1.x):
 
     $ npm install nudged@1
 
@@ -44,7 +48,7 @@ _**Image**: Available transformation estimators. Each estimator has an abbreviat
 
 **Mathematically speaking**, Nudged is a set of optimal [least squares estimators](https://en.wikipedia.org/wiki/Least_squares) for the group of nonreflective similarity transformation matrices, also called [Helmert transformations](https://en.wikipedia.org/wiki/Helmert_transformation). Such transformations are [affine transformations](https://en.wikipedia.org/wiki/Affine_transformation) with translation, rotation, and/or uniform scaling, and without reflection or shearing. The estimation has [time complexity](https://en.wikipedia.org/wiki/Time_complexity) of O(*n*), where *n* is the cardinality (size) of the point sets. In other words, Nudged solves a 2D to 2D point set registration problem (alias [Procrustes superimposition](https://en.wikipedia.org/wiki/Procrustes_analysis)) in [linear time](https://en.wikipedia.org/wiki/Time_complexity#Linear_time). The algorithms and their efficiency are thoroughly described in a **M.Sc. thesis** [Advanced algorithms for manipulating 2D objects on touch screens](http://URN.fi/URN:NBN:fi:tty-201605264186).
 
-**The development has been supported** by [Infant Cognition Laboratory](https://www.tuni.fi/en/research/infant-cognition) at [Tampere University](https://www.tuni.fi/en/) where Nudged is used to correct eye tracking data. Yet, the main motivation for Nudged comes from [Tapspace](https://github.com/taataa/tapspace), a zoomable user interface library where smooth and fast scaling by touch is crucial.
+**The development has been supported** by [Infant Cognition Laboratory](https://www.tuni.fi/en/research/infant-cognition) at [Tampere University](https://www.tuni.fi/en/) where Nudged is used to correct eye tracking data. Yet, the main motivation for Nudged comes from [Tapspace.js](https://github.com/taataa/tapspace), a zoomable user interface library where smooth and fast scaling by touch is crucial.
 
 
 ## Usage
@@ -54,11 +58,10 @@ Let `domain` be a set of points, `[{ x, y }, ...]`. Let `range` be the same poin
     const domain = [{ x: 0, y: 2 }, { x: 2, y: 2 }, { x: 1, y: 4 }]
     const range  = [{ x: 4, y: 4 }, { x: 4, y: 2 }, { x: 6, y: 3 }]
 
-<img src="doc/img/nudged-diagram-6-4-domain-range.png" alt="The domain and the range" />
-
+<img src="doc/img/nudged-diagram-6-4-domain-range.png" alt="The domain and the range" /><br>
 _**Figure**: The domain (circles o) and the range (crosses x). The + marks the point {x:0,y:0}._
 
-We would like to find a simple 2D transformation `tran` that simulates T as closely as possible by combining translation, scaling, and rotation. We compute `tran` by calling [nudged.estimate](doc/API.md#nudgedestimate):
+We would like to find a simple 2D transformation `tran` that simulates T as closely as possible by combining translation, scaling, and rotation. We compute `tran` by calling [nudged.estimate](https://axelpale.github.io/nudged/doc/API.html#nudgedestimate):
 
     const tran = nudged.estimate({
       estimator: 'TSR',
@@ -71,37 +74,34 @@ The result is a *transform* object:
     > tran
     { a: 0, b: -1, x: 4, y: 4 }
 
-You can apply `tran` to a point with [point.transform](doc/API.md#nudgedpointtransform):
+You can apply `tran` to a point with [point.transform](https://axelpale.github.io/nudged/doc/API.html#nudgedpointtransform):
 
     > nudged.point.transform({ x: 0, y: 4 }, tran)
     { x: 6, y: 4 }
 
-<img src="doc/img/nudged-diagram-6-7-point-transform.png" alt="A point is being transformed" />
-
+<img src="doc/img/nudged-diagram-6-7-point-transform.png" alt="A point is being transformed" /><br>
 _**Figure**: A point {x:0, y:4} is transformed by the estimated transform._
 
-You can apply `tran` to other geometric shapes as well, for example to correct the orientation based on some sensor data. In the case of HTML image elements, just convert `tran` to a [CSS transform](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function) string with [transform.toString](doc/API.md#nudgedtransformtostring):
+You can apply `tran` to other geometric shapes as well, for example to correct the orientation based on some sensor data. In the case of HTML image elements, just convert `tran` to a [CSS transform](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function) string with [transform.toString](https://axelpale.github.io/nudged/doc/API.html#nudgedtransformtostring):
 
     > img.style.transform = nudged.transform.toString(tran)
 
-<img src="doc/img/nudged-diagram-10-2-photo-transform.jpg" alt="A photograph is being transformed" />
-
+<img src="doc/img/nudged-diagram-10-2-photo-transform.jpg" alt="A photograph is being transformed" /><br>
 _**Figure**: An HTML image before and after the transform we estimated from the points._
 
-The [nudged.transform](doc/API.md#nudgedtransform) module provides
+The [nudged.transform](https://axelpale.github.io/nudged/doc/API.html#nudgedtransform) module provides
 lots of tools to process transform objects.
 For example, to make a transformation that maps the range back to the domain
-instead of another way around, invert the transform with [transform.inverse](doc/API.md#nudgedtransforminverse):
+instead of another way around, invert the transform with [transform.inverse](https://axelpale.github.io/nudged/doc/API.html#nudgedtransforminverse):
 
     > const inv = nudged.transform.inverse(tran)
     > nudged.point.transform({ x: 6, y: 4 }, inv)
     { x: 0, y: 4 }
 
-<img src="doc/img/nudged-diagram-6-8-transform-inverse.png" alt="A point transformed by the inverse of the estimate." />
-
+<img src="doc/img/nudged-diagram-6-8-transform-inverse.png" alt="A point transformed by the inverse of the estimate." /><br>
 _**Figure**: A point is transformed by the inverse of the estimated transform._
 
-See [nudged.transform](doc/API.md#nudgedtransform) for more tools and details.
+See [nudged.transform](https://axelpale.github.io/nudged/doc/API.html#nudgedtransform) for more tools and details.
 
 ### Set a center point
 
@@ -117,8 +117,7 @@ To estimate scalings and rotations around a fixed point, give an additional `cen
 
 You can think the center point as a nail that keeps an elastic sheet of rubber fixed onto a table. The nail retains its location regardless of how the rubber sheet is rotated or stretched around it.
 
-<img src="doc/img/nudged-diagram-7-4-rotation-around-center.png" alt="A rotation around a fixed center point" />
-
+<img src="doc/img/nudged-diagram-7-4-rotation-around-center.png" alt="A rotation around a fixed center point" /><br>
 _**Figure**: Rotation around a center point (⊕) maps the domain (o) as close to the range (x) as possible. Here the mapped image (●) cannot match the range exactly due to the restriction set by the center point. The + denotes the point {x:0, y:0}._
 
 To test the resulting transform, we can apply it to the center point and observe that the point stays the same.
@@ -135,11 +134,10 @@ To estimate scalings in respect of a center point, as illustrated below, set `es
       center: center
     })
 
-<img src="doc/img/nudged-diagram-8-8-scaling-estimation.png" alt="Scaling about a center point (⊕)" />
-
+<img src="doc/img/nudged-diagram-8-8-scaling-estimation.png" alt="Scaling about a center point (⊕)" /><br>
 _**Figure**: The domain (o) is scaled towards the center point (⊕) so that the resulting image (●) lies as close to the range (x) as possible._
 
-See [estimators.S](doc/API.md#nudgedestimatorss), [estimators.R](doc/API.md#nudgedestimatorss), and [estimators.SR](doc/API.md#nudgedestimatorss) for further details.
+See [estimators.S](https://axelpale.github.io/nudged/doc/API.html#nudgedestimatorss), [estimators.R](https://axelpale.github.io/nudged/doc/API.html#nudgedestimatorss), and [estimators.SR](https://axelpale.github.io/nudged/doc/API.html#nudgedestimatorss) for further details.
 
 ### Analyse the transform
 
@@ -170,11 +168,10 @@ comparing the result to the range:
     > range
     [ { x: 4, y: 4 }, { x: 4, y: 2 }, { x: 6, y: 3 } ]
 
-<img src="doc/img/nudged-diagram-6-6-transform-domain.png" alt="Scaling about a center point (⊕)" />
-
+<img src="doc/img/nudged-diagram-6-6-transform-domain.png" alt="Scaling about a center point (⊕)" /><br>
 _**Figure**: The domain (o) mapped with `tran` (→). The fit is perfect, the image (●) matches the range (x) exactly._
 
-See [nudged.analysis](doc/API.md#nudgedanalysis) for more.
+See [nudged.analysis](https://axelpale.github.io/nudged/doc/API.html#nudgedanalysis) for more.
 
 ### Build transforms
 
@@ -189,8 +186,7 @@ Let us apply `t` to `domain`. The result is illustrated below.
     > nudged.point.transformMany(domain, t)
     [ { x: 3, y: 3.5 }, { x: 4, y: 3.5 }, { x: 3.5, y: 4.5 } ]
 
-<img src="doc/img/nudged-diagram-8-4-scaling-by-half.png" alt="Scaling about a center point (⊕)" />
-
+<img src="doc/img/nudged-diagram-8-4-scaling-by-half.png" alt="Scaling about a center point (⊕)" /><br>
 _**Figure**: Scaling the domain (o) by the factor of 0.5 about the center point (⊕). The resulting image (●) has all distances halved. The + denotes the point {x:0, y:0}._
 
 Then let us modify the transform `t` further. Let `tr` be a transform that combines `t`
@@ -209,12 +205,11 @@ Let us apply the resulting transform to the domain points. The result is illustr
       { x: 5.656..., y: 0.707... }
     ]
 
-<img src="doc/img/nudged-diagram-7-9-combine-rotation.png" alt="A scaling combined with a rotation" />
-
+<img src="doc/img/nudged-diagram-7-9-combine-rotation.png" alt="A scaling combined with a rotation" /><br>
 _**Figure**: A scaling is combined with rotation so that the image of the scaling (grey ●) is further rotated by 90 degrees around a center point (⊕)._
 
 
-Not all transformation need to be built. You can find some prebuilt transforms under [nudged.transform](doc/API.md#nudgedtransform):
+Not all transformation need to be built. You can find some prebuilt transforms under [nudged.transform](https://axelpale.github.io/nudged/doc/API.html#nudgedtransform):
 
     > const p = { x: 4, y: 2 }
     > const X2 = nudged.transform.X2
@@ -227,7 +222,7 @@ Not all transformation need to be built. You can find some prebuilt transforms u
     > nudged.point.transform(p, I)
     { x: 4, y: 2 }
 
-To discover more features and details, see [API](doc/API.md).
+To discover more features and details, see [API](https://axelpale.github.io/nudged/doc/API.html).
 
 ## Example apps
 
@@ -256,27 +251,29 @@ In this [map viewer demo](https://rawgit.com/axelpale/nudged/master/examples/nud
 
 ## API
 
-[The functional 2.x API documentation](doc/API.md).
+[The functional 2.x API documentation](https://axelpale.github.io/nudged/doc/API.html).
 
 [The object-oriented 1.x API documentation](https://github.com/axelpale/nudged/tree/1.x#api)
 
 
 ## For developers
 
+Nudged source code is located at [GitHub](https://github.com/axelpale/nudged).
+
 Guidelines:
 
-- ES6
-- [Standard style](https://standardjs.com/)
+- Use [ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript) syntax with [CommonJS](https://en.wikipedia.org/wiki/CommonJS) module format.
+- Follow [Standard](https://standardjs.com/) style:
   - 2 space indent
   - max 80 chars per line
   - spaces around operators
 - Functional approach
   - namespaces and functions instead of classes and methods
-  - immutable and stateless data handling; no in-place manipulation.
+  - immutable and stateless data handling; no in-place manipulation of arguments.
 - Minimal run-time type checking
   - Nudged is designed to be a low-level module with high performance.
   - Instead of run-time checks, the geometries provide a dedicated .validate function.
-- Write rich comments that answer the question why.
+- Write rich comments that answer the question "why".
 
 Run lint & unit tests:
 
@@ -316,15 +313,24 @@ We want to thank:
 - [Infant Cognition Laboratory at University of Tampere](https://www.tuni.fi/en/research/infant-cognition) and [Adj. Prof. Jukka Leppänen](https://scholar.google.fi/citations?user=dNRRUIsAAAAJ) for funding and support in research.
 - [3D Media Group at Tampere University of Technology](https://www.tuni.fi/en/research/3d-media-group), [M.Sc. Olli Suominen](https://researchportal.tuni.fi/en/persons/olli-suominen), and [Prof. Atanas Gotchev](https://researchportal.tuni.fi/en/persons/atanas-gotchev) for providing touch-screen devices for testing.
 - Tanja for math photos.
-- Vilkku, Xiao, and Krista for finger photos.
+- Vilkku, Xiao, and Krista for illustrative finger photos.
+- All who have contributed to the codebase and issue resolution over the years.
 
 
 ## Versioning
 
-[Semantic Versioning 2.0.0](http://semver.org/)
-
+The versioning convention of the package follows [Semantic Versioning 2.0.0](http://semver.org/) and [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
 
 
 ## Licence
 
-[MIT Licence](LICENSE)
+The nudged source code is open source and free to use. It is released under a [MIT licence](LICENSE).
+
+
+## See also
+
+- [Affineplane](https://axelpale.github.io/affineplane/) geometry library is directly compatible with Nudged object interfaces. It provides further tools to transform geometry and manipulate transformations in 2D and 3D.
+- [Tapspace.js](https://github.com/taataa/tapspace) is a toolkit for zoomable user interfaces. Tapspace.js heavily depends on the nudged algorithm in multi-touch recognition, web content layout, and tensor geometry.
+- [Apollonius](https://axelpale.github.io/apollonius/) is another math-heavy geometry package from the author of Nudged. Apollonius considers finding a circle that is simultaneously tangent to three other circles.
+- [A Nudged blog post](https://www.akselipalen.com/2016/07/03/nudged-a-fast-transformation-estimator/)
+- [Nudged GitHub repository](https://github.com/axelpale/nudged)

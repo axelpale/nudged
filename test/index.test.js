@@ -14,14 +14,25 @@ const analysisTest = require('./analysis/index.test')
 
 // Custom assertations
 
+test.Test.prototype.between = function (actual, lower, upper, message) {
+  // Test if a number is inclusively between a lower and upper bounds.
+  const isBetween = (actual >= lower && actual <= upper)
+  this._assert(isBetween, {
+    message: message || 'should be between bounds',
+    operator: 'between',
+    actual,
+    expected: 'to be between ' + lower + ' and ' + upper
+  })
+}
+
 test.Test.prototype.almostEqual = function (actual, expected, message) {
   // Test if a number is almost another number.
   const isAlmost = Math.abs(actual - expected) < TOLERANCE
   this._assert(isAlmost, {
     message: message || 'should be almost equal',
     operator: 'almostEqual',
-    actual: actual,
-    expected: expected
+    actual,
+    expected
   })
 }
 
@@ -31,7 +42,7 @@ test.Test.prototype.notAlmostEqual = function (actual, expected, message) {
   this._assert(!isAlmost, {
     message: message || 'should not be almost equal',
     operator: 'notAlmostEqual',
-    actual: actual,
+    actual,
     expected: 'not ' + expected
   })
 }
@@ -41,8 +52,8 @@ test.Test.prototype.pointsAlmostEqual = function (actual, expected, message) {
   this._assert(nudged.point.almostEqual(actual, expected), {
     message: message || 'transform should have correct elements',
     operator: 'pointsAlmostEqual',
-    actual: actual,
-    expected: expected
+    actual,
+    expected
   })
 }
 
@@ -51,8 +62,8 @@ test.Test.prototype.transformsEqual = function (actual, expected, message) {
   this._assert(nudged.transform.almostEqual(actual, expected), {
     message: message || 'transforms should be almost equal',
     operator: 'transformsEqual',
-    actual: actual,
-    expected: expected
+    actual,
+    expected
   })
 }
 
@@ -61,7 +72,7 @@ test.Test.prototype.notTransformsEqual = function (actual, expected, message) {
   this._assert(!nudged.transform.almostEqual(actual, expected), {
     message: message || 'transforms should not be almost equal',
     operator: 'notTransformsEqual',
-    actual: actual,
+    actual,
     expected: 'not ' + expected
   })
 }

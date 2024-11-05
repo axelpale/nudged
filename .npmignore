@@ -1,8 +1,11 @@
 .travis.yml
+.github
 
 /doc
 /examples
 /test
+
+.editorconfig
 
 # OS X Related
 *.DS_Store

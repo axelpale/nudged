@@ -97,4 +97,99 @@ module.exports = (ts) => {
 
     t.end()
   })
+
+  ts.test(title + 'avoids precision errors', (t) => {
+    const dom = [{ x: 314.24933946532116, y: 807.8879779776474 }]
+    const ran = [{ x: 314.24933946532116, y: 824.4274168968749 }]
+
+    t.transformsEqual(
+      estimateTSR(dom, ran),
+      { a: 1, b: 0, x: ran[0].x - dom[0].x, y: ran[0].y - dom[0].y },
+      'simple translation, no scaling or rotation'
+    )
+
+    t.end()
+  })
+
+  ts.test(title + 'handle numerically large coordinates', (t) => {
+    // Note that JavaScript double precision floating point
+    // has only 52 bit mantissa, and thus begins to break when
+    // there are 16 significant digits (2^52≈10^16)
+    let dom, ran, tr, msg
+    // const GIGA = 1e9
+    const TERA = 1e12
+    const PETA = 1e15
+    const delta = 0.001
+
+    // Single point, values in tera scale.
+    msg = 'should handle milli-translation in tera-scale'
+    dom = [{ x: TERA, y: TERA }]
+    ran = [{ x: TERA + delta, y: TERA + delta }]
+    tr = estimateTSR(dom, ran)
+    t.equal(tr.a, 1, msg + ' for a')
+    t.equal(tr.b, 0, msg + ' for b')
+    t.between(tr.x, 0.0009, 0.0011, msg + ' for x')
+    t.between(tr.y, 0.0009, 0.0011, msg + ' for y')
+
+    // Single point, value in peta scale.
+    dom = [{ x: PETA, y: PETA }]
+    ran = [{ x: PETA + delta, y: PETA + delta }]
+    tr = estimateTSR(dom, ran)
+    t.transformsEqual(
+      tr,
+      { a: 1, b: 0, x: 0, y: 0 },
+      'should break gracefully for a milli-translation in peta-scale'
+    )
+
+    // Two points, values in tera scale.
+    // TODO The estimator should handle this in future. See #38
+    msg = 'does not handle transformation in tera-scale'
+    dom = [
+      { x: TERA, y: TERA },
+      { x: TERA, y: TERA - delta }
+    ]
+    ran = [
+      { x: TERA + delta + delta, y: TERA },
+      { x: TERA, y: TERA }
+    ]
+    tr = estimateTSR(dom, ran)
+    t.equal(tr.a, 1, msg + ' for a')
+    t.equal(tr.b, 0, msg + ' for b')
+
+    t.end()
+  })
+
+  ts.test(title + 'handle numerically tiny coordinates', (t) => {
+    let dom, ran, tr, msg
+    const PICO = 1e-12
+
+    // Single point, values in pico scale.
+    msg = 'should handle translation in pico-scale'
+    dom = [{ x: PICO, y: PICO }]
+    ran = [{ x: PICO + PICO, y: PICO + PICO }]
+    tr = estimateTSR(dom, ran)
+    t.equal(tr.a, 1, msg + ' for a')
+    t.equal(tr.b, 0, msg + ' for b')
+    t.equal(tr.x, PICO, msg + ' for x')
+    t.equal(tr.y, PICO, msg + ' for y')
+
+    // Two point scaling, values in pico scale.
+    // TODO The estimator should handle this in future. See #38
+    msg = 'does not handle scaling in pico-scale'
+    dom = [
+      { x: PICO, y: PICO },
+      { x: PICO + PICO, y: PICO }
+    ]
+    ran = [
+      { x: PICO, y: PICO },
+      { x: PICO + PICO + PICO, y: PICO }
+    ]
+    tr = estimateTSR(dom, ran)
+    t.equal(tr.a, 1, msg + ' for a') // TODO should be 2 once #38
+    t.equal(tr.b, 0, msg + ' for b')
+    t.equal(tr.x, 0, msg + ' for x') // TODO should be -PICO once #38
+    t.equal(tr.y, 0, msg + ' for y') // TODO should be -PICO once #38
+
+    t.end()
+  })
 }
