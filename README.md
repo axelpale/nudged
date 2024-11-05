@@ -2,6 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/nudged.svg)](https://www.npmjs.com/package/nudged)
 ![Dependency status](https://img.shields.io/badge/dependencies-none-lightgrey)
+![NPM Type Definitions](https://img.shields.io/npm/types/nudged?color=green)
 [![License](https://img.shields.io/npm/l/nudged)](#license)
 [![GitHub Actions workflow status](https://img.shields.io/github/actions/workflow/status/axelpale/nudged/nudged-ci.yml)](https://github.com/axelpale/nudged/actions/workflows/nudged-ci.yml)
 
