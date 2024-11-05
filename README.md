@@ -62,7 +62,7 @@ Let `domain` be a set of points, `[{ x, y }, ...]`. Let `range` be the same poin
 
 _**Figure**: The domain (circles o) and the range (crosses x). The + marks the point {x:0,y:0}._
 
-We would like to find a simple 2D transformation `tran` that simulates T as closely as possible by combining translation, scaling, and rotation. We compute `tran` by calling [nudged.estimate](doc/API.md#nudgedestimate):
+We would like to find a simple 2D transformation `tran` that simulates T as closely as possible by combining translation, scaling, and rotation. We compute `tran` by calling [nudged.estimate](https://axelpale.github.io/nudged/doc/API.html#nudgedestimate):
 
     const tran = nudged.estimate({
       estimator: 'TSR',
@@ -75,7 +75,7 @@ The result is a *transform* object:
     > tran
     { a: 0, b: -1, x: 4, y: 4 }
 
-You can apply `tran` to a point with [point.transform](doc/API.md#nudgedpointtransform):
+You can apply `tran` to a point with [point.transform](https://axelpale.github.io/nudged/doc/API.html#nudgedpointtransform):
 
     > nudged.point.transform({ x: 0, y: 4 }, tran)
     { x: 6, y: 4 }
@@ -84,7 +84,7 @@ You can apply `tran` to a point with [point.transform](doc/API.md#nudgedpointtra
 
 _**Figure**: A point {x:0, y:4} is transformed by the estimated transform._
 
-You can apply `tran` to other geometric shapes as well, for example to correct the orientation based on some sensor data. In the case of HTML image elements, just convert `tran` to a [CSS transform](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function) string with [transform.toString](doc/API.md#nudgedtransformtostring):
+You can apply `tran` to other geometric shapes as well, for example to correct the orientation based on some sensor data. In the case of HTML image elements, just convert `tran` to a [CSS transform](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function) string with [transform.toString](https://axelpale.github.io/nudged/doc/API.html#nudgedtransformtostring):
 
     > img.style.transform = nudged.transform.toString(tran)
 
@@ -92,10 +92,10 @@ You can apply `tran` to other geometric shapes as well, for example to correct t
 
 _**Figure**: An HTML image before and after the transform we estimated from the points._
 
-The [nudged.transform](doc/API.md#nudgedtransform) module provides
+The [nudged.transform](https://axelpale.github.io/nudged/doc/API.html#nudgedtransform) module provides
 lots of tools to process transform objects.
 For example, to make a transformation that maps the range back to the domain
-instead of another way around, invert the transform with [transform.inverse](doc/API.md#nudgedtransforminverse):
+instead of another way around, invert the transform with [transform.inverse](https://axelpale.github.io/nudged/doc/API.html#nudgedtransforminverse):
 
     > const inv = nudged.transform.inverse(tran)
     > nudged.point.transform({ x: 6, y: 4 }, inv)
@@ -105,7 +105,7 @@ instead of another way around, invert the transform with [transform.inverse](doc
 
 _**Figure**: A point is transformed by the inverse of the estimated transform._
 
-See [nudged.transform](doc/API.md#nudgedtransform) for more tools and details.
+See [nudged.transform](https://axelpale.github.io/nudged/doc/API.html#nudgedtransform) for more tools and details.
 
 ### Set a center point
 
@@ -143,7 +143,7 @@ To estimate scalings in respect of a center point, as illustrated below, set `es
 
 _**Figure**: The domain (o) is scaled towards the center point (⊕) so that the resulting image (●) lies as close to the range (x) as possible._
 
-See [estimators.S](doc/API.md#nudgedestimatorss), [estimators.R](doc/API.md#nudgedestimatorss), and [estimators.SR](doc/API.md#nudgedestimatorss) for further details.
+See [estimators.S](https://axelpale.github.io/nudged/doc/API.html#nudgedestimatorss), [estimators.R](https://axelpale.github.io/nudged/doc/API.html#nudgedestimatorss), and [estimators.SR](https://axelpale.github.io/nudged/doc/API.html#nudgedestimatorss) for further details.
 
 ### Analyse the transform
 
@@ -178,7 +178,7 @@ comparing the result to the range:
 
 _**Figure**: The domain (o) mapped with `tran` (→). The fit is perfect, the image (●) matches the range (x) exactly._
 
-See [nudged.analysis](doc/API.md#nudgedanalysis) for more.
+See [nudged.analysis](https://axelpale.github.io/nudged/doc/API.html#nudgedanalysis) for more.
 
 ### Build transforms
 
@@ -218,7 +218,7 @@ Let us apply the resulting transform to the domain points. The result is illustr
 _**Figure**: A scaling is combined with rotation so that the image of the scaling (grey ●) is further rotated by 90 degrees around a center point (⊕)._
 
 
-Not all transformation need to be built. You can find some prebuilt transforms under [nudged.transform](doc/API.md#nudgedtransform):
+Not all transformation need to be built. You can find some prebuilt transforms under [nudged.transform](https://axelpale.github.io/nudged/doc/API.html#nudgedtransform):
 
     > const p = { x: 4, y: 2 }
     > const X2 = nudged.transform.X2
@@ -231,7 +231,7 @@ Not all transformation need to be built. You can find some prebuilt transforms u
     > nudged.point.transform(p, I)
     { x: 4, y: 2 }
 
-To discover more features and details, see [API](doc/API.md).
+To discover more features and details, see [API](https://axelpale.github.io/nudged/doc/API.html).
 
 ## Example apps
 
@@ -260,7 +260,7 @@ In this [map viewer demo](https://rawgit.com/axelpale/nudged/master/examples/nud
 
 ## API
 
-[The functional 2.x API documentation](doc/API.md).
+[The functional 2.x API documentation](https://axelpale.github.io/nudged/doc/API.html).
 
 [The object-oriented 1.x API documentation](https://github.com/axelpale/nudged/tree/1.x#api)
 
