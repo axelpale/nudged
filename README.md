@@ -15,7 +15,7 @@
 - [Introduction](#introduction)
 - [Usage](#usage)
 - [Example apps](#example-apps)
-- [API docs](doc/API.md)
+- [API docs](https://axelpale.github.io/nudged/doc/API.html)
 - [For developers](#for-developers)
 - [Acknowledgments](#acknowledgments)
 - [Versioning](#versioning)
@@ -341,5 +341,5 @@ The nudged source code is open source and free to use. It is released under a [M
 - [Affineplane](https://axelpale.github.io/affineplane/) geometry library is directly compatible with Nudged object interfaces. It provides further tools to transform geometry and manipulate transformations in 2D and 3D.
 - [Tapspace.js](https://github.com/taataa/tapspace) is a toolkit for zoomable user interfaces. Tapspace.js heavily depends on the nudged algorithm in multi-touch recognition, web content layout, and tensor geometry.
 - [Apollonius](https://axelpale.github.io/apollonius/) is another math-heavy geometry package from the author of Nudged. Apollonius considers finding a circle that is simultaneously tangent to three other circles.
-- [A Nudged Blog Post](https://www.akselipalen.com/2016/07/03/nudged-a-fast-transformation-estimator/)
-- [Nudged GitHub](https://github.com/axelpale/nudged)
+- [A Nudged blog post](https://www.akselipalen.com/2016/07/03/nudged-a-fast-transformation-estimator/)
+- [Nudged GitHub repository](https://github.com/axelpale/nudged)
