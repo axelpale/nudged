@@ -32,7 +32,6 @@ module.exports = (ts) => {
 
   ts.test(title + 'basic usage with direct estimator', (t) => {
     t.transformsEqual(
-      // @ts-ignore
       estimateL(
         [],
         []

@@ -53,7 +53,7 @@
     "test:pretty": "node test/index.test.js | tap-arc",
     "test:lint": "standard index.js 'lib/**/*.js' 'test/**/*.js'",
     "test:lint:fix": "standard --fix index.js 'lib/**/*.js' 'test/**/*.js'",
-    "test:types": "tsc -p tsconfig.json -checkJs",
+    "test:types": "tsc -p test/types/tsconfig.json",
     "build:docs": "node doc/API.md.generate.js",
     "gv": "genversion lib/version.js",
     "release": "npm run gv && npm test && npm run build:docs && npm publish",
