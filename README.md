@@ -264,6 +264,7 @@ Nudged source code is located at [GitHub](https://github.com/axelpale/nudged).
 Guidelines:
 
 - Use [ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript) syntax with [CommonJS](https://en.wikipedia.org/wiki/CommonJS) module format.
+- TypeScript type declarations go to `index.d.ts`.
 - Follow [Standard](https://standardjs.com/) style:
   - 2 space indent
   - max 80 chars per line
@@ -274,17 +275,24 @@ Guidelines:
 - Minimal run-time type checking
   - Nudged is designed to be a low-level module with high performance.
   - Instead of run-time checks, the geometries provide a dedicated .validate function.
+  - Provide type declarations for compile-time checking.
 - Write rich comments that answer the question "why".
 
-Run lint & unit tests:
+Test for syntax, execution, and types:
 
-    $ npm run test
+    $ npm run test:lint
+    $ npm run test:unit
+    $ npm run test:types
+
+Run all test at once:
+
+    $ npm test
 
 Build example apps:
 
     $ npm run build:examples
 
-Start local server to try out the examples:
+Start local static server to try out the examples:
 
     $ npm start
 
