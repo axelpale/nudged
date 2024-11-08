@@ -37,6 +37,12 @@ Alternatively, install the object oriented [nudged 1.x](https://github.com/axelp
 
     $ npm install nudged@1
 
+A standalone UMD bundle is available via [Unpkg CDN](https://www.unpkg.com/) for nudged@2.1.0 and later:
+
+```
+<script src="https://www.unpkg.com/nudged/dist/nudged.min.js"></script>
+```
+
 Nudged is also available [in Python](https://pypi.python.org/pypi/nudged).
 
 
