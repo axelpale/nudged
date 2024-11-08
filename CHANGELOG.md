@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add TypeScript type declarations `index.d.ts` (#29 #30)
-- Add dev dependency: yamdog (#34)
+- Release UMD bundle via Unpkg.com (#32)
+- Add dev dependency: yamdog (#34) and terser (#32)
 - Add navigational links to README
 - Add source code links from API docs to GitHub.
 - Add GitHub Pages for Nudged.
@@ -21,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Generate API docs with yamdog instead of ad-hoc tooling. (#34)
 - Improve documentation all around.
+- Minify standalone builds by default (#32)
 
 ### Fixed
 
