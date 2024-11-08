@@ -27,7 +27,11 @@
   "main": "index.js",
   "types": "index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "lib",
+    "CHANGELOG.md",
+    "index.d.ts",
+    "index.js"
   ],
   "author": {
     "name": "Akseli Palen",
