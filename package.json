@@ -1,6 +1,6 @@
 {
   "name": "nudged",
-  "version": "2.1.0-alpha",
+  "version": "2.1.0-beta",
   "description": "Affine transformation estimator e.g. for multi-touch gestures and calibration",
   "keywords": [
     "geometry",
