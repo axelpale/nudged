@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "Node16",
+    "target": "ES6",
+    "noEmit": true,
+    "moduleResolution": "Node16",
+    "paths": {
+      "nudged": ["../.."]
+    }
+  },
+  "include": [
+    "index.ts"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "name": "nudged",
-  "version": "2.0.1",
+  "version": "2.1.1",
   "description": "Affine transformation estimator e.g. for multi-touch gestures and calibration",
   "keywords": [
     "geometry",
@@ -16,6 +16,8 @@
     "estimator",
     "estimation",
     "similarity",
+    "analysis",
+    "optimization",
     "calibration",
     "snapping",
     "match",
@@ -23,6 +25,14 @@
   ],
   "homepage": "https://github.com/axelpale/nudged",
   "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "dist",
+    "lib",
+    "CHANGELOG.md",
+    "index.d.ts",
+    "index.js"
+  ],
   "author": {
     "name": "Akseli Palen",
     "email": "akseli.palen@gmail.com"
@@ -33,28 +43,30 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "async": "^3.2.0",
     "browserify": "^17.0.1",
     "component-emitter": "^1.2.0",
     "genversion": "^3.2.0",
     "hammerjs": "^2.0.4",
     "loadimages": "^1.0.0",
-    "lodash": "^4.17.21",
     "standard": "^17.1.2",
     "tap-arc": "^1.3.2",
-    "tape": "^5.2.2"
+    "tape": "^5.2.2",
+    "terser": "^5.36.0",
+    "typescript": "^5.4.3",
+    "yamdog": "^2.1.0"
   },
   "scripts": {
     "start": "npm run start:examples_server",
     "start:examples_server": "python2.7 -m SimpleHTTPServer 8000",
-    "test": "npm run test:lint && npm run test:unit",
+    "test": "npm run test:lint && npm run test:unit && npm run test:types",
     "test:unit": "node test/index.test.js",
     "test:pretty": "node test/index.test.js | tap-arc",
     "test:lint": "standard index.js 'lib/**/*.js' 'test/**/*.js'",
     "test:lint:fix": "standard --fix index.js 'lib/**/*.js' 'test/**/*.js'",
-    "build:docs": "node doc/gendocs/index.js",
+    "test:types": "tsc -p test/types/tsconfig.json",
+    "build:docs": "node doc/API.md.generate.js",
     "gv": "genversion lib/version.js",
-    "release": "npm run gv && npm test && npm run build:docs && npm publish",
+    "release": "npm run gv && npm test && npm run build:standalone && npm run build:docs && npm publish",
     "test:nudged-editor": "standard --fix 'examples/nudged-editor/lib/*.js'",
     "build:nudged-editor": "npm run test:nudged-editor && browserify examples/nudged-editor/lib/index.js -o examples/nudged-editor/dist/app.js",
     "test:nudged-map": "standard --fix 'examples/nudged-map/lib/*.js'",
@@ -64,6 +76,6 @@
     "test:typical-gesture": "standard  --fix 'examples/typical-gesture/lib/*.js'",
     "build:typical-gesture": "npm run test:typical-gesture && browserify examples/typical-gesture/lib/index.js -o examples/typical-gesture/dist/app.js",
     "build:examples": "npm run build:nudged-editor && npm run build:nudged-gesture && npm run build:typical-gesture && npm run build:nudged-map",
-    "build:standalone": "browserify index.js --standalone nudged -o nudged.js"
+    "build:standalone": "browserify index.js --standalone nudged | terser --compress -o dist/nudged.min.js"
   }
 }

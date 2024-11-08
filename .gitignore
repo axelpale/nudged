@@ -29,5 +29,5 @@ package-lock.json
 # OS X Related
 *.DS_Store
 
-# Ignore sketchy generated docs for a while
-# doc/API.md
+# Build files for unpkg.com
+dist

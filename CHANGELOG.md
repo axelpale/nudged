@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2024-11-08
+
+### Fixed
+
+- Repair release: include sources in the 'files' of package.json
+
+### Removed
+
+- Remove .npmignore and rely on 'files' alone.
+
+
+## [2.1.0] - 2024-11-08
+
+### Added
+
+- Add TypeScript type declarations `index.d.ts` (#29 #30)
+- Release UMD bundle via Unpkg.com (#32)
+- Add dev dependency: yamdog (#34) and terser (#32)
+- Add navigational links to README
+- Add source code links from API docs to GitHub.
+- Add GitHub Pages for Nudged.
+- Add GitHub action job for testing type declarations.
+
+### Changed
+
+- Generate API docs with yamdog instead of ad-hoc tooling. (#34)
+- Improve documentation all around.
+- Minify standalone builds by default (#32)
+
+### Fixed
+
+- Fix a property name typo in transform.toMatrix documentation.
+
+### Removed
+
+- Remove unused dev dependencies: async, lodash
+
 
 ## [2.0.1] - 2024-10-28
 
@@ -50,6 +87,10 @@ The library switched from object-oriented to pure functional paradigm.
 - *Breaking:* arrange code and API into namespaces.
 - *Breaking:* code base uses ES6 syntax instead of ES5.
 - Migrate test suite from `mocha` to `tape`
+
+### Removed
+
+- *Breaking:* remove classes Transform and Point. Use nudged.transform and nudged.point namespaces instead.
 
 ### Migration Tips
 
