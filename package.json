@@ -26,6 +26,9 @@
   "homepage": "https://github.com/axelpale/nudged",
   "main": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "dist"
+  ],
   "author": {
     "name": "Akseli Palen",
     "email": "akseli.palen@gmail.com"
