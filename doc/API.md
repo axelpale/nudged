@@ -220,9 +220,10 @@ for a bit more efficiency by saving one function call.
 Source: [estimators/index.js](https://github.com/axelpale/nudged/blob/master/lib/estimators/index.js)
 
 <a name="nudgedestimatorsi"></a>
-## [nudged](#nudged).[estimators](#nudgedestimators).[I](#nudgedestimatorsi)()
+## [nudged](#nudged).[estimators](#nudgedestimators).[I](#nudgedestimatorsi)(domain, range)
 
-The trivial estimator; The estimate is always the identity transformation.
+The trivial estimator; The estimate is always the identity transformation
+regardless of the given domain and range.
 
 **Example:**
 ```
