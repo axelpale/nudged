@@ -72,6 +72,6 @@
     "test:typical-gesture": "standard  --fix 'examples/typical-gesture/lib/*.js'",
     "build:typical-gesture": "npm run test:typical-gesture && browserify examples/typical-gesture/lib/index.js -o examples/typical-gesture/dist/app.js",
     "build:examples": "npm run build:nudged-editor && npm run build:nudged-gesture && npm run build:typical-gesture && npm run build:nudged-map",
-    "build:standalone": "browserify index.js --standalone nudged | terser --compress > dist/nudged.min.js"
+    "build:standalone": "browserify index.js --standalone nudged | terser --compress -o dist/nudged.min.js"
   }
 }
